@@ -32,26 +32,38 @@ def allowed_file(filename):
 @app.route('/Admin', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        try:
+            username = request.form['username']
+            password = request.form['password']
 
-        conn = psycopg2.connect(os.environ['DATABASE_URL'])
-        cur = conn.cursor()
-        cur.execute("SELECT password FROM admin_users WHERE username = %s", (username,))
-        record = cur.fetchone()
-        cur.close()
-        conn.close()
+            db_url = os.environ.get("DATABASE_URL")
+            if not db_url:
+                return "Server misconfigured: Missing database URL", 500
 
-        if record and check_password_hash(record[0], password):
-            session['admin'] = True
-            return redirect(url_for('admin_dashboard'))
-        else:
-            return "Login failed!"
-    
+            conn = psycopg2.connect(db_url)
+            cur = conn.cursor()
+            cur.execute("SELECT password FROM admin_users WHERE username = %s", (username,))
+            record = cur.fetchone()
+            cur.close()
+            conn.close()
+
+            if record and check_password_hash(record[0], password):
+                session['admin'] = True
+                return redirect(url_for('admin_dashboard'))
+            else:
+                return "Invalid username or password", 401
+
+        except Exception as e:
+            # Optional: log the error for debugging if you have a logging setup
+            print(f"Login error: {e}")
+            return "Internal Server Error during login", 500
+
+    # HTML form (simple version)
     return '''
     <form method="POST">
-        Username: <input name="username"><br>
-        Password: <input type="password" name="password"><br>
+        <h2>Admin Login</h2>
+        Username: <input name="username" required><br>
+        Password: <input type="password" name="password" required><br>
         <input type="submit" value="Login">
     </form>
     '''
