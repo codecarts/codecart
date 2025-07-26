@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes – CodeCart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+        }
+
+        .subject-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .subject-card h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #00bcd4;
+            padding-bottom: 0.5rem;
+        }
+
+        .unit-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .unit-btn {
+            background-color: #00bcd4;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.3s;
+            font-weight: 500;
+        }
+
+        .unit-btn:hover {
+            background-color: #0190a6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📘 Subject Notes – Download Anytime</h1>
+
+        <div class="subject-card">
+            <h2>Engineering Chemistry</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="/static/notes/engg_chem_unit1.pdf" download>📥 Unit 1 – Atomic Structure</a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit2.pdf" download>📥 Unit 2 – Chemical Bonding</a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit3.pdf" download>📥 Unit 3 – Thermodynamics</a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit4.pdf" download>📥 Unit 4 – Electrochemistry</a>
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <h2>Engineering Maths</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="/static/notes/maths_unit1.pdf" download>📥 Unit 1 – Differential Equations</a>
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <h2>Engineering Physics</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="/static/notes/engg_phy_unit1.pdf" download>📥 Unit 1 – Optics</a>
+                <a class="unit-btn" href="/static/notes/engg_phy_unit2.pdf" download>📥 Unit 2 – Quantum Mechanics</a>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2025 CodeCart | Notes curated by Riddhiman Kumar
+        </footer>
+    </div>
+</body>
+</html>
