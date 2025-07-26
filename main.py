@@ -1,10 +1,13 @@
-from flask import Flask, request, render_template, redirect, url_for, send_from_directory
+from flask import Flask, request, render_template, redirect, url_for, send_from_directory, session
+from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 import psycopg2
 import os
 from datetime import datetime
-from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "supersecret")  # Use a real secret key in production
+
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'pptx'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -21,11 +24,52 @@ def add_security_headers(response):
     response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data:; connect-src 'self'"
     return response
 
-# Helper: Check file extension
+# File type checker
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Home page + log IP
+# Admin Login Route
+@app.route('/Admin', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        cur = conn.cursor()
+        cur.execute("SELECT password FROM admin_users WHERE username = %s", (username,))
+        record = cur.fetchone()
+        cur.close()
+        conn.close()
+
+        if record and check_password_hash(record[0], password):
+            session['admin'] = True
+            return redirect(url_for('admin_dashboard'))
+        else:
+            return "Login failed!"
+    
+    return '''
+    <form method="POST">
+        Username: <input name="username"><br>
+        Password: <input type="password" name="password"><br>
+        <input type="submit" value="Login">
+    </form>
+    '''
+
+# Admin Dashboard Route
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    if not session.get('admin'):
+        return redirect(url_for('admin_login'))
+    return render_template('admin_dashboard.html')
+
+# Logout Route
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))
+
+# Home with IP Logging
 @app.route('/')
 def home():
     ip = request.remote_addr
@@ -37,7 +81,7 @@ def home():
     conn.close()
     return render_template('index.html')
 
-# Contact form page
+# Contact Page
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
@@ -53,7 +97,7 @@ def contact():
         return "Message sent!"
     return render_template('contact.html')
 
-# Blog page
+# Blog Reader
 @app.route('/blog')
 def blog():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
@@ -64,7 +108,32 @@ def blog():
     conn.close()
     return render_template('blog.html', posts=posts)
 
-# Notes page (shows uploaded files)
+# Blog Uploader (admin only)
+@app.route('/upload_blog', methods=['GET', 'POST'])
+def upload_blog():
+    if not session.get('admin'):
+        return redirect(url_for('admin_login'))
+
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+        conn = psycopg2.connect(os.environ["DATABASE_URL"])
+        cur = conn.cursor()
+        cur.execute("INSERT INTO blog_posts (title, content) VALUES (%s, %s)", (title, content))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return "Blog posted!"
+    
+    return '''
+    <form method="POST">
+        Title: <input name="title"><br>
+        Content: <textarea name="content"></textarea><br>
+        <input type="submit" value="Post">
+    </form>
+    '''
+
+# Notes Page
 @app.route('/notes')
 def notes():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
@@ -75,14 +144,17 @@ def notes():
     conn.close()
     return render_template('notes.html', notes=notes)
 
-# Tools page (optional tools metadata)
+# Tools Page
 @app.route('/tools')
 def tools():
     return render_template('tools.html')
 
-# Upload notes (.pdf/.pptx)
+# Upload Notes (Admin Only)
 @app.route('/upload_note', methods=['GET', 'POST'])
 def upload_note():
+    if not session.get('admin'):
+        return redirect(url_for('admin_login'))
+
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
@@ -91,6 +163,7 @@ def upload_note():
             filename = secure_filename(file.filename)
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(filepath)
+
             conn = psycopg2.connect(os.environ["DATABASE_URL"])
             cur = conn.cursor()
             cur.execute("""
@@ -103,24 +176,24 @@ def upload_note():
             return "Note uploaded!"
     return '''
     <form method="POST" enctype="multipart/form-data">
-      Title: <input name="title"><br>
-      Description: <textarea name="description"></textarea><br>
-      File: <input type="file" name="file"><br>
-      <input type="submit">
+        Title: <input name="title"><br>
+        Description: <textarea name="description"></textarea><br>
+        File: <input type="file" name="file"><br>
+        <input type="submit">
     </form>
     '''
 
-# Serve uploaded files
+# Serve Uploaded Files
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-# Static security info
+# Security Info Page
 @app.route('/security')
 def security():
     return render_template('security.html')
 
-# App run
+# Run App
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
