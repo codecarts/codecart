@@ -35,33 +35,29 @@ def admin_login():
         username = request.form['username']
         password = request.form['password']
 
-        conn = psycopg2.connect(os.environ['DATABASE_URL'])
-        cur = conn.cursor()
-        cur.execute("SELECT password FROM admin_users WHERE username = %s", (username,))
-        record = cur.fetchone()
+        try:
+            conn = psycopg2.connect(os.environ['DATABASE_URL'])
+            cur = conn.cursor()
+            cur.execute("SELECT password FROM admin_users WHERE username = %s", (username,))
+            record = cur.fetchone()
+            cur.close()
+            conn.close()
 
-        print("Retrieved hash from DB:", record)  #  Debug print here
+            if record and password == record[0]:
+                session['admin'] = True
+                return redirect(url_for('admin_dashboard'))
+            else:
+                return " Login failed! Invalid username or password", 401
+        except Exception as e:
+            print("Login error:", e)
+            return " Internal Server Error. Check logs.", 500
 
-        cur.close()
-        conn.close()
-
-        if record and record[0]:
-            try:
-                if check_password_hash(record[0], password):
-                    session['admin'] = True
-                    return redirect(url_for('admin_dashboard'))
-                else:
-                    return " Invalid username or password", 401
-            except ValueError as ve:
-                print("Hash error:", ve)
-                return " Stored password hash is invalid", 500
-        else:
-            return " User not found or password missing", 401
-
+    # Login form HTML
     return '''
     <form method="POST">
-        Username: <input name="username"><br>
-        Password: <input type="password" name="password"><br>
+        <h2>Admin Login</h2>
+        Username: <input name="username" required><br>
+        Password: <input type="password" name="password" required><br>
         <input type="submit" value="Login">
     </form>
     '''
