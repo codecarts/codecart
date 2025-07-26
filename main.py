@@ -35,29 +35,24 @@ def admin_login():
         username = request.form['username']
         password = request.form['password']
 
-        try:
-            conn = psycopg2.connect(os.environ['DATABASE_URL'])
-            cur = conn.cursor()
-            cur.execute("SELECT password FROM admin_users WHERE username = %s", (username,))
-            record = cur.fetchone()
-            cur.close()
-            conn.close()
+        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        cur = conn.cursor()
+        cur.execute("SELECT password FROM admin_users WHERE username = %s", (username,))
+        record = cur.fetchone()
+        cur.close()
+        conn.close()
 
-            if record and password == record[0]:
-                session['admin'] = True
-                return redirect(url_for('admin_dashboard'))
-            else:
-                return " Login failed! Invalid username or password", 401
-        except Exception as e:
-            print("Login error:", e)
-            return " Internal Server Error. Check logs.", 500
-
-    # Login form HTML
+        if record and check_password_hash(record[0], password):
+            session['admin'] = True
+            return redirect(url_for('admin_dashboard'))
+        else:
+            return "Login failed. Invalid username or password.", 401
+    
     return '''
+    <h2>Admin Login</h2>
     <form method="POST">
-        <h2>Admin Login</h2>
-        Username: <input name="username" required><br>
-        Password: <input type="password" name="password" required><br>
+        Username: <input name="username"><br>
+        Password: <input type="password" name="password"><br>
         <input type="submit" value="Login">
     </form>
     '''
