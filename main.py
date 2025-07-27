@@ -124,6 +124,30 @@ def home():
     conn.close()
     return render_template('index.html')
 
+@app.route('/contact_submit', methods=['POST'])
+def contact_submit():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    message = request.form.get('message')
+
+    if not name or not email or not message:
+        return "All fields are required.", 400
+
+    try:
+        conn = psycopg2.connect(os.environ["DATABASE_URL"])
+        cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO contact_messages (name, email, message)
+            VALUES (%s, %s, %s)
+        """, (name, email, message))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return "Message submitted successfully!"
+    except Exception as e:
+        return f"Error saving message: {str(e)}", 500
+
+
 #notes upload 
 @app.route('/upload_note', methods=['GET', 'POST'])
 def upload_note():
@@ -235,20 +259,30 @@ def notes():
 
     return render_template('study_notes.html', notes=notes)
 
-# Tools Page
-@app.route('/tools')
-def tools():
-    return render_template('tools.html')
-
-# Serve Uploaded Files
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
 # Security Info Page
 @app.route('/security')
 def security():
     return render_template('security.html')
+
+# Route to handle GET for homepage
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+# Route to join Telegram community via redirect
+@app.route('/join-community')
+def join_community():
+    return redirect("https://t.me/your_telegram_group")  # ← Replace with your actual group link
+
+# Route triggered by "Get Started" button
+@app.route('/get-started')
+def get_started():
+    return redirect(url_for('register'))  # Or some onboarding page
+
+# Route triggered by "Tech Blogs" button
+@app.route('/tech-blogs')
+def tech_blogs():
+    return redirect(url_for('blog'))
 
 # Run App
 if __name__ == '__main__':
