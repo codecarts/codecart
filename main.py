@@ -28,6 +28,48 @@ def add_security_headers(response):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# User Registration
+@app.route('/register', methods=['POST'])
+def register():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
+    cur = conn.cursor()
+    # Check if user already exists
+    cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+    existing_user = cur.fetchone()
+    if existing_user:
+        cur.close()
+        conn.close()
+        return "Email already registered!", 400
+
+    cur.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)", (name, email, password))
+    conn.commit()
+    cur.close()
+    conn.close()
+    return redirect(url_for('home'))
+
+# User Login
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, password FROM users WHERE email = %s", (email,))
+    user = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if user and user[2] == password:
+        session['user'] = {'id': user[0], 'name': user[1]}
+        return redirect(url_for('home'))
+    else:
+        return "Login failed! Invalid credentials.", 401
+
 # Admin Login Route
 @app.route('/Admin', methods=['GET', 'POST'])
 def admin_login():
