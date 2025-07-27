@@ -198,40 +198,6 @@ def notes():
 def tools():
     return render_template('tools.html')
 
-# Upload Notes (Admin Only)
-@app.route('/upload_note', methods=['GET', 'POST'])
-def upload_note():
-    if not session.get('admin'):
-        return redirect(url_for('admin_login'))
-
-    if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(filepath)
-
-            conn = psycopg2.connect(os.environ["DATABASE_URL"])
-            cur = conn.cursor()
-            cur.execute("""
-                INSERT INTO tools_notes (title, description, type, file_url)
-                VALUES (%s, %s, 'note', %s)
-            """, (title, description, filename))
-            conn.commit()
-            cur.close()
-            conn.close()
-            return "Note uploaded!"
-    return '''
-    <form method="POST" enctype="multipart/form-data">
-        Title: <input name="title"><br>
-        Description: <textarea name="description"></textarea><br>
-        File: <input type="file" name="file"><br>
-        <input type="submit">
-    </form>
-    '''
-
 # Serve Uploaded Files
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
