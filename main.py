@@ -82,6 +82,48 @@ def home():
     conn.close()
     return render_template('index.html')
 
+#notes upload 
+@app.route('/upload_note', methods=['GET', 'POST'])
+def upload_note():
+    if not session.get('admin'):
+        return redirect(url_for('admin_login'))
+
+    if request.method == 'POST':
+        title = request.form.get('noteTitle')
+        description = request.form.get('noteDescription')
+        author = request.form.get('noteAuthor')
+        category = request.form.get('noteCategory')
+        drive_link = request.form.get('driveLink')
+        file_size = request.form.get('fileSize')
+
+        # Handle thumbnail
+        thumbnail = request.files.get('thumbnail')
+        thumbnail_filename = None
+        if thumbnail and '.' in thumbnail.filename:
+            ext = thumbnail.filename.rsplit('.', 1)[1].lower()
+            if ext in {'jpg', 'jpeg', 'png', 'gif'}:
+                from werkzeug.utils import secure_filename
+                safe_name = secure_filename(thumbnail.filename)
+                thumbnail_filename = datetime.now().strftime('%Y%m%d%H%M%S_') + safe_name
+                thumbnail.save(os.path.join('static', 'thumbnails', thumbnail_filename))
+
+        # Save to DB
+        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+        cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO tools_notes 
+                (title, description, author, category, drive_link, file_size, thumbnail_filename, type) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, 'note')
+        """, (title, description, author, category, drive_link, file_size, thumbnail_filename))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return redirect(url_for('notes'))
+
+    return render_template("upload_note.html")
+
+
 # Contact Page
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -139,11 +181,17 @@ def upload_blog():
 def notes():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
     cur = conn.cursor()
-    cur.execute("SELECT title, description, file_url, created_at FROM tools_notes WHERE type='note' ORDER BY created_at DESC")
+    cur.execute("""
+        SELECT title, description, author, category, drive_link, file_size, thumbnail_filename, created_at 
+        FROM tools_notes
+        WHERE type='note'
+        ORDER BY created_at DESC
+    """)
     notes = cur.fetchall()
     cur.close()
     conn.close()
-    return render_template('notes.html', notes=notes)
+
+    return render_template('study_notes.html', notes=notes)
 
 # Tools Page
 @app.route('/tools')
