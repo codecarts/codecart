@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CodeCart - Secure Developer Resources & Tools</title>
+  <title>CodeCart - Developer Resources & Study Materials</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -39,7 +39,6 @@
       position: relative;
     }
 
-    /* Security background pattern */
     body::before {
       content: "";
       position: fixed;
@@ -146,13 +145,13 @@
       transform: translateY(-2px);
     }
 
-    /* Security badge */
-    .security-badge {
+    /* Admin badge */
+    .admin-badge {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: var(--primary);
-      color: var(--security-green);
+      color: var(--secondary);
       padding: 10px 16px;
       border-radius: 50px;
       font-size: 0.9rem;
@@ -167,7 +166,7 @@
       border: 1px solid rgba(100, 255, 218, 0.2);
     }
 
-    .security-badge:hover {
+    .admin-badge:hover {
       background: rgba(100, 255, 218, 0.1);
       transform: translateY(-3px);
     }
@@ -273,65 +272,145 @@
       color: var(--text-secondary);
     }
 
-    /* Security Section */
-    .security-section {
+    /* Resources Section */
+    .resources-section {
       padding: 5rem 0;
       background: rgba(17, 34, 64, 0.5);
       position: relative;
     }
 
-    .security-grid {
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2.2rem;
+      color: var(--secondary);
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--secondary);
+    }
+
+    .resources-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
     }
 
-    .security-card {
+    .resource-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 10px;
-      padding: 2.5rem 2rem;
+      padding: 2rem;
       text-align: center;
       transition: var(--transition);
       position: relative;
       overflow: hidden;
     }
 
-    .security-card:hover {
+    .resource-card:hover {
       transform: translateY(-5px);
-      border-color: rgba(100, 255, 141, 0.3);
+      border-color: rgba(100, 255, 218, 0.3);
     }
 
-    .security-card::before {
+    .resource-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 4px;
       height: 100%;
-      background: var(--security-green);
+      background: var(--secondary);
     }
 
-    .security-icon {
+    .resource-icon {
       font-size: 2.5rem;
       margin-bottom: 1.5rem;
-      color: var(--security-green);
+      color: var(--secondary);
     }
 
-    .security-title {
+    .resource-title {
       font-size: 1.5rem;
       margin-bottom: 1rem;
-      color: var(--security-green);
+      color: var(--secondary);
     }
 
-    .security-description {
+    .resource-description {
       color: var(--text-secondary);
+      margin-bottom: 1.5rem;
     }
 
-   /*footer*/
+    .resource-link {
+      display: inline-block;
+      padding: 0.7rem 1.5rem;
+      background: rgba(100, 255, 218, 0.1);
+      color: var(--secondary);
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .resource-link:hover {
+      background: var(--secondary);
+      color: var(--primary-dark);
+    }
+
+    /* Admin Panel (hidden by default) */
+    .admin-panel {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: var(--primary);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      z-index: 99;
+      display: none;
+      border: 1px solid var(--card-border);
+    }
+
+    .admin-panel.show {
+      display: block;
+    }
+
+    .admin-links {
+      list-style: none;
+    }
+
+    .admin-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-links a {
+      color: var(--text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+
+    .admin-links a:hover {
+      background: rgba(100, 255, 218, 0.1);
+      color: var(--secondary);
+    }
+
+    /* Footer */
     footer {
       background: var(--primary-dark);
-      padding: 0rem 0 1rem;
+      padding: 3rem 0 1rem;
       border-top: 1px solid rgba(100, 255, 218, 0.1);
     }
 
@@ -464,10 +543,21 @@
   </style>
 </head>
 <body>
-  <!-- Security badge -->
-  <div class="security-badge" id="securityBadge">
-    <i class="fas fa-shield-alt"></i>
-    <span>Secure Connection</span>
+  <!-- Admin badge -->
+  <div class="admin-badge" id="adminBadge">
+    <i class="fas fa-user-shield"></i>
+    <span>Admin Panel</span>
+  </div>
+
+  <!-- Admin panel (hidden by default) -->
+  <div class="admin-panel" id="adminPanel">
+    <ul class="admin-links">
+      <li><a href="/upload_blog"><i class="fas fa-blog"></i> Upload Blog</a></li>
+      <li><a href="/upload_note"><i class="fas fa-file-alt"></i> Upload Notes</a></li>
+      <li><a href="/upload_question"><i class="fas fa-question-circle"></i> Upload Questions</a></li>
+      <li><a href="/upload_resource"><i class="fas fa-book"></i> Upload Resources</a></li>
+      <li><a href="/database"><i class="fas fa-database"></i> Database</a></li>
+    </ul>
   </div>
 
   <!-- Header -->
@@ -481,16 +571,15 @@
         
         <nav>
           <ul>
- <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
-<li><a href="/tools"><i class="fas fa-tools"></i> Tech Blogs</a></li>
-<li><a href="/notes"><i class="fas fa-book"></i> Notes</a></li>
-<li><a href="/security"><i class="fas fa-shield"></i> Security</a></li>
-<li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
-
+            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/tools"><i class="fas fa-tools"></i> Tech Blogs</a></li>
+            <li><a href="/notes"><i class="fas fa-book"></i> Notes</a></li>
+            <li><a href="/questions"><i class="fas fa-question-circle"></i> Previous Questions</a></li>
+            <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
           </ul>
         </nav>
         
-        <button class="nav-button">Get Started</button>
+        <a href="{{ url_for('auth') }}" class="nav-button">Get Started</a>
       </div>
     </div>
   </header>
@@ -500,13 +589,13 @@
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title">Elevate Your Development Journey</h1>
-        <p class="hero-description">CodeCart provides premium resources, curated tools, and comprehensive notes for developers and engineering students to accelerate their learning and productivity.</p>
+        <p class="hero-description">CodeCart provides premium resources, comprehensive notes, and previous year questions for developers and engineering students to accelerate their learning and productivity.</p>
         <div class="hero-buttons">
-          <a href="#" class="button button-primary">
-            <i class="fas fa-rocket"></i> Explore Resources
+          <a href="/notes" class="button button-primary">
+            <i class="fas fa-book"></i> Explore Notes
           </a>
-          <a href="#" class="button button-outline">
-            <i class="fas fa-user-graduate"></i> Join Community
+          <a href="/questions" class="button button-outline">
+            <i class="fas fa-question-circle"></i> Previous Questions
           </a>
         </div>
         
@@ -523,21 +612,21 @@
           
           <div class="stat-item">
             <div class="stat-icon">
-              <i class="fas fa-users"></i>
+              <i class="fas fa-question-circle"></i>
             </div>
             <div>
-              <div class="stat-value">Goal Oriented</div>
-              <div class="stat-label">Learning Parts</div>
+              <div class="stat-value">100+</div>
+              <div class="stat-label">Previous Questions</div>
             </div>
           </div>
           
           <div class="stat-item">
             <div class="stat-icon">
-              <i class="fas fa-shield-alt"></i>
+              <i class="fas fa-users"></i>
             </div>
             <div>
-              <div class="stat-value">100%</div>
-              <div class="stat-label">Secure Platform</div>
+              <div class="stat-value">Goal Based</div>
+              <div class="stat-label">Learning Parts</div>
             </div>
           </div>
         </div>
@@ -545,12 +634,88 @@
     </div>
   </section>
 
+  <!-- Resources Section -->
+  <section class="resources-section">
+    <div class="container">
+      <h2 class="section-title">Featured Resources</h2>
+      
+      <div class="resources-grid">
+        <div class="resource-card">
+          <div class="resource-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3 class="resource-title">Study Notes</h3>
+          <p class="resource-description">Comprehensive notes for various subjects curated by experts to help you ace your exams.</p>
+          <a href="/notes" class="resource-link">View Notes</a>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <h3 class="resource-title">Previous Questions</h3>
+          <p class="resource-description">Collection of previous year exam questions with solutions to help you prepare better.</p>
+          <a href="/questions" class="resource-link">View Questions</a>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <h3 class="resource-title">Tech Blogs</h3>
+          <p class="resource-description">Latest technology articles, tutorials and guides to keep you updated.</p>
+          <a href="/tools" class="resource-link">Read Blogs</a>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <h3 class="resource-title">E-Books</h3>
+          <p class="resource-description">Download free e-books and reference materials for your studies.</p>
+          <a href="/resources" class="resource-link">View Resources</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-grid">
         <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li>
+            <li><a href="/notes"><i class="fas fa-chevron-right"></i> Notes</a></li>
+            <li><a href="/questions"><i class="fas fa-chevron-right"></i> Previous Questions</a></li>
+            <li><a href="/tools"><i class="fas fa-chevron-right"></i> Tech Blogs</a></li>
+            <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Resources</h3>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-chevron-right"></i> E-Books</a></li>
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Cheat Sheets</a></li>
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Video Tutorials</a></li>
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Practice Tests</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Connect With Us</h3>
+          <div class="footer-social">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+      
       <div class="copyright">
         <p>&copy; 2025 CodeCart. All rights reserved. Built with <i class="fas fa-heart" style="color: var(--danger);"></i> by Team AMS BYTES</p>
         <p style="margin-top: 10px;"><i class="fas fa-shield-alt" style="color: var(--security-green);"></i> Secure Platform | <i class="fas fa-lock" style="color: var(--security-green);"></i> Encrypted Connections</p>
@@ -559,16 +724,24 @@
   </footer>
 
   <script>
-    // Security badge functionality
-    const securityBadge = document.getElementById('securityBadge');
+    // Admin panel toggle
+    const adminBadge = document.getElementById('adminBadge');
+    const adminPanel = document.getElementById('adminPanel');
     
-    securityBadge.addEventListener('click', () => {
-      alert('🔒 Secure Connection\n\nThis site uses:\n- TLS 1.3 encryption\n- Regular security audits\n- Secure cloud hosting\n- Privacy protection\n\nYour connection is secure!');
+    adminBadge.addEventListener('click', () => {
+      adminPanel.classList.toggle('show');
+    });
+
+    // Close admin panel when clicking outside
+    window.addEventListener('click', (e) => {
+      if (!adminBadge.contains(e.target) && !adminPanel.contains(e.target)) {
+        adminPanel.classList.remove('show');
+      }
     });
 
     // Animation for cards on scroll
     document.addEventListener('DOMContentLoaded', function() {
-      const cards = document.querySelectorAll('.feature-card, .security-card, .testimonial-card');
+      const cards = document.querySelectorAll('.resource-card');
       
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -588,6 +761,15 @@
         observer.observe(card);
       });
     });
+
+    // Check if user is admin (this would be set by Flask)
+    const isAdmin = {{ 'true' if current_user.is_authenticated and current_user.is_admin else 'false' }};
+    
+    if (isAdmin) {
+      adminBadge.style.display = 'flex';
+    } else {
+      adminBadge.style.display = 'none';
+    }
   </script>
 </body>
 </html>

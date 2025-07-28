@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up - CodeCart</title>
+  <title>Authentication - CodeCart</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -42,7 +42,6 @@
       padding: 2rem;
     }
 
-    /* Security background pattern */
     body::before {
       content: "";
       position: fixed;
@@ -67,6 +66,49 @@
       padding: 2.5rem;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       position: relative;
+    }
+
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+    }
+
+    .auth-tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.8rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .auth-tab.active {
+      color: var(--secondary);
+    }
+
+    .auth-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--secondary);
+    }
+
+    .auth-tab:hover {
+      color: var(--secondary);
+    }
+
+    .auth-content {
+      display: none;
+    }
+
+    .auth-content.active {
+      display: block;
     }
 
     .auth-header {
@@ -162,48 +204,111 @@
 </head>
 <body>
   <div class="auth-container">
-    <a href="index.html" class="back-to-home">
+    <a href="{{ url_for('home') }}" class="back-to-home">
       <i class="fas fa-arrow-left"></i> Back to Home
     </a>
     
-    <div class="auth-header">
-      <h2>Create Your Account</h2>
-      <p>Join CodeCart to access premium developer resources</p>
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-tab="login">Sign In</div>
+      <div class="auth-tab" data-tab="signup">Create Account</div>
     </div>
     
-    <form id="signupForm">
-      <div class="form-group">
-        <label for="signupName">Full Name</label>
-        <input type="text" id="signupName" placeholder="Enter your full name" required>
+    <!-- Login Form -->
+    <div id="loginContent" class="auth-content active">
+      <div class="auth-header">
+        <h2>Welcome Back</h2>
+        <p>Sign in to access your developer resources</p>
       </div>
       
-      <div class="form-group">
-        <label for="signupEmail">Email</label>
-        <input type="email" id="signupEmail" placeholder="Enter your email" required>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required>
+        </div>
+        
+        <button type="submit" class="auth-btn">Sign In</button>
+        
+        <div class="auth-footer">
+          <a href="#" id="forgotPassword">Forgot password?</a>
+        </div>
+      </form>
+    </div>
+    
+    <!-- Signup Form -->
+    <div id="signupContent" class="auth-content">
+      <div class="auth-header">
+        <h2>Create Your Account</h2>
+        <p>Join CodeCart to access premium developer resources</p>
       </div>
       
-      <div class="form-group">
-        <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" placeholder="Create a password" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="signupConfirm">Confirm Password</label>
-        <input type="password" id="signupConfirm" placeholder="Confirm your password" required>
-      </div>
-      
-      <button type="submit" class="auth-btn">Create Account</button>
-      
-      <div class="auth-footer">
-        Already have an account? <a href="login.html">Log in</a>
-      </div>
-    </form>
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" placeholder="Enter your full name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" placeholder="Enter your email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" placeholder="Create a password (min 8 chars)" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="signupConfirm">Confirm Password</label>
+          <input type="password" id="signupConfirm" placeholder="Confirm your password" required>
+        </div>
+        
+        <button type="submit" class="auth-btn">Create Account</button>
+      </form>
+    </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const signupForm = document.getElementById('signupForm');
+      // Tab switching
+      const tabs = document.querySelectorAll('.auth-tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          document.querySelectorAll('.auth-content').forEach(content => {
+            content.classList.remove('active');
+          });
+          document.getElementById(`${tab.dataset.tab}Content`).classList.add('active');
+        });
+      });
 
+      // Login form
+      const loginForm = document.getElementById('loginForm');
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        if (!email || !password) {
+          alert('Please fill in all fields');
+          return;
+        }
+        
+        // Simulate login
+        alert(`Login successful! Welcome back, ${email.split('@')[0]}`);
+        
+        // Redirect to home page
+        window.location.href = "{{ url_for('home') }}";
+      });
+
+      // Signup form
+      const signupForm = document.getElementById('signupForm');
       signupForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('signupName').value;
@@ -229,8 +334,19 @@
         // Simulate signup
         alert(`Account created successfully! Welcome to CodeCart, ${name}`);
         
-        // Redirect to login page
-        window.location.href = 'login.html';
+        // Switch to login tab
+        document.querySelector('.auth-tab[data-tab="login"]').click();
+      });
+
+      // Forgot password
+      document.getElementById('forgotPassword').addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        if (email) {
+          alert(`Password reset link will be sent to: ${email}`);
+        } else {
+          alert('Please enter your email address first');
+        }
       });
     });
   </script>

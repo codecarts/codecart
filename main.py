@@ -1,290 +1,314 @@
-from flask import Flask, request, render_template, redirect, url_for, send_from_directory, session
-from werkzeug.security import check_password_hash, generate_password_hash
+from flask import Flask, request, render_template, redirect, url_for, session, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import psycopg2
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "supersecret")  # Use a real secret key in production
+app.secret_key = os.environ.get("SECRET_KEY", "supersecretkey")
 
-UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'pdf', 'pptx'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# Database connection (Supabase = PostgreSQL)
+def get_db_connection():
+    conn = psycopg2.connect(
+        host=os.environ.get("SUPABASE_HOST"),
+        database=os.environ.get("SUPABASE_DATABASE"),
+        user=os.environ.get("SUPABASE_USER"),
+        password=os.environ.get("SUPABASE_PASSWORD"),
+        sslmode='require'
+    )
+    return conn
 
-# Security headers
+# Security Headers
 @app.after_request
 def add_security_headers(response):
-    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
-    response.headers['X-Content-Type-Options'] = 'nosniff'
-    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-    response.headers['X-XSS-Protection'] = '1; mode=block'
-    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
-    response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data:; connect-src 'self'"
+    headers = {
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'SAMEORIGIN',
+        'X-XSS-Protection': '1; mode=block',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data:; connect-src 'self'"
+    }
+    for key, value in headers.items():
+        response.headers[key] = value
     return response
 
-# File type checker
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+# Homepage
+@app.route('/')
+def home():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("INSERT INTO visitor_logs (ip_address) VALUES (%s)", (request.remote_addr,))
+        conn.commit()
 
-# User Registration
-@app.route('/register', methods=['POST'])
-def register():
-    name = request.form.get('name')
-    email = request.form.get('email')
-    password = request.form.get('password')
+        cur.execute("SELECT title, description FROM tools_notes ORDER BY created_at DESC LIMIT 3")
+        recent_notes = cur.fetchall()
 
-    conn = psycopg2.connect(os.environ['DATABASE_URL'])
-    cur = conn.cursor()
-    # Check if user already exists
-    cur.execute("SELECT * FROM users WHERE email = %s", (email,))
-    existing_user = cur.fetchone()
-    if existing_user:
+        cur.execute("SELECT title, id FROM blog_posts ORDER BY created_at DESC LIMIT 3")
+        recent_blogs = cur.fetchall()
+
         cur.close()
         conn.close()
-        return "Email already registered!", 400
+        return render_template('index.html', recent_notes=recent_notes, recent_blogs=recent_blogs)
+    except Exception as e:
+        return render_template('index.html', error=str(e))
 
-    cur.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)", (name, email, password))
-    conn.commit()
-    cur.close()
-    conn.close()
-    return redirect(url_for('home'))
+# Authentication
+@app.route('/auth')
+def auth():
+    return render_template('auth.html')
 
-# User Login
 @app.route('/login', methods=['POST'])
 def login():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    conn = psycopg2.connect(os.environ['DATABASE_URL'])
-    cur = conn.cursor()
-    cur.execute("SELECT id, name, password FROM users WHERE email = %s", (email,))
-    user = cur.fetchone()
-    cur.close()
-    conn.close()
-
-    if user and user[2] == password:
-        session['user'] = {'id': user[0], 'name': user[1]}
-        return redirect(url_for('home'))
-    else:
-        return "Login failed! Invalid credentials.", 401
-
-# Admin Login Route
-@app.route('/Admin', methods=['GET', 'POST'])
-def admin_login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        conn = psycopg2.connect(os.environ['DATABASE_URL'])
+    try:
+        conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT password FROM admin_users WHERE username = %s", (username,))
-        record = cur.fetchone()
-        cur.close()
-        conn.close()
+        cur.execute("SELECT id, name, password FROM users WHERE email = %s", (email,))
+        user = cur.fetchone()
 
-        if record and check_password_hash(record[0], password):
-            session['admin'] = True
-            return redirect(url_for('admin_dashboard'))
+        if user and check_password_hash(user[2], password):
+            session['user'] = {'id': user[0], 'name': user[1]}
+            flash('Login successful!', 'success')
+            return redirect(url_for('home'))
         else:
-            return "Login failed. Invalid username or password.", 401
-    
-    return '''
-    <h2>Admin Login</h2>
-    <form method="POST">
-        Username: <input name="username"><br>
-        Password: <input type="password" name="password"><br>
-        <input type="submit" value="Login">
-    </form>
-    '''
+            flash('Invalid email or password', 'danger')
+            return redirect(url_for('auth'))
+    except Exception as e:
+        flash('Login error: ' + str(e), 'danger')
+        return redirect(url_for('auth'))
+    finally:
+        if 'cur' in locals(): cur.close()
+        if 'conn' in locals(): conn.close()
 
-# Admin Dashboard Route
-@app.route('/admin_dashboard')
-def admin_dashboard():
-    if not session.get('admin'):
-        return redirect(url_for('admin_login'))
-    return render_template('admin_dashboard.html')
-
-# Logout Route
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('home'))
-
-# Home with IP Logging
-@app.route('/')
-def home():
-    ip = request.remote_addr
-    conn = psycopg2.connect(os.environ['DATABASE_URL'])
-    cur = conn.cursor()
-    cur.execute("INSERT INTO visitor_logs (ip_address) VALUES (%s)", (ip,))
-    conn.commit()
-    cur.close()
-    conn.close()
-    return render_template('index.html')
-
-@app.route('/contact_submit', methods=['POST'])
-def contact_submit():
+@app.route('/register', methods=['POST'])
+def register():
     name = request.form.get('name')
     email = request.form.get('email')
-    message = request.form.get('message')
-
-    if not name or not email or not message:
-        return "All fields are required.", 400
+    password = generate_password_hash(request.form.get('password'))
 
     try:
-        conn = psycopg2.connect(os.environ["DATABASE_URL"])
+        conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO contact_messages (name, email, message)
-            VALUES (%s, %s, %s)
-        """, (name, email, message))
+
+        cur.execute("SELECT id FROM users WHERE email = %s", (email,))
+        if cur.fetchone():
+            flash('Email already registered', 'danger')
+            return redirect(url_for('auth'))
+
+        cur.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s) RETURNING id", (name, email, password))
+        user_id = cur.fetchone()[0]
         conn.commit()
-        cur.close()
-        conn.close()
-        return "Message submitted successfully!"
+
+        session['user'] = {'id': user_id, 'name': name}
+        flash('Registration successful!', 'success')
+        return redirect(url_for('home'))
     except Exception as e:
-        return f"Error saving message: {str(e)}", 500
-
-
-#notes upload 
-@app.route('/upload_note', methods=['GET', 'POST'])
-def upload_note():
-    if not session.get('admin'):
-        return redirect(url_for('admin_login'))
-
-    if request.method == 'POST':
-        title = request.form.get('noteTitle')
-        description = request.form.get('noteDescription')
-        author = request.form.get('noteAuthor')
-        category = request.form.get('noteCategory')
-        drive_link = request.form.get('driveLink')
-        file_size = request.form.get('fileSize')
-
-        # Handle thumbnail
-        thumbnail = request.files.get('thumbnail')
-        thumbnail_filename = None
-        if thumbnail and '.' in thumbnail.filename:
-            ext = thumbnail.filename.rsplit('.', 1)[1].lower()
-            if ext in {'jpg', 'jpeg', 'png', 'gif'}:
-                from werkzeug.utils import secure_filename
-                safe_name = secure_filename(thumbnail.filename)
-                thumbnail_filename = datetime.now().strftime('%Y%m%d%H%M%S_') + safe_name
-                thumbnail.save(os.path.join('static', 'thumbnails', thumbnail_filename))
-
-        # Save to DB
-        conn = psycopg2.connect(os.environ['DATABASE_URL'])
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO tools_notes 
-                (title, description, author, category, drive_link, file_size, thumbnail_filename, type) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, 'note')
-        """, (title, description, author, category, drive_link, file_size, thumbnail_filename))
-        conn.commit()
-        cur.close()
-        conn.close()
-
-        return redirect(url_for('notes'))
-
-    return render_template("upload_note.html")
-
-
-# Contact Page
-@app.route('/contact', methods=['GET', 'POST'])
-def contact():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        message = request.form['message']
-        conn = psycopg2.connect(os.environ['DATABASE_URL'])
-        cur = conn.cursor()
-        cur.execute("INSERT INTO contact_form (name, email, message) VALUES (%s, %s, %s)", (name, email, message))
-        conn.commit()
-        cur.close()
-        conn.close()
-        return "Message sent!"
-    return render_template('contact.html')
-
-# Blog Reader
-@app.route('/blog')
-def blog():
-    conn = psycopg2.connect(os.environ['DATABASE_URL'])
-    cur = conn.cursor()
-    cur.execute("SELECT title, content, created_at FROM blog_posts ORDER BY created_at DESC")
-    posts = cur.fetchall()
-    cur.close()
-    conn.close()
-    return render_template('blog.html', posts=posts)
-
-# Blog Uploader (admin only)
-@app.route('/upload_blog', methods=['GET', 'POST'])
-def upload_blog():
-    if not session.get('admin'):
-        return redirect(url_for('admin_login'))
-
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['content']
-        conn = psycopg2.connect(os.environ["DATABASE_URL"])
-        cur = conn.cursor()
-        cur.execute("INSERT INTO blog_posts (title, content) VALUES (%s, %s)", (title, content))
-        conn.commit()
-        cur.close()
-        conn.close()
-        return "Blog posted!"
-    
-    return '''
-    <form method="POST">
-        Title: <input name="title"><br>
-        Content: <textarea name="content"></textarea><br>
-        <input type="submit" value="Post">
-    </form>
-    '''
+        flash('Registration error: ' + str(e), 'danger')
+        return redirect(url_for('auth'))
+    finally:
+        if 'cur' in locals(): cur.close()
+        if 'conn' in locals(): conn.close()
 
 # Notes Page
 @app.route('/notes')
 def notes():
-    conn = psycopg2.connect(os.environ['DATABASE_URL'])
-    cur = conn.cursor()
-    cur.execute("""
-        SELECT title, description, author, category, drive_link, file_size, thumbnail_filename, created_at 
-        FROM tools_notes
-        WHERE type='note'
-        ORDER BY created_at DESC
-    """)
-    notes = cur.fetchall()
-    cur.close()
-    conn.close()
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT id, title, description, author, category, drive_link, file_size, thumbnail_filename 
+            FROM tools_notes 
+            WHERE type='note' 
+            ORDER BY created_at DESC
+        """)
+        notes = cur.fetchall()
+        return render_template('notes.html', notes=notes)
+    except Exception as e:
+        return render_template('notes.html', error=str(e))
+    finally:
+        if 'cur' in locals(): cur.close()
+        if 'conn' in locals(): conn.close()
 
-    return render_template('study_notes.html', notes=notes)
+# Tools alias for Tech Blogs
+@app.route('/tools')
+def tools_alias():
+    return redirect(url_for('tech_blogs'))
 
-# Security Info Page
+@app.route('/tech-blogs')
+def tech_blogs():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT id, title, content, created_at FROM blog_posts ORDER BY created_at DESC")
+        blogs = cur.fetchall()
+        return render_template('tech_blogs.html', blogs=blogs)
+    except Exception as e:
+        return render_template('tech_blogs.html', error=str(e))
+    finally:
+        if 'cur' in locals(): cur.close()
+        if 'conn' in locals(): conn.close()
+
+# Blog view
+@app.route('/blog/<int:post_id>')
+def blog_post(post_id):
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT title, content, created_at FROM blog_posts WHERE id = %s", (post_id,))
+        post = cur.fetchone()
+        return render_template('blog_post.html', post=post)
+    except Exception as e:
+        return render_template('blog_post.html', error=str(e))
+    finally:
+        if 'cur' in locals(): cur.close()
+        if 'conn' in locals(): conn.close()
+
+# Questions
+@app.route('/questions')
+def questions():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT id, title, description, category, drive_link, file_size, thumbnail_filename 
+            FROM tools_notes 
+            WHERE type='question' 
+            ORDER BY created_at DESC
+        """)
+        questions = cur.fetchall()
+        return render_template('questions.html', questions=questions)
+    except Exception as e:
+        return render_template('questions.html', error=str(e))
+    finally:
+        if 'cur' in locals(): cur.close()
+        if 'conn' in locals(): conn.close()
+
+# Admin login
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        try:
+            conn = get_db_connection()
+            cur = conn.cursor()
+            cur.execute("SELECT id, password FROM admin_users WHERE username = %s", (username,))
+            admin = cur.fetchone()
+            if admin and check_password_hash(admin[1], password):
+                session['admin'] = True
+                session['admin_id'] = admin[0]
+                return redirect(url_for('admin_dashboard'))
+            else:
+                flash('Invalid admin credentials', 'danger')
+        except Exception as e:
+            flash('Admin login error: ' + str(e), 'danger')
+        finally:
+            if 'cur' in locals(): cur.close()
+            if 'conn' in locals(): conn.close()
+    return render_template('admin_login.html')
+
+# Admin dashboard
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    if not session.get('admin'):
+        return redirect(url_for('admin_login'))
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM users")
+        user_count = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM blog_posts")
+        post_count = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM tools_notes")
+        note_count = cur.fetchone()[0]
+        return render_template('admin_dashboard.html', user_count=user_count, post_count=post_count, note_count=note_count)
+    except Exception as e:
+        return render_template('admin_dashboard.html', error=str(e))
+    finally:
+        if 'cur' in locals(): cur.close()
+        if 'conn' in locals(): conn.close()
+
+# Admin upload routes
+@app.route('/upload_blog')
+@app.route('/upload_note')
+@app.route('/upload_question')
+@app.route('/upload_resource')
+@app.route('/database')
+def admin_subpages():
+    if not session.get('admin'):
+        return redirect(url_for('admin_login'))
+    return render_template(f"admin{request.path}.html")
+
+# Resources page
+@app.route('/resources')
+def resources():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM tools_notes WHERE type='resource'")
+        resources = cur.fetchall()
+        return render_template('resources.html', resources=resources)
+    except Exception as e:
+        return render_template('resources.html', error=str(e))
+    finally:
+        if 'cur' in locals(): cur.close()
+        if 'conn' in locals(): conn.close()
+
+# Footer placeholders
+@app.route('/cheatsheets')
+def cheatsheets():
+    return "<h3>Cheat Sheets coming soon!</h3>"
+
+@app.route('/videos')
+def videos():
+    return "<h3>Video Tutorials coming soon!</h3>"
+
+@app.route('/practice')
+def practice():
+    return "<h3>Practice Tests coming soon!</h3>"
+
+# Contact
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+        try:
+            conn = get_db_connection()
+            cur = conn.cursor()
+            cur.execute("INSERT INTO contact_messages (name, email, message) VALUES (%s, %s, %s)", (name, email, message))
+            conn.commit()
+            flash('Message sent successfully!', 'success')
+        except Exception as e:
+            flash('Error sending message: ' + str(e), 'danger')
+        finally:
+            if 'cur' in locals(): cur.close()
+            if 'conn' in locals(): conn.close()
+        return redirect(url_for('contact'))
+    return render_template('contact.html')
+
+# Security
 @app.route('/security')
 def security():
     return render_template('security.html')
 
-# Route to handle GET for homepage
-@app.route('/index')
-def index():
-    return render_template('index.html')
+# Logout
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been logged out', 'info')
+    return redirect(url_for('home'))
 
-# Route to join Telegram community via redirect
-@app.route('/join-community')
-def join_community():
-    return redirect("https://t.me/your_telegram_group")  # ← Replace with your actual group link
-
-# Route triggered by "Get Started" button
-@app.route('/get-started')
-def get_started():
-    return redirect(url_for('register'))  # Or some onboarding page
-
-# Route triggered by "Tech Blogs" button
-@app.route('/tech-blogs')
-def tech_blogs():
-    return redirect(url_for('blog'))
-
-# Run App
+# Run
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
