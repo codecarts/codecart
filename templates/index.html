@@ -763,7 +763,7 @@
     });
 
     // Check if user is admin (this would be set by Flask)
-    const isAdmin = {{ 'true' if current_user.is_authenticated and current_user.is_admin else 'false' }};
+    const isAdmin = {{ 'true' if session.get('admin') else 'false' }};
 
     if (isAdmin) {
       adminBadge.style.display = 'flex';

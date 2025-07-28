@@ -47,7 +47,7 @@ def home():
 
         cur.close()
         conn.close()
-        return render_template('index.html', recent_notes=recent_notes, recent_blogs=recent_blogs)
+        return render_template('index.html', recent_notes=recent_notes, recent_blogs=recent_blogs, is_admin=session.get('admin', False))
     except Exception as e:
         return render_template('index.html', error=str(e))
 
