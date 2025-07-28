@@ -13,14 +13,7 @@ app.secret_key = os.environ.get("SECRET_KEY", "supersecretkey")
 
 # Database connection (Supabase = PostgreSQL)
 def get_db_connection():
-    conn = psycopg2.connect(
-        host=os.environ.get("SUPABASE_HOST"),
-        database=os.environ.get("SUPABASE_DATABASE"),
-        user=os.environ.get("SUPABASE_USER"),
-        password=os.environ.get("SUPABASE_PASSWORD"),
-        sslmode='require'
-    )
-    return conn
+    return psycopg2.connect(os.environ['DATABASE_URL'])
 
 # Security Headers
 @app.after_request
