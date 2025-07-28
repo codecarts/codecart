@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CodeCart - Developer Resources & Study Materials</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
       --primary-dark: #0a192f;
@@ -763,12 +763,12 @@
     });
 
     // Check if user is admin (this would be set by Flask)
-    const isAdmin = {{ 'true' if session.get('admin') else 'false' }};
-
-    if (isAdmin) {
-      adminBadge.style.display = 'flex';
-    } else {
-      adminBadge.style.display = 'none';
+     const isAdmin = {{ 'true' if session.get('admin') else 'false' }};
+  if (isAdmin) {
+    document.getElementById('adminBadge').style.display = 'flex';
+  } else {
+    document.getElementById('adminBadge').style.display = 'none';
+  }
     }
   </script>
 </body>
