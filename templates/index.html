@@ -1,775 +1,578 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CodeCart - Developer Resources & Study Materials</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    :root {
-      --primary-dark: #0a192f;
-      --primary: #112240;
-      --primary-light: #172a45;
-      --secondary: #64ffda;
-      --accent: #ffd166;
-      --security-green: #64ff8d;
-      --text-primary: #e6f1ff;
-      --text-secondary: #a8b2d1;
-      --card-bg: #112240;
-      --card-border: rgba(100, 255, 218, 0.1);
-      --success: #64ffda;
-      --warning: #ffd166;
-      --danger: #ff6b6b;
-      --transition: all 0.3s ease-in-out;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(100, 255, 218, 0.05) 0%, transparent 15%),
-        radial-gradient(circle at 90% 80%, rgba(255, 209, 102, 0.05) 0%, transparent 15%),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(100,255,218,0.05)" stroke-width="0.5" stroke-dasharray="2 2"/><circle cx="20" cy="20" r="1" fill="rgba(100,255,218,0.1)"/><circle cx="50" cy="50" r="1" fill="rgba(100,255,218,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(100,255,218,0.1)"/></svg>');
-      background-size: 300px 300px;
-      z-index: -1;
-      opacity: 0.15;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* Header Styles */
-    header {
-      background-color: rgba(10, 25, 47, 0.9);
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(100, 255, 218, 0.1);
-    }
-
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--secondary);
-    }
-
-    .logo-icon {
-      background: linear-gradient(45deg, var(--secondary), var(--accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    /* Navigation */
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
-
-    nav a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-weight: 500;
-      position: relative;
-      padding: 0.5rem 0;
-      transition: var(--transition);
-    }
-
-    nav a:hover {
-      color: var(--secondary);
-    }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--secondary);
-      transition: var(--transition);
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    .nav-button {
-      background: transparent;
-      border: 1px solid var(--secondary);
-      color: var(--secondary);
-      padding: 0.6rem 1.5rem;
-      border-radius: 4px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .nav-button:hover {
-      background: rgba(100, 255, 218, 0.1);
-      transform: translateY(-2px);
-    }
-
-    /* Admin badge */
-    .admin-badge {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: var(--primary);
-      color: var(--secondary);
-      padding: 10px 16px;
-      border-radius: 50px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      z-index: 100;
-      cursor: pointer;
-      transition: var(--transition);
-      border: 1px solid rgba(100, 255, 218, 0.2);
-    }
-
-    .admin-badge:hover {
-      background: rgba(100, 255, 218, 0.1);
-      transform: translateY(-3px);
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 6rem 0 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-content {
-      max-width: 700px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-title {
-      font-size: 3.5rem;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(45deg, var(--text-primary), var(--secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-description {
-      font-size: 1.2rem;
-      color: var(--text-secondary);
-      margin-bottom: 2.5rem;
-      max-width: 600px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .button {
-      padding: 0.9rem 2rem;
-      border-radius: 4px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .button-primary {
-      background: var(--secondary);
-      color: var(--primary-dark);
-    }
-
-    .button-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
-    }
-
-    .button-outline {
-      border: 1px solid var(--secondary);
-      color: var(--secondary);
-    }
-
-    .button-outline:hover {
-      background: rgba(100, 255, 218, 0.1);
-      transform: translateY(-3px);
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 3rem;
-      margin-top: 3rem;
-      flex-wrap: wrap;
-    }
-
-    .stat-item {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .stat-icon {
-      width: 50px;
-      height: 50px;
-      background: rgba(100, 255, 218, 0.1);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      color: var(--secondary);
-    }
-
-    .stat-value {
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
-
-    /* Resources Section */
-    .resources-section {
-      padding: 5rem 0;
-      background: rgba(17, 34, 64, 0.5);
-      position: relative;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 3rem;
-      font-size: 2.2rem;
-      color: var(--secondary);
-      position: relative;
-      display: inline-block;
-      width: 100%;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background: var(--secondary);
-    }
-
-    .resources-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .resource-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 2rem;
-      text-align: center;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .resource-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(100, 255, 218, 0.3);
-    }
-
-    .resource-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: var(--secondary);
-    }
-
-    .resource-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-      color: var(--secondary);
-    }
-
-    .resource-title {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--secondary);
-    }
-
-    .resource-description {
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-    }
-
-    .resource-link {
-      display: inline-block;
-      padding: 0.7rem 1.5rem;
-      background: rgba(100, 255, 218, 0.1);
-      color: var(--secondary);
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-
-    .resource-link:hover {
-      background: var(--secondary);
-      color: var(--primary-dark);
-    }
-
-    /* Admin Panel (hidden by default) */
-    .admin-panel {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      background: var(--primary);
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      z-index: 99;
-      display: none;
-      border: 1px solid var(--card-border);
-    }
-
-    .admin-panel.show {
-      display: block;
-    }
-
-    .admin-links {
-      list-style: none;
-    }
-
-    .admin-links li {
-      margin-bottom: 0.5rem;
-    }
-
-    .admin-links a {
-      color: var(--text-primary);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem;
-      border-radius: 4px;
-      transition: var(--transition);
-    }
-
-    .admin-links a:hover {
-      background: rgba(100, 255, 218, 0.1);
-      color: var(--secondary);
-    }
-
-    /* Footer */
-    footer {
-      background: var(--primary-dark);
-      padding: 3rem 0 1rem;
-      border-top: 1px solid rgba(100, 255, 218, 0.1);
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 3rem;
-      margin-bottom: 3rem;
-    }
-
-    .footer-column h3 {
-      font-size: 1.3rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      display: inline-block;
-    }
-
-    .footer-column h3::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 0;
-      width: 20px;
-      height: 3px;
-      background: var(--secondary);
-    }
-
-    .footer-links {
-      list-style: none;
-    }
-
-    .footer-links li {
-      margin-bottom: 0.8rem;
-    }
-
-    .footer-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .footer-links a:hover {
-      color: var(--secondary);
-      transform: translateX(5px);
-    }
-
-    .footer-social {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    .social-link {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-primary);
-      transition: var(--transition);
-    }
-
-    .social-link:hover {
-      background: var(--secondary);
-      color: var(--primary-dark);
-      transform: translateY(-5px);
-    }
-
-    .copyright {
-      text-align: center;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 992px) {
-      .hero-title {
-        font-size: 3rem;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>codecart - Study Resources</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      :root {
+        --primary: #1a3e72;
+        --secondary: #f8a51b;
+        --dark: #222;
+        --light: #f9f9f9;
+        --text-light: #ffffff;
+        --text-dark: #333333;
       }
-    }
 
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-        gap: 1rem;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
       }
-      
+
+      body {
+        background-color: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 1rem 5%;
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+
+      /* Attractive text-based logo */
+      .logo-text {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-brackets {
+        color: var(--secondary);
+        font-weight: 900;
+        font-size: 2rem;
+      }
+
+      .logo-name {
+        margin: 0 0.3rem;
+        position: relative;
+      }
+
+      .logo-name::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: var(--secondary);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease;
+      }
+
+      .logo-container:hover .logo-name::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 0.5rem 0;
+      }
+
+      .nav-links a:hover {
+        color: var(--secondary);
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--secondary);
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
       .hero {
-        padding: 4rem 0;
-      }
-      
-      .hero-title {
-        font-size: 2.5rem;
-      }
-      
-      .hero-buttons {
+        height: 100vh;
+        position: relative;
+        display: flex;
         flex-direction: column;
-      }
-      
-      .hero-stats {
-        flex-wrap: wrap;
-      }
-      
-      nav ul {
-        flex-wrap: wrap;
         justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0 5%;
+        /* Changed text color to dark for better contrast */
+        color: var(--text-dark);
       }
-    }
 
-    @media (max-width: 576px) {
-      .hero-title {
-        font-size: 2rem;
+      .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Replace with your background image */
+        background-image: url("background.jpg");
+        background-size: cover;
+        background-position: center;
+        opacity: 0.8; /* 0.8 opacity as requested */
+        z-index: -1;
       }
-      
+
+      .hero-content {
+        max-width: 800px;
+        background-color: rgba(255, 255, 255, 0.85);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: var(--text-dark);
+      }
+
+      .btn {
+        display: inline-block;
+        background-color: var(--secondary);
+        color: var(--primary);
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Resources Section */
+      .services {
+        padding: 5rem 5%;
+        text-align: center;
+        background-color: white;
+      }
+
       .section-title {
-        font-size: 2rem;
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        color: var(--primary);
+        position: relative;
+        display: inline-block;
       }
-      
-      .stat-value {
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background-color: var(--secondary);
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .service-card {
+        background-color: var(--light);
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .service-card h3 {
         font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
       }
-    }
-  </style>
-</head>
-<body>
-  <!-- Admin badge -->
-  <div class="admin-badge" id="adminBadge">
-    <i class="fas fa-user-shield"></i>
-    <span>Admin Panel</span>
-  </div>
 
-  <!-- Admin panel (hidden by default) -->
-  <div class="admin-panel" id="adminPanel">
-    <ul class="admin-links">
-      <li><a href="/upload_blog"><i class="fas fa-blog"></i> Upload Blog</a></li>
-      <li><a href="/upload_note"><i class="fas fa-file-alt"></i> Upload Notes</a></li>
-      <li><a href="/upload_question"><i class="fas fa-question-circle"></i> Upload Questions</a></li>
-      <li><a href="/upload_resource"><i class="fas fa-book"></i> Upload Resources</a></li>
-      <li><a href="/database"><i class="fas fa-database"></i> Database</a></li>
-    </ul>
-  </div>
+      /* Mobile Menu */
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--primary);
+        cursor: pointer;
+      }
 
-  <!-- Header -->
-  <header>
-    <div class="container">
-      <div class="header-content">
-        <div class="logo">
-          <i class="fas fa-code logo-icon"></i>
-          <span>CodeCart</span>
+      /* Responsive */
+      @media (max-width: 768px) {
+        .nav-links {
+          position: fixed;
+          top: 80px;
+          left: -100%;
+          width: 100%;
+          height: calc(100vh - 80px);
+          background-color: white;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 2rem;
+          transition: left 0.3s ease;
+        }
+
+        .nav-links.active {
+          left: 0;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero-content {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo-container">
+          <!-- Text-based logo with styling -->
+          <div class="logo-text">
+            <span class="logo-brackets">&lt;</span>
+            <h3>/</h3>
+            <span class="logo-brackets">&gt;</span>
+            <span class="logo-name">codecart</span>
+          </div>
         </div>
-        
-        <nav>
-          <ul>
-            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="/tools"><i class="fas fa-tools"></i> Tech Blogs</a></li>
-            <li><a href="/notes"><i class="fas fa-book"></i> Notes</a></li>
-            <li><a href="/questions"><i class="fas fa-question-circle"></i> Previous Questions</a></li>
-            <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
-          </ul>
-        </nav>
-        
-        <a href="{{ url_for('auth') }}" class="nav-button">Get Started</a>
-      </div>
-    </div>
-  </header>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="nav-links">
+          <a href="{{ url_for('home') }}">Home</a>
+          <a href="{{ url_for('notes') }}">Notes</a>
+          <a href="{{ url_for('pyqs') }}">PYQs</a>
+          <a href="{{ url_for('blogs') }}">Tech Blogs</a>
+          <a href="{{ url_for('contact') }}">Contact</a>
+        </div>
+      </nav>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
+    <section class="hero">
+      <div class="hero-bg"></div>
       <div class="hero-content">
-        <h1 class="hero-title">Elevate Your Development Journey</h1>
-        <p class="hero-description">CodeCart provides premium resources, comprehensive notes, and previous year questions for developers and engineering students to accelerate their learning and productivity.</p>
-        <div class="hero-buttons">
-          <a href="/notes" class="button button-primary">
-            <i class="fas fa-book"></i> Explore Notes
-          </a>
-          <a href="/questions" class="button button-outline">
-            <i class="fas fa-question-circle"></i> Previous Questions
-          </a>
+        <!-- Changed text color to dark -->
+        <h1>Your Ultimate Study Resource Hub</h1>
+        <p>
+          Access high-quality notes, previous year questions, and tech resources
+          all in one place
+        </p>
+        <a href="#" class="btn" id="quote-btn">GET STARTED</a>
+      </div>
+    </section>
+
+    <section class="services">
+      <h2 class="section-title">Our Resources</h2>
+      <p>
+        Comprehensive study materials to help you excel in your academic journey
+      </p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <i
+            class="fas fa-book"
+            style="
+              font-size: 2.5rem;
+              color: var(--secondary);
+              margin-bottom: 1rem;
+            "
+          ></i>
+          <h3>Subject Notes</h3>
+          <p>Well-organized notes covering all important topics and concepts</p>
         </div>
-        
-        <div class="hero-stats">
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-book"></i>
-            </div>
-            <div>
-              <div class="stat-value">100+</div>
-              <div class="stat-label">Learning Resources</div>
-            </div>
-          </div>
-          
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-question-circle"></i>
-            </div>
-            <div>
-              <div class="stat-value">100+</div>
-              <div class="stat-label">Previous Questions</div>
-            </div>
-          </div>
-          
-          <div class="stat-item">
-            <div class="stat-icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <div>
-              <div class="stat-value">Goal Based</div>
-              <div class="stat-label">Learning Parts</div>
-            </div>
-          </div>
+        <div class="service-card">
+          <i
+            class="fas fa-file-alt"
+            style="
+              font-size: 2.5rem;
+              color: var(--secondary);
+              margin-bottom: 1rem;
+            "
+          ></i>
+          <h3>PYQs Collection</h3>
+          <p>
+            Previous year question papers with solutions for exam preparation
+          </p>
         </div>
+        <div class="service-card">
+          <i
+            class="fas fa-laptop-code"
+            style="
+              font-size: 2.5rem;
+              color: var(--secondary);
+              margin-bottom: 1rem;
+            "
+          ></i>
+          <h3>Tech Blogs</h3>
+          <p>Latest technology articles and tutorials for skill development</p>
+        </div>
+        <div class="service-card">
+          <i
+            class="fas fa-chalkboard-teacher"
+            style="
+              font-size: 2.5rem;
+              color: var(--secondary);
+              margin-bottom: 1rem;
+            "
+          ></i>
+          <h3>Study Guides</h3>
+          <p>Effective learning strategies and exam preparation tips</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal for getting resources -->
+    <div
+      id="quote-modal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div
+        style="
+          background: white;
+          padding: 2rem;
+          border-radius: 10px;
+          max-width: 500px;
+          width: 90%;
+        "
+      >
+        <h2 style="margin-bottom: 1rem; color: var(--primary)">
+          Access Resources
+        </h2>
+        <form id="quote-form">
+          <div style="margin-bottom: 1rem">
+            <label style="display: block; margin-bottom: 0.5rem">Name</label>
+            <input
+              type="text"
+              required
+              style="
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+              "
+            />
+          </div>
+          <div style="margin-bottom: 1rem">
+            <label style="display: block; margin-bottom: 0.5rem">Email</label>
+            <input
+              type="email"
+              required
+              style="
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+              "
+            />
+          </div>
+          <div style="margin-bottom: 1rem">
+            <label style="display: block; margin-bottom: 0.5rem"
+              >Resource Needed</label
+            >
+            <select
+              required
+              style="
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+              "
+            >
+              <option value="">Select a resource</option>
+              <option value="notes">Subject Notes</option>
+              <option value="pyqs">PYQs</option>
+              <option value="blogs">Tech Blogs</option>
+              <option value="guides">Study Guides</option>
+            </select>
+          </div>
+          <div style="margin-bottom: 1rem">
+            <label style="display: block; margin-bottom: 0.5rem"
+              >Additional Information</label
+            >
+            <textarea
+              style="
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                min-height: 100px;
+              "
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            style="
+              background: var(--secondary);
+              color: var(--primary);
+              border: none;
+              padding: 0.8rem 1.5rem;
+              border-radius: 4px;
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            Get Access
+          </button>
+          <button
+            type="button"
+            id="close-modal"
+            style="
+              background: #ccc;
+              border: none;
+              padding: 0.8rem 1.5rem;
+              border-radius: 4px;
+              cursor: pointer;
+              margin-left: 1rem;
+            "
+          >
+            Cancel
+          </button>
+        </form>
       </div>
     </div>
-  </section>
 
-  <!-- Resources Section -->
-  <section class="resources-section">
-    <div class="container">
-      <h2 class="section-title">Featured Resources</h2>
-      
-      <div class="resources-grid">
-        <div class="resource-card">
-          <div class="resource-icon">
-            <i class="fas fa-book-open"></i>
-          </div>
-          <h3 class="resource-title">Study Notes</h3>
-          <p class="resource-description">Comprehensive notes for various subjects curated by experts to help you ace your exams.</p>
-          <a href="/notes" class="resource-link">View Notes</a>
-        </div>
-        
-        <div class="resource-card">
-          <div class="resource-icon">
-            <i class="fas fa-question-circle"></i>
-          </div>
-          <h3 class="resource-title">Previous Questions</h3>
-          <p class="resource-description">Collection of previous year exam questions with solutions to help you prepare better.</p>
-          <a href="/questions" class="resource-link">View Questions</a>
-        </div>
-        
-        <div class="resource-card">
-          <div class="resource-icon">
-            <i class="fas fa-laptop-code"></i>
-          </div>
-          <h3 class="resource-title">Tech Blogs</h3>
-          <p class="resource-description">Latest technology articles, tutorials and guides to keep you updated.</p>
-          <a href="/tools" class="resource-link">Read Blogs</a>
-        </div>
-        
-        <div class="resource-card">
-          <div class="resource-icon">
-            <i class="fas fa-book"></i>
-          </div>
-          <h3 class="resource-title">E-Books</h3>
-          <p class="resource-description">Download free e-books and reference materials for your studies.</p>
-          <a href="/resources" class="resource-link">View Resources</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    <script>
+      // Toggle mobile menu
+      document
+        .getElementById("mobile-menu-btn")
+        .addEventListener("click", function () {
+          document.getElementById("nav-links").classList.toggle("active");
+        });
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-column">
-          <h3>Quick Links</h3>
-          <ul class="footer-links">
-            <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li>
-            <li><a href="/notes"><i class="fas fa-chevron-right"></i> Notes</a></li>
-            <li><a href="/questions"><i class="fas fa-chevron-right"></i> Previous Questions</a></li>
-            <li><a href="/tools"><i class="fas fa-chevron-right"></i> Tech Blogs</a></li>
-            <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h3>Resources</h3>
-          <ul class="footer-links">
-            <li><a href="#"><i class="fas fa-chevron-right"></i> E-Books</a></li>
-            <li><a href="#"><i class="fas fa-chevron-right"></i> Cheat Sheets</a></li>
-            <li><a href="#"><i class="fas fa-chevron-right"></i> Video Tutorials</a></li>
-            <li><a href="#"><i class="fas fa-chevron-right"></i> Practice Tests</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h3>Connect With Us</h3>
-          <div class="footer-social">
-            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="copyright">
-        <p>&copy; 2025 CodeCart. All rights reserved. Built with <i class="fas fa-heart" style="color: var(--danger);"></i> by Team AMS BYTES</p>
-        <p style="margin-top: 10px;"><i class="fas fa-shield-alt" style="color: var(--security-green);"></i> Secure Platform | <i class="fas fa-lock" style="color: var(--security-green);"></i> Encrypted Connections</p>
-      </div>
-    </div>
-  </footer>
+      // Handle get started button click
+      document
+        .getElementById("quote-btn")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          document.getElementById("quote-modal").style.display = "flex";
+        });
 
-  <script>
-    // Admin panel toggle
-    const adminBadge = document.getElementById('adminBadge');
-    const adminPanel = document.getElementById('adminPanel');
-    
-    adminBadge.addEventListener('click', () => {
-      adminPanel.classList.toggle('show');
-    });
+      // Close modal
+      document
+        .getElementById("close-modal")
+        .addEventListener("click", function () {
+          document.getElementById("quote-modal").style.display = "none";
+        });
 
-    // Close admin panel when clicking outside
-    window.addEventListener('click', (e) => {
-      if (!adminBadge.contains(e.target) && !adminPanel.contains(e.target)) {
-        adminPanel.classList.remove('show');
-      }
-    });
+      // Form submission
+      document
+        .getElementById("quote-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-    // Animation for cards on scroll
-    document.addEventListener('DOMContentLoaded', function() {
-      const cards = document.querySelectorAll('.resource-card');
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
+          const formData = {
+            name: this.querySelector('input[type="text"]').value,
+            email: this.querySelector('input[type="email"]').value,
+            resource: this.querySelector("select").value,
+            details: this.querySelector("textarea").value,
+          };
+
+          try {
+            const response = await fetch("/api/get_resources", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (data.status === "success") {
+              alert(
+                `Thank you! Your request has been received. We'll send the resources to your email shortly.`
+              );
+              document.getElementById("quote-modal").style.display = "none";
+              this.reset();
+            } else {
+              alert("Error processing request. Please try again.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to submit form. Please check your connection.");
           }
         });
-      }, {
-        threshold: 0.1
-      });
-      
-      cards.forEach(card => {
-        card.style.opacity = "0";
-        card.style.transform = "translateY(20px)";
-        card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-        observer.observe(card);
-      });
-    });
+    </script>
 
-    // Check if user is admin (this would be set by Flask)
-     const isAdmin = {{ 'true' if session.get('admin') else 'false' }};
-  if (isAdmin) {
-    document.getElementById('adminBadge').style.display = 'flex';
-  } else {
-    document.getElementById('adminBadge').style.display = 'none';
-  }
-    }
-  </script>
-</body>
+     <footer>
+            &copy; 2025 CodeCart | Notes curated by Team AMS Bytes
+        </footer>
+  </body>
 </html>

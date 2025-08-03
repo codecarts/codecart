@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>codecart - Contact Us</title>
-    <!-- Same CSS as index.html -->
+    <title>codecart - Recommended Products</title>
     <style>
         /* Your original CSS remains exactly the same */
        :root {
@@ -283,54 +282,68 @@
         
         /* ... (keep all your original CSS exactly as it was) ... */
         
-        /* Additional styles for contact form */
-        .contact-form {
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: white;
+        /* Product specific styles */
+        .product-card {
+            background-color: white;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            margin-bottom: 2rem;
         }
         
-        .form-group {
-            margin-bottom: 1.5rem;
+        .product-card:hover {
+            transform: translateY(-5px);
         }
         
-        .form-group label {
-            display: block;
+        .product-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .product-content {
+            padding: 1.5rem;
+        }
+        
+        .product-category {
+            color: #666;
+            font-size: 0.9rem;
             margin-bottom: 0.5rem;
-            font-weight: 600;
+            text-transform: uppercase;
         }
         
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
+        .product-description {
+            margin: 1rem 0;
+            color: #555;
         }
         
-        .form-group textarea {
-            min-height: 150px;
+        .product-price {
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
         }
         
-        .submit-btn {
+        .view-product {
+            display: inline-block;
             background-color: var(--secondary);
             color: var(--primary);
-            border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 4px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1rem;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
             transition: all 0.3s ease;
         }
         
-        .submit-btn:hover {
+        .view-product:hover {
             background-color: #e69500;
+            transform: translateY(-2px);
+        }
+        
+        .rating {
+            color: #f8a51b;
+            margin: 0.5rem 0;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -353,6 +366,8 @@
                 <a href="index.html">Home</a>
                 <a href="notes.html">Notes</a>
                 <a href="pyqs.html">PYQs</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="products.html">Products</a>
                 <a href="contact.html">Contact</a>
             </div>
         </nav>
@@ -360,39 +375,95 @@
 
     <main class="main-content">
         <div class="container">
-            <h1 class="section-title">Contact Us</h1>
-            <p>Have questions or suggestions? Get in touch with us</p>
+            <h1 class="section-title">Recommended Products</h1>
+            <p>Curated selection of tools and resources for students</p>
             
-            <div class="contact-form">
-                <form id="contactForm" action="/contact" method="POST">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" required>
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1546054454-aa26e2b734c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="product-content">
+                    <div class="product-category">Programming Tool</div>
+                    <h3>Visual Studio Code</h3>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span style="color:#666; margin-left:5px;">(4.7)</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required>
+                    <p class="product-description">Powerful code editor with built-in Git support, debugging, and extensions for all programming languages.</p>
+                    <div class="product-price">Free</div>
+                    <a href="product-vscode.html" class="view-product">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1581093450021-4a7360e9a8e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="product-content">
+                    <div class="product-category">Online Course</div>
+                    <h3>Complete Python Bootcamp</h3>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span style="color:#666; margin-left:5px;">(4.9)</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <select id="subject" name="subject" required>
-                            <option value="">Select a subject</option>
-                            <option value="notes">Notes Request</option>
-                            <option value="pyqs">PYQs Request</option>
-                            <option value="feedback">Feedback</option>
-                            <option value="other">Other</option>
-                        </select>
+                    <p class="product-description">Go from zero to hero in Python with this comprehensive course covering basics to advanced topics.</p>
+                    <div class="product-price">$12.99</div>
+                    <a href="product-python-course.html" class="view-product">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="product-content">
+                    <div class="product-category">E-Book</div>
+                    <h3>Clean Code Handbook</h3>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span style="color:#666; margin-left:5px;">(4.2)</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required></textarea>
+                    <p class="product-description">Learn how to write maintainable, efficient code with this comprehensive guide for developers.</p>
+                    <div class="product-price">$9.99</div>
+                    <a href="product-clean-code.html" class="view-product">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1551269901-5c5e14c25df7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="product-content">
+                    <div class="product-category">Hardware</div>
+                    <h3>Mechanical Keyboard</h3>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span style="color:#666; margin-left:5px;">(5.0)</span>
                     </div>
-                    
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
+                    <p class="product-description">Ergonomic mechanical keyboard with customizable RGB lighting and programmable keys.</p>
+                    <div class="product-price">$89.99</div>
+                    <a href="product-keyboard.html" class="view-product">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </main>
@@ -414,40 +485,6 @@
                 link.style.color = '#f8a51b';
                 link.style.fontWeight = '700';
             }
-        });
-
-        // Form submission handling
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // You can add form validation here
-            
-            // Submit the form
-            fetch('/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    subject: document.getElementById('subject').value,
-                    message: document.getElementById('message').value
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Thank you for your message! We will get back to you soon.');
-                    document.getElementById('contactForm').reset();
-                } else {
-                    alert('There was an error sending your message. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error sending your message. Please try again.');
-            });
         });
     </script>
 </body>

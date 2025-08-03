@@ -1,653 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Study Notes | CodeCart</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+<head>
+    <meta charset="UTF-8">
+    <title>Notes – CodeCart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-      :root {
-        --primary-dark: #0a192f;
-        --primary: #112240;
-        --primary-light: #172a45;
-        --secondary: #64ffda;
-        --accent: #ffd166;
-        --security-green: #64ff8d;
-        --text-primary: #e6f1ff;
-        --text-secondary: #a8b2d1;
-        --card-bg: #112240;
-        --card-border: rgba(100, 255, 218, 0.1);
-        --success: #64ffda;
-        --warning: #ffd166;
-        --danger: #ff6b6b;
-        --transition: all 0.3s ease-in-out;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-      }
-
-      body {
-        background: linear-gradient(
-          135deg,
-          var(--primary-dark) 0%,
-          var(--primary) 100%
-        );
-        color: var(--text-primary);
-        min-height: 100vh;
-        line-height: 1.6;
-        position: relative;
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: radial-gradient(
-            circle at 10% 20%,
-            rgba(100, 255, 218, 0.05) 0%,
-            transparent 15%
-          ),
-          radial-gradient(
-            circle at 90% 80%,
-            rgba(255, 209, 102, 0.05) 0%,
-            transparent 15%
-          ),
-          url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(100,255,218,0.05)" stroke-width="0.5" stroke-dasharray="2 2"/><circle cx="20" cy="20" r="1" fill="rgba(100,255,218,0.1)"/><circle cx="50" cy="50" r="1" fill="rgba(100,255,218,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(100,255,218,0.1)"/></svg>');
-        background-size: 300px 300px;
-        z-index: -1;
-        opacity: 0.15;
-      }
-
-      .container {
-        width: 90%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px 0;
-      }
-
-      header {
-        background-color: rgba(10, 25, 47, 0.9);
-        padding: 1rem 0;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(100, 255, 218, 0.1);
-      }
-
-      .header-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .logo {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: var(--secondary);
-      }
-
-      .logo-icon {
-        background: linear-gradient(45deg, var(--secondary), var(--accent));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-
-      .search-filter {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-      }
-
-      .search-bar {
-        position: relative;
-        width: 300px;
-      }
-
-      .search-bar input {
-        width: 100%;
-        padding: 12px 20px;
-        padding-left: 45px;
-        border-radius: 50px;
-        border: none;
-        font-size: 1rem;
-        background: var(--primary-light);
-        color: var(--text-primary);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .search-bar input::placeholder {
-        color: var(--text-secondary);
-      }
-
-      .search-bar i {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--text-secondary);
-      }
-
-      .filter-dropdown {
-        position: relative;
-      }
-
-      .filter-btn {
-        padding: 12px 20px;
-        border-radius: 50px;
-        border: none;
-        background: var(--primary-light);
-        color: var(--text-primary);
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        transition: var(--transition);
-      }
-
-      .filter-btn:hover {
-        background: rgba(100, 255, 218, 0.1);
-      }
-
-      .filter-options {
-        position: absolute;
-        right: 0;
-        top: 100%;
-        background: var(--primary-light);
-        border-radius: 10px;
-        padding: 15px;
-        margin-top: 10px;
-        width: 200px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        display: none;
-        z-index: 100;
-        border: 1px solid var(--card-border);
-      }
-
-      .filter-options.show {
-        display: block;
-      }
-
-      .filter-option {
-        padding: 8px 0;
-        cursor: pointer;
-        transition: var(--transition);
-        color: var(--text-secondary);
-      }
-
-      .filter-option:hover {
-        color: var(--secondary);
-      }
-
-      .filter-option.active {
-        color: var(--secondary);
-        font-weight: 600;
-      }
-
-      .hero {
-        text-align: center;
-        padding: 4rem 0 3rem;
-        position: relative;
-      }
-
-      .hero h2 {
-        font-size: 2.8rem;
-        margin-bottom: 1rem;
-        background: linear-gradient(
-          45deg,
-          var(--text-primary),
-          var(--secondary)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-
-      .hero p {
-        font-size: 1.2rem;
-        color: var(--text-secondary);
-        max-width: 700px;
-        margin: 0 auto 1.5rem;
-      }
-
-      .notes-section {
-        background: rgba(17, 34, 64, 0.5);
-        border-radius: 10px;
-        padding: 30px;
-        margin-bottom: 40px;
-        border: 1px solid var(--card-border);
-        backdrop-filter: blur(10px);
-      }
-
-      .section-title {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 30px;
-        color: var(--secondary);
-        font-size: 1.8rem;
-      }
-
-      .section-title i {
-        color: var(--secondary);
-      }
-
-      .notes-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 25px;
-      }
-
-      .note-card {
-        background: var(--card-bg);
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        transition: var(--transition);
-        border: 1px solid var(--card-border);
-        position: relative;
-      }
-
-      .note-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        border-color: rgba(100, 255, 218, 0.3);
-      }
-
-      .note-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: var(--secondary);
-      }
-
-      .note-thumbnail {
-        height: 180px;
-        width: 100%;
-        object-fit: cover;
-        border-bottom: 1px solid var(--card-border);
-      }
-
-      .note-content {
-        padding: 25px;
-      }
-
-      .note-title {
-        font-size: 1.4rem;
-        margin-bottom: 15px;
-        color: var(--text-primary);
-      }
-
-      .note-meta {
-        display: flex;
-        justify-content: space-between;
-        color: var(--text-secondary);
-        margin-bottom: 15px;
-        font-size: 0.9rem;
-      }
-
-      .note-meta i {
-        color: var(--secondary);
-        margin-right: 5px;
-      }
-
-      .note-description {
-        color: var(--text-secondary);
-        line-height: 1.6;
-        margin-bottom: 20px;
-      }
-
-      .download-btn {
-        display: block;
-        width: 100%;
-        padding: 12px;
-        background: var(--secondary);
-        color: var(--primary-dark);
-        text-align: center;
-        border-radius: 5px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: var(--transition);
-        border: none;
-        cursor: pointer;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-      }
-
-      .download-btn:hover {
-        background: var(--accent);
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(255, 209, 102, 0.2);
-      }
-
-      .notification {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--secondary);
-        color: var(--primary-dark);
-        padding: 15px 25px;
-        border-radius: 10px;
-        font-weight: 600;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        display: none;
-        z-index: 1100;
-      }
-
-      footer {
-        text-align: center;
-        color: var(--text-secondary);
-        padding: 30px 0;
-        font-size: 0.9rem;
-        border-top: 1px solid rgba(100, 255, 218, 0.1);
-      }
-
-      .admin-link {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background: var(--secondary);
-        color: var(--primary-dark);
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        z-index: 100;
-        transition: var(--transition);
-      }
-
-      .admin-link:hover {
-        transform: translateY(-5px) scale(1.1);
-        background: var(--accent);
-      }
-
-      @media (max-width: 768px) {
-        .header-content {
-          flex-direction: column;
-          gap: 1rem;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
         }
 
-        .search-filter {
-          width: 100%;
-          flex-direction: column;
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
         }
 
-        .search-bar {
-          width: 100%;
+        h1 {
+            text-align: center;
+            color: #222;
         }
 
-        .hero h2 {
-          font-size: 2.2rem;
+        .subject-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            margin: 2rem 0;
         }
 
-        .hero p {
-          font-size: 1.1rem;
+        .subject-card h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #00bcd4;
+            padding-bottom: 0.5rem;
         }
 
-        .notes-grid {
-          grid-template-columns: 1fr;
+        .unit-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
         }
-      }
+
+        .unit-btn {
+            background-color: #00bcd4;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.3s;
+            font-weight: 500;
+        }
+
+        .unit-btn:hover {
+            background-color: #0190a6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #777;
+        }
     </style>
-  </head>
-  <body>
-    <!-- Header -->
-    <header>
-      <div class="container">
-        <div class="header-content">
-          <div class="logo">
-            <i class="fas fa-code logo-icon"></i>
-            <span>CodeCart</span>
-          </div>
-          <div class="search-filter">
-            <div class="search-bar">
-              <i class="fas fa-search"></i>
-              <input
-                type="text"
-                id="searchInput"
-                placeholder="Search notes..."
-              />
-            </div>
-            <div class="filter-dropdown">
-              <button class="filter-btn" id="filterBtn">
-                <i class="fas fa-filter"></i> Filter
-              </button>
-              <div class="filter-options" id="filterOptions">
-                <div class="filter-option active" data-filter="all">
-                  All Notes
-                </div>
-                <div class="filter-option" data-filter="physics">Physics</div>
-                <div class="filter-option" data-filter="biology">Biology</div>
-                <div class="filter-option" data-filter="math">Mathematics</div>
-                <div class="filter-option" data-filter="cs">
-                  Computer Science
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
+</head>
+<body>
     <div class="container">
-      <section class="hero">
-        <h2>Study Notes</h2>
-        <p>
-          Access high-quality, professionally curated study materials for your
-          academic success.
-        </p>
-      </section>
+        <h1>📘 Subject Notes – Download Anytime</h1>
 
-      <section class="notes-section">
-        <h3 class="section-title">
-          <i class="fas fa-book-open"></i> Available Notes
-        </h3>
-
-        <div class="notes-grid" id="notesGrid">
-          {% for note in notes %}
-          <div
-            class="note-card"
-            data-category="{{ note[3] | lower | replace(' ', '') }}"
-            data-title="{{ note[0] }}"
-          >
-            {% if note[6] %}
-            <img
-              src="{{ url_for('static', filename='thumbnails/' + note[6]) }}"
-              alt="Thumbnail"
-              class="note-thumbnail"
-            />
-            {% endif %}
-            <div class="note-content">
-              <h3 class="note-title">{{ note[0] }}</h3>
-              <div class="note-meta">
-                <span
-                  ><i class="fas fa-user-graduate"></i> {{ note[2] or 'Unknown'
-                  }}</span
-                >
-                <span
-                  ><i class="far fa-calendar"></i> {{ note[7].strftime('%d %b
-                  %Y') }}</span
-                >
-              </div>
-              <p class="note-description">
-                {{ note[1][:160] }}{% if note[1]|length > 160 %}...{% endif %}
-              </p>
-              <a href="{{ note[4] }}" class="download-btn" target="_blank">
-                <i class="fas fa-download"></i> Download ({{ note[5] or 'N/A'
-                }})
-              </a>
+        <div class="subject-card">
+            <h2>Engineering Physics</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="https://drive.google.com/file/d/1ESw7-TKb737XyhOlUYxDYTfSgZ30XD1A/view?usp=sharing" download>📥 Unit 1 – Waves & Oscillations</a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit2.pdf" download>📥 Unit 2 – Electricity & Magnetism</a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit3.pdf" download>📥 Unit 3 – Solids & Semiconductors</a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit4.pdf" download>📥 Unit 4 – Introducion to Nanoscience</a>
             </div>
-          </div>
-          {% endfor %}
         </div>
-      </section>
 
-      <div class="notification" id="notification">
-        <i class="fas fa-info-circle"></i>
-        <span id="notificationText">Notification message</span>
-      </div>
+        <div class="subject-card">
+            <h2>Engineering Maths-I</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="/static/notes/maths_unit1.pdf" download>📥 Unit 1 – Matrix Theory</a>
+                <a class="unit-btn" href="/static/notes/maths_unit1.pdf" download>📥 Unit 2 – Differential Calculus</a>
+                <a class="unit-btn" href="/static/notes/maths_unit1.pdf" download>📥 Unit 3 – Oridinary DE of first Order</a>
+                <a class="unit-btn" href="/static/notes/maths_unit1.pdf" download>📥 Unit 4 – Linear DE of Higher Order</a>
+            </div>
+        </div>
 
-      <footer>
-        <p>
-          &copy; 2025 CodeCart - Premium Academic Resources. All rights
-          reserved.
-        </p>
-        <p>
-          <i class="fas fa-shield-alt"></i> Secure Platform |
-          <i class="fas fa-lock"></i> Encrypted Connections
-        </p>
-      </footer>
+
+        <div class="subject-card">
+            <h2>C Programming</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="/static/notes/engg_phy_unit1.pdf" download>📥 Unit 1 – Introduction to Programming</a>
+                <a class="unit-btn" href="/static/notes/engg_phy_unit2.pdf" download>📥 Unit 2 – Introduction to C-Programming</a>
+                <a class="unit-btn" href="/static/notes/engg_phy_unit1.pdf" download>📥 Unit 1 – Introduction to Programming</a>
+                <a class="unit-btn" href="/static/notes/engg_phy_unit2.pdf" download>📥 Unit 2 – Introduction to C-Programming</a>
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <h2>Computer Aided Engineering Graphics</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="/static/notes/engg_phy_unit1.pdf" download>📥 Unit 1 – Optics</a>
+                <a class="unit-btn" href="/static/notes/engg_phy_unit2.pdf" download>📥 Unit 2 – Quantum Mechanics</a>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2025 CodeCart | Notes curated by Team AMS Bytes
+        </footer>
     </div>
-
-    <script>
-      // DOM Elements
-      const filterBtn = document.getElementById("filterBtn");
-      const filterOptions = document.getElementById("filterOptions");
-      const searchInput = document.getElementById("searchInput");
-      const noteCards = document.querySelectorAll(".note-card");
-      const notification = document.getElementById("notification");
-      const notificationText = document.getElementById("notificationText");
-
-      // Show notification
-      function showNotification(message, isError = false) {
-        notificationText.textContent = message;
-        notification.style.display = "block";
-        notification.style.background = isError
-          ? "var(--danger)"
-          : "var(--secondary)";
-        notification.style.color = isError ? "white" : "var(--primary-dark)";
-
-        setTimeout(() => {
-          notification.style.display = "none";
-        }, 3000);
-      }
-
-      // Filter notes by category
-      function filterNotes(category) {
-        noteCards.forEach((card) => {
-          if (category === "all" || card.dataset.category === category) {
-            card.style.display = "block";
-          } else {
-            card.style.display = "none";
-          }
-        });
-
-        // Update active filter
-        document.querySelectorAll(".filter-option").forEach((option) => {
-          option.classList.remove("active");
-          if (option.dataset.filter === category) {
-            option.classList.add("active");
-          }
-        });
-
-        showNotification(
-          `Showing ${category === "all" ? "all" : category} notes`
-        );
-      }
-
-      // Search notes by title
-      function searchNotes(query) {
-        const term = query.toLowerCase();
-        let results = 0;
-
-        noteCards.forEach((card) => {
-          const title = card.dataset.title.toLowerCase();
-          if (title.includes(term)) {
-            card.style.display = "block";
-            results++;
-          } else {
-            card.style.display = "none";
-          }
-        });
-
-        if (term.length > 0) {
-          showNotification(`Found ${results} matching notes`);
-        }
-      }
-
-      // Event Listeners
-      filterBtn.addEventListener("click", () => {
-        filterOptions.classList.toggle("show");
-      });
-
-      document.querySelectorAll(".filter-option").forEach((option) => {
-        option.addEventListener("click", () => {
-          filterNotes(option.dataset.filter);
-          filterOptions.classList.remove("show");
-        });
-      });
-
-      searchInput.addEventListener("input", () => {
-        searchNotes(searchInput.value);
-      });
-
-      // Close filter dropdown when clicking outside
-      window.addEventListener("click", (e) => {
-        if (
-          !filterBtn.contains(e.target) &&
-          !filterOptions.contains(e.target)
-        ) {
-          filterOptions.classList.remove("show");
-        }
-      });
-
-      // Initialize with all notes shown
-      filterNotes("all");
-
-      // Animation for cards on scroll
-      document.addEventListener("DOMContentLoaded", function () {
-        const cards = document.querySelectorAll(".note-card");
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
-              }
-            });
-          },
-          {
-            threshold: 0.1,
-          }
-        );
-
-        cards.forEach((card) => {
-          card.style.opacity = "0";
-          card.style.transform = "translateY(20px)";
-          card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-          observer.observe(card);
-        });
-      });
-    </script>
-  </body>
+</body>
 </html>
