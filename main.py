@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from flask_mail import Mail, Message
 import os
 from datetime import datetime
@@ -54,10 +54,10 @@ def blogs():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
-        name = request.form["name"]
-        email = request.form["email"]
-        subject = request.form["subject"]
-        message = request.form["message"]
+        name = request.form.get("name")
+        email = request.form.get("email")
+        subject = request.form.get("subject")
+        message = request.form.get("message")
 
         try:
             msg = Message(subject=f"[CodeCart Contact] {subject}",
@@ -67,6 +67,7 @@ def contact():
             mail.send(msg)
             flash("Message sent successfully!", "success")
         except Exception as e:
+            print("Email send error:", e)
             flash("Error sending message. Please try again.", "error")
 
         return redirect(url_for("contact"))
