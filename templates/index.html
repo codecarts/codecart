@@ -278,7 +278,30 @@
         .hero-content {
           padding: 1.5rem;
         }
+
+        /*back - button*/
+        .back-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f8a51b;
+    color: #1a3e72;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.back-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
       }
+      
     </style>
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap"
@@ -578,6 +601,13 @@
           }
         });
     </script>
+    <!-- Back Button -->
+<button onclick="history.back()" class="back-button">← Back</button>
+
+<style>
+
+</style>
+
 
     <footer>&copy; 2025 CodeCart | Notes curated by Team AMS Bytes</footer>
   </body>

@@ -2,383 +2,116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>codecart - Previous Year Questions</title>
-    <!-- Same CSS as index.html -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Your original CSS remains exactly the same */
-       :root {
-            --primary: #1a3e72;
-            --secondary: #f8a51b;
-            --dark: #222;
-            --light: #f9f9f9;
-            --text-light: #ffffff;
-            --text-dark: #333333;
-        }
-        
-        * {
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f8;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
         }
-        
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
         }
-        
-        /* Header Styles */
-        header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 1rem 5%;
-            position: fixed;
-            width: 100%;
-            z-index: 100;
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-        
-        /* Attractive text-based logo */
-        .logo-text {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo-brackets {
-            color: var(--secondary);
-            font-weight: 900;
-            font-size: 2rem;
-        }
-        
-        .logo-name {
-            margin: 0 0.3rem;
-            position: relative;
-        }
-        
-        .logo-name::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: var(--secondary);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-        
-        .logo-container:hover .logo-name::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-        
-        .nav-links a:hover {
-            color: var(--secondary);
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--secondary);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+
+        h1 {
             text-align: center;
-            padding: 0 5%;
-            /* Changed text color to dark for better contrast */
-            color: var(--text-dark);
+            color: #222;
         }
-        
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Replace with your background image */
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.8; /* 0.8 opacity as requested */
-            z-index: -1;
+
+        .subject-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            margin: 2rem 0;
         }
-        
-        .hero-content {
-            max-width: 800px;
-            background-color: rgba(255, 255, 255, 0.85);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+        .subject-card h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #00bcd4;
+            padding-bottom: 0.5rem;
         }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
+
+        .unit-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
         }
-        
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: var(--text-dark);
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--secondary);
-            color: var(--primary);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
+
+        .unit-btn {
+            background-color: #00bcd4;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 6px;
             text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 500;
         }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+
+        .unit-btn:hover {
+            background-color: #0190a6;
         }
-        
-        /* Resources Section */
-        .services {
-            padding: 5rem 5%;
+
+        footer {
             text-align: center;
-            background-color: white;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--primary);
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: var(--secondary);
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .service-card {
-            background-color: var(--light);
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            color: #777;
         }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--primary);
-            cursor: pointer;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 2rem;
-                transition: left 0.3s ease;
-            }
-            
-            .nav-links.active {
-                left: 0;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-content {
-                padding: 1.5rem;
-            }
-        }
-        
-        /* ... (keep all your original CSS exactly as it was) ... */
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo-container">
-                <a href="index.html" class="logo-text">
-                    <span class="logo-brackets">&lt;</span>
-                    <span class="logo-name">codecart</span>
-                    <span class="logo-brackets">&gt;</span>
-                </a>
-            </div>
-            <button class="mobile-menu-btn" id="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="nav-links" id="nav-links">
-                <a href="index.html">Home</a>
-                <a href="notes.html">Notes</a>
-                <a href="pyqs.html">PYQs</a>
-                <a href="contact.html">Contact</a>
-            </div>
-        </nav>
-    </header>
+    <div class="container">
+        <h1> Previous Year Questions – Download Anytime</h1>
 
-    <main class="main-content">
-        <div class="container">
-            <h1 class="section-title">Previous Year Questions</h1>
-            <p>Download previous year question papers with solutions</p>
-            
-            <div class="resource-grid">
-                <div class="resource-card">
-                    <div class="resource-img">
-                        <i class="fas fa-atom"></i>
-                    </div>
-                    <div class="resource-info">
-                        <h3>Physics PYQs</h3>
-                        <p>Last 5 years physics question papers</p>
-                        <a href="https://drive.google.com/your-physics-pyq-link" class="download-btn" target="_blank">Download</a>
-                    </div>
-                </div>
-                
-                <div class="resource-card">
-                    <div class="resource-img">
-                        <i class="fas fa-square-root-alt"></i>
-                    </div>
-                    <div class="resource-info">
-                        <h3>Maths-I PYQs</h3>
-                        <p>Previous year maths-I questions</p>
-                        <a href="https://drive.google.com/your-maths1-pyq-link" class="download-btn" target="_blank">Download</a>
-                    </div>
-                </div>
-                
-                <div class="resource-card">
-                    <div class="resource-img">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <div class="resource-info">
-                        <h3>Chemistry PYQs</h3>
-                        <p>Chemistry previous year papers</p>
-                        <a href="https://drive.google.com/your-chemistry-pyq-link" class="download-btn" target="_blank">Download</a>
-                    </div>
-                </div>
-                
-                <div class="resource-card">
-                    <div class="resource-img">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <div class="resource-info">
-                        <h3>Maths-II PYQs</h3>
-                        <p>Previous year maths-II questions</p>
-                        <a href="https://drive.google.com/your-maths2-pyq-link" class="download-btn" target="_blank">Download</a>
-                    </div>
-                </div>
+        <div class="subject-card">
+            <h2>Engineering Physics</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="https://drive.google.com/file/d/1ESw7-TKb737XyhOlUYxDYTfSgZ30XD1A/view?usp=sharing" download>📥 IA-I </a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit2.pdf" download> 📥 IA-II </a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit3.pdf" download>📥 Semester - I (final) </a>
             </div>
         </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2023 codecart. All rights reserved.</p>
-    </footer>
+        <div class="subject-card">
+            <h2>Engineering Maths-I</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="https://drive.google.com/file/d/1ESw7-TKb737XyhOlUYxDYTfSgZ30XD1A/view?usp=sharing" download>📥 IA-I </a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit2.pdf" download> 📥 IA-II </a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit3.pdf" download>📥 Semester - I (final) </a>
+            </div>
+        </div>
 
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            document.getElementById('nav-links').classList.toggle('active');
-        });
 
-        // Highlight current page
-        const links = document.querySelectorAll('.nav-links a');
-        links.forEach(link => {
-            if (link.href === window.location.href) {
-                link.style.color = '#f8a51b';
-                link.style.fontWeight = '700';
-            }
-        });
-    </script>
+        <div class="subject-card">
+           <h2>C - Programming </h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="https://drive.google.com/file/d/1ESw7-TKb737XyhOlUYxDYTfSgZ30XD1A/view?usp=sharing" download>📥 IA-I </a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit2.pdf" download> 📥 IA-II </a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit3.pdf" download>📥 Semester - I (final) </a>
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <h2>Computer Aided Engineering Graphics</h2>
+            <div class="unit-list">
+                <a class="unit-btn" href="https://drive.google.com/file/d/1ESw7-TKb737XyhOlUYxDYTfSgZ30XD1A/view?usp=sharing" download>📥 IA-I </a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit2.pdf" download> 📥 IA-II </a>
+                <a class="unit-btn" href="/static/notes/engg_chem_unit3.pdf" download>📥 Semester - I (final) </a>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2025 CodeCart | Notes curated by Team AMS Bytes
+        </footer>
+    </div>
 </body>
 </html>
