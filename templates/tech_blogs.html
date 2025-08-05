@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>codecart - Tech Blogs</title>
+    <title>CodeCart – Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Your original CSS remains exactly the same */
-       :root {
+        :root {
             --primary: #1a3e72;
             --secondary: #f8a51b;
             --dark: #222;
@@ -14,36 +13,34 @@
             --text-light: #ffffff;
             --text-dark: #333333;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+            font-family: "Montserrat", sans-serif;
         }
-        
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
+
+        body { 
+            background-color: var(--light); 
+            color: var(--dark); 
+            line-height: 1.6; 
         }
-        
+
         /* Header Styles */
         header {
             background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 1rem 5%;
-            position: fixed;
             width: 100%;
-            z-index: 100;
         }
-        
+
         .logo-container {
             display: flex;
             align-items: center;
         }
-        
-        /* Attractive text-based logo */
+
+        /* Logo styling */
         .logo-text {
             font-size: 1.8rem;
             font-weight: 800;
@@ -51,20 +48,20 @@
             display: flex;
             align-items: center;
         }
-        
+
         .logo-brackets {
             color: var(--secondary);
             font-weight: 900;
             font-size: 2rem;
         }
-        
+
         .logo-name {
             margin: 0 0.3rem;
             position: relative;
         }
-        
+
         .logo-name::after {
-            content: '';
+            content: "";
             position: absolute;
             bottom: -2px;
             left: 0;
@@ -75,372 +72,136 @@
             transform-origin: right;
             transition: transform 0.3s ease;
         }
-        
+
         .logo-container:hover .logo-name::after {
             transform: scaleX(1);
             transform-origin: left;
         }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-        
-        .nav-links a:hover {
-            color: var(--secondary);
-        }
-        
-        .nav-links a::after {
-            content: '';
+
+        .back-btn {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--secondary);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 5%;
-            /* Changed text color to dark for better contrast */
-            color: var(--text-dark);
-        }
-        
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Replace with your background image */
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.8; /* 0.8 opacity as requested */
-            z-index: -1;
-        }
-        
-        .hero-content {
-            max-width: 800px;
-            background-color: rgba(255, 255, 255, 0.85);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: var(--text-dark);
-        }
-        
-        .btn {
-            display: inline-block;
+            top: 20px;
+            right: 20px;
             background-color: var(--secondary);
             color: var(--primary);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
+            padding: 8px 14px;
             border: none;
-            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        
-        /* Resources Section */
-        .services {
-            padding: 5rem 5%;
-            text-align: center;
-            background-color: white;
+
+        .container { 
+            padding: 2rem; 
+            max-width: 900px; 
+            margin: auto;
         }
-        
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--primary);
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: var(--secondary);
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .service-card {
-            background-color: var(--light);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--primary);
-            cursor: pointer;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 2rem;
-                transition: left 0.3s ease;
-            }
-            
-            .nav-links.active {
-                left: 0;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-content {
-                padding: 1.5rem;
-            }
-        }
-        
-        /* ... (keep all your original CSS exactly as it was) ... */
-        
-        /* Blog specific styles */
-        .blog-card {
-            background-color: white;
+
+        .post { 
+            background: white; 
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
             transition: transform 0.3s ease;
-            margin-bottom: 2rem;
         }
-        
-        .blog-card:hover {
+
+        .post:hover {
             transform: translateY(-5px);
         }
-        
-        .blog-image {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .blog-content {
-            padding: 1.5rem;
-        }
-        
-        .blog-date {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .blog-excerpt {
-            margin: 1rem 0;
-            color: #555;
-        }
-        
-        .read-more {
-            display: inline-block;
-            color: var(--secondary);
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .read-more:hover {
+
+        .post h2 { 
+            margin: 0 0 0.5rem 0; 
             color: var(--primary);
         }
-        
-        .read-more i {
-            margin-left: 5px;
-            transition: transform 0.3s ease;
+
+        .post p {
+            color: var(--text-dark);
         }
-        
-        .read-more:hover i {
-            transform: translateX(3px);
+
+        .read-more {
+            display: inline-block;
+            margin-top: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
-        <nav>
-            <div class="logo-container">
-                <a href="index.html" class="logo-text">
-                    <span class="logo-brackets">&lt;</span>
-                    <span class="logo-name">codecart</span>
-                    <span class="logo-brackets">&gt;</span>
-                </a>
-            </div>
-            <button class="mobile-menu-btn" id="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="nav-links" id="nav-links">
-                <a href="index.html">Home</a>
-                <a href="notes.html">Notes</a>
-                <a href="pyqs.html">PYQs</a>
-                <a href="blogs.html">Blogs</a>
-                <a href="contact.html">Contact</a>
-            </div>
-        </nav>
-    </header>
-
-    <main class="main-content">
-        <div class="container">
-            <h1 class="section-title">Tech Blogs</h1>
-            <p>Latest technology articles and tutorials</p>
-            
-            <!-- Blog 1 -->
-            <div class="blog-card">
-                <div class="blog-image" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-                <div class="blog-content">
-                    <div class="blog-date">June 15, 2023</div>
-                    <h3>Getting Started with Python for Data Science</h3>
-                    <p class="blog-excerpt">Learn how to use Python for data analysis and visualization with this beginner's guide to the essential libraries and tools...</p>
-                    <a href="blog-python-data-science.html" class="read-more">
-                        Read More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Blog 2 -->
-            <div class="blog-card">
-                <div class="blog-image" style="background-image: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-                <div class="blog-content">
-                    <div class="blog-date">May 28, 2023</div>
-                    <h3>Web Development Trends in 2023</h3>
-                    <p class="blog-excerpt">Explore the latest frameworks, tools, and methodologies that are shaping modern web development this year...</p>
-                    <a href="blog-web-dev-trends.html" class="read-more">
-                        Read More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Blog 3 -->
-            <div class="blog-card">
-                <div class="blog-image" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-                <div class="blog-content">
-                    <div class="blog-date">April 10, 2023</div>
-                    <h3>Machine Learning Fundamentals</h3>
-                    <p class="blog-excerpt">A comprehensive introduction to machine learning concepts, algorithms, and real-world applications for beginners...</p>
-                    <a href="blog-ml-fundamentals.html" class="read-more">
-                        Read More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Blog 4 -->
-            <div class="blog-card">
-                <div class="blog-image" style="background-image: url('https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-                <div class="blog-content">
-                    <div class="blog-date">March 22, 2023</div>
-                    <h3>Building REST APIs with Node.js</h3>
-                    <p class="blog-excerpt">Step-by-step tutorial on creating robust and scalable RESTful APIs using Node.js, Express, and MongoDB...</p>
-                    <a href="blog-node-api.html" class="read-more">
-                        Read More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
+        <div class="logo-container">
+            <!-- Text-based logo with styling -->
+            <div class="logo-text">
+                <span class="logo-brackets">&lt;</span>
+                <h3>/</h3>
+                <span class="logo-brackets">&gt;</span>
+                <span class="logo-name">CodeCart</span>
             </div>
         </div>
-    </main>
+    </header>
+
+    <button onclick="history.back()" class="back-btn">&lt;/&gt; Back</button>
+
+    <div class="container">
+        <h1 style="color: var(--primary); margin-bottom: 2rem;">Latest Blog Posts</h1>
+
+        <div class="post">
+            <h2>Top 5 Python Tricks Every Developer Should Know</h2>
+            <p>Learn Python tips like list unpacking, one-liners, and tricks to write cleaner code.</p>
+            <a href="https://example.com/python-tricks" class="read-more" target="_blank">Read More →</a>
+        </div>
+
+        <div class="post">
+            <h2>Best Budget Tech Tools for Students in 2025</h2>
+            <p>Chargers, earbuds, smart lights, and more — we've picked the best ones for productivity!</p>
+            <a href="https://example.com/budget-tech-tools" class="read-more" target="_blank">Read More →</a>
+        </div>
+
+        <div class="post">
+            <h2>How to Host Your First Website (Step-by-Step)</h2>
+            <p>This is the guide you're already winning at 🚀</p>
+            <a href="https://example.com/host-website" class="read-more" target="_blank">Read More →</a>
+        </div>
+
+        <!-- Additional blog posts with links -->
+        <div class="post">
+            <h2>Understanding JavaScript Closures</h2>
+            <p>Master one of JavaScript's most powerful concepts with practical examples.</p>
+            <a href="https://example.com/js-closures" class="read-more" target="_blank">Read More →</a>
+        </div>
+
+        <div class="post">
+            <h2>CSS Grid vs Flexbox: When to Use Each</h2>
+            <p>A comprehensive comparison to help you choose the right layout method.</p>
+            <a href="https://example.com/css-grid-flexbox" class="read-more" target="_blank">Read More →</a>
+        </div>
+    </div>
 
     <footer>
-        <p>&copy; 2023 codecart. All rights reserved.</p>
+        &copy; 2025 CodeCart | Notes curated by Team AMS Bytes
     </footer>
-
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            document.getElementById('nav-links').classList.toggle('active');
-        });
-
-        // Highlight current page
-        const links = document.querySelectorAll('.nav-links a');
-        links.forEach(link => {
-            if (link.href === window.location.href) {
-                link.style.color = '#f8a51b';
-                link.style.fontWeight = '700';
-            }
-        });
-    </script>
 </body>
 </html>

@@ -3,24 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <title>Notes – CodeCart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f6f8;
+        :root {
+            --primary: #1a3e72;
+            --secondary: #f8a51b;
+            --dark: #222;
+            --light: #f9f9f9;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+        }
+
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
         }
 
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        /* Header Styles - Only container height reduced */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 5%; /* Reduced from 1rem to make container smaller */
+            width: 100%;
+            height: 60px; /* Fixed height */
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo-text {
+            font-size: 1.8rem; /* Maintained original size */
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-brackets {
+            color: var(--secondary);
+            font-weight: 900;
+            font-size: 2rem; /* Maintained original size */
+        }
+
+        .logo-name {
+            margin: 0 0.3rem;
+            position: relative;
+        }
+
+        .logo-name::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--secondary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover .logo-name::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background-color: var(--secondary);
+            color: var(--primary);
+            padding: 8px 14px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 1rem; /* Maintained original size */
+        }
+
+        .back-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        main {
+            flex: 1;
+            padding-bottom: 2rem;
+        }
+
         .container {
             max-width: 1000px;
-            margin: 2rem auto;
+            margin: 30px auto 0; /* Reduced top margin to account for smaller header */
             padding: 1rem 2rem;
         }
 
         h1 {
             text-align: center;
-            color: #222;
+            color: var(--primary);
+            margin-bottom: 2rem;
         }
 
         .subject-card {
@@ -33,9 +135,9 @@
 
         .subject-card h2 {
             margin-top: 0;
-            color: #333;
+            color: var(--primary);
             font-size: 1.4rem;
-            border-bottom: 2px solid #00bcd4;
+            border-bottom: 2px solid var(--secondary);
             padding-bottom: 0.5rem;
         }
 
@@ -47,7 +149,7 @@
         }
 
         .unit-btn {
-            background-color: #00bcd4;
+            background-color: var(--primary);
             color: white;
             padding: 0.6rem 1.2rem;
             border: none;
@@ -58,62 +160,51 @@
         }
 
         .unit-btn:hover {
-            background-color: #0190a6;
+            background-color: var(--secondary);
+            color: var(--primary);
         }
 
         footer {
+            background-color: var(--primary);
+            color: var(--text-light);
             text-align: center;
-            padding: 2rem;
-            color: #777;
+            padding: 1.5rem;
+            width: 100%;
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📘 Subject Notes – Download Anytime</h1>
-
-        <div class="subject-card">
-            <h2>Engineering Physics</h2>
-            <div class="unit-list">
-                <a class="unit-btn" href="https://drive.google.com/file/d/1ESw7-TKb737XyhOlUYxDYTfSgZ30XD1A/view?usp=sharing" download>📥 Unit 1 – Waves & Oscillations</a>
-                <a class="unit-btn" href="/static/notes/engg_chem_unit2.pdf" download>📥 Unit 2 – Electricity & Magnetism</a>
-                <a class="unit-btn" href="/static/notes/engg_chem_unit3.pdf" download>📥 Unit 3 – Solids & Semiconductors</a>
-                <a class="unit-btn" href="/static/notes/engg_chem_unit4.pdf" download>📥 Unit 4 – Introducion to Nanoscience</a>
+    <header>
+        <div class="logo-container">
+            <div class="logo-text">
+                <span class="logo-brackets">&lt;</span>
+                <h3>/</h3>
+                <span class="logo-brackets">&gt;</span>
+                <span class="logo-name">CodeCart</span>
             </div>
         </div>
+        <button onclick="history.back()" class="back-btn">&lt;/&gt; Back</button>
+    </header>
 
-        <div class="subject-card">
-            <h2>Engineering Maths-I</h2>
-            <div class="unit-list">
-                <a class="unit-btn" href="/static/notes/maths_unit1.pdf" download>📥 Unit 1 – Matrix Theory</a>
-                <a class="unit-btn" href="/static/notes/maths_unit1.pdf" download>📥 Unit 2 – Differential Calculus</a>
-                <a class="unit-btn" href="/static/notes/maths_unit1.pdf" download>📥 Unit 3 – Oridinary DE of first Order</a>
-                <a class="unit-btn" href="/static/notes/maths_unit1.pdf" download>📥 Unit 4 – Linear DE of Higher Order</a>
+    <main>
+        <div class="container">
+            <h1>📚 Subject Notes</h1>
+            <div class="subject-card">
+                <h2>Engineering Physics</h2>
+                <div class="unit-list">
+                    <a class="unit-btn" href="https://drive.google.com/file/d/1ESw7-TKb737XyhOlUYxDYTfSgZ30XD1A/view?usp=sharing" download>📥 Unit 1 – Waves & Oscillations</a>
+                    <a class="unit-btn" href="/static/notes/engg_chem_unit2.pdf" download>📥 Unit 2 – Electricity & Magnetism</a>
+                    <a class="unit-btn" href="/static/notes/engg_chem_unit3.pdf" download>📥 Unit 3 – Solids & Semiconductors</a>
+                    <a class="unit-btn" href="/static/notes/engg_chem_unit4.pdf" download>📥 Unit 4 – Introducion to Nanoscience</a>
+                </div>
             </div>
+            <!-- Additional subject cards -->
         </div>
+    </main>
 
-
-        <div class="subject-card">
-            <h2>C Programming</h2>
-            <div class="unit-list">
-                <a class="unit-btn" href="/static/notes/engg_phy_unit1.pdf" download>📥 Unit 1 – Introduction to Programming</a>
-                <a class="unit-btn" href="/static/notes/engg_phy_unit2.pdf" download>📥 Unit 2 – Introduction to C-Programming</a>
-                <a class="unit-btn" href="/static/notes/engg_phy_unit1.pdf" download>📥 Unit 1 – Introduction to Programming</a>
-                <a class="unit-btn" href="/static/notes/engg_phy_unit2.pdf" download>📥 Unit 2 – Introduction to C-Programming</a>
-            </div>
-        </div>
-
-        <div class="subject-card">
-            <h2>Computer Aided Engineering Graphics</h2>
-            <div class="unit-list">
-                <a class="unit-btn" href="/static/notes/engg_phy_unit1.pdf" download>📥 Unit 1 – Optics</a>
-                <a class="unit-btn" href="/static/notes/engg_phy_unit2.pdf" download>📥 Unit 2 – Quantum Mechanics</a>
-            </div>
-        </div>
-
-        <footer>
-            &copy; 2025 CodeCart | Notes curated by Team AMS Bytes
-        </footer>
-    </div>
+    <footer>
+        &copy; 2025 CodeCart | Notes curated by Team AMS Bytes
+    </footer>
 </body>
 </html>
