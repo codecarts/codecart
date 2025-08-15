@@ -1,0 +1,124 @@
+/* --- Hero Section Styles --- */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+
+  /* This is the line to change */
+  background-image: url('/background.jpg'); /* Use your image name here */
+
+  background-size: cover;
+  background-position: center;
+}
+
+/* The rest of the file remains the same */
+
+/* Dark overlay for text readability */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 37, 64, 0.6); /* Use our primary dark color with transparency */
+}
+
+.hero-content {
+  position: relative; /* To ensure it's on top of the overlay */
+  max-width: 800px;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05); /* Subtle glassmorphism effect */
+  backdrop-filter: blur(4px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin: 1rem 0 2rem 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-button {
+  background-color: var(--accent-color);
+  color: var(--primary-dark);
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dynamic button hover effect */
+.hero-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(247, 183, 51, 0.4);
+}
+
+
+/* --- Features Section Styles --- */
+.features-section {
+  padding: 5rem 2rem;
+  background-color: var(--background-white);
+  text-align: center;
+}
+
+.features-section h2 {
+  font-size: 2.5rem;
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+/* The orange underline */
+.features-section h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: var(--accent-color);
+    margin: 1rem auto 3rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  text-align: left;
+}
+
+.feature-card {
+  padding: 2rem;
+  border-radius: 12px;
+  background: var(--background-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dynamic card hover effect */
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card img {
+    height: 50px;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.3rem;
+    color: var(--primary-dark);
+}

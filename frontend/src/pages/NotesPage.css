@@ -1,0 +1,45 @@
+.resource-category {
+    background: var(--background-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 0 auto 2rem auto;
+    max-width: 900px;
+}
+
+.resource-category h2 {
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--accent-color);
+    display: inline-block;
+}
+
+.resource-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.resource-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--primary-dark);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.resource-tag:hover {
+    background: var(--primary-blue);
+}
+
+.resource-tag img {
+    height: 20px;
+    filter: invert(1);
+}

@@ -1,0 +1,162 @@
+/* Define color palette and fonts for easy reuse */
+:root {
+  /* Refined color palette */
+  --primary-dark: #0A2540;   /* Deep blue for text and headers */
+  --primary-blue: #007aff;   /* A brighter blue for links/accents */
+  --accent-color: #f7b733;   /* Yellow/Orange for buttons and highlights */
+  --primary-text: #333745;   /* Main body text */
+  --secondary-text: #5a6275; /* Lighter text for descriptions */
+  --background-light: #f6f9fc; /* Off-white for page background */
+  --background-white: #ffffff; /* For cards and nav */
+  --border-color: #e6ebf1;
+  --font-family: 'Poppins', sans-serif;
+}
+
+/* Base styles */
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  background-color: var(--background-light);
+  color: var(--primary-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+}
+
+/* Reusable container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+}
+
+/* --- Navigation Bar Styles --- */
+nav {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 2rem; /* Adjusted padding */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  
+  /* New glassmorphism effect */
+  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+  backdrop-filter: blur(10px); /* The blur effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+}
+
+/* The .logo class is now for the link containing the image */
+.logo {
+  margin-right: auto; /* Pushes other links to the right */
+  display: flex;
+  align-items: center;
+}
+
+/* --- Navigation Bar Styles --- */
+nav {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--background-white);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav a {
+  font-weight: 600;
+  color: var(--primary-dark);
+  text-decoration: none;
+  margin: 0 1rem;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--accent-color);
+}
+
+nav a.active {
+  color: var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 4px;
+}
+
+/* Logo styles */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  text-decoration: none;
+  margin-right: auto; /* Pushes other links to the right */
+}
+
+/* --- Card Styles for Notes, PYQs etc. --- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--background-white);
+  border: 1px solid var(--border-color); /* Using a variable here */
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+}
+
+/* Dynamic hover effect for cards */
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: var(--primary-dark);
+}
+
+.card a {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--primary-dark);
+  color: var(--background-white);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.card a:hover {
+  background-color: var(--accent-color);
+  color: var(--primary-dark);
+}
+
+/* --- NEW Footer Styles --- */
+.footer {
+  background-color: var(--primary-dark);
+  color: #a9b3c6; /* Lighter text for footer */
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.footer p {
+  margin: 0;
+}
