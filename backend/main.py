@@ -17,9 +17,9 @@ app = FastAPI(title="codecart API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",  # For local development
-        "https://codecart-frontend.onrender.com" # For your deployed site
-        "https://codecart.qzz.io"  # Add this new URL
+        "http://localhost:5173",                  # For local development
+        "https://codecart-frontend.onrender.com", # For your deployed site
+        "https://codecart.qzz.io"                 # Comma was added here
     ],
     allow_credentials=True,
     allow_methods=["*"],
