@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+// Import the specific verifyAdmin function
+import { verifyAdmin } from '../services/api';
+
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '', secretKey: '' });
   const [error, setError] = useState('');
@@ -17,8 +20,11 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     try {
-      await login(credentials);
-      // On successful login, navigate to the upload page
+      // Use the dedicated verifyAdmin function
+      await verifyAdmin(credentials);
+      
+      // If the request succeeds, call the login function from context
+      login(credentials);
       navigate('/admin/upload');
     } catch (err) {
       setError('Login failed. Please check your credentials.');
