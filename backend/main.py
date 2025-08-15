@@ -19,6 +19,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",  # For local development
         "https://codecart-frontend.onrender.com" # For your deployed site
+        "https://codecart.qzz.io"  # Add this new URL
     ],
     allow_credentials=True,
     allow_methods=["*"],
