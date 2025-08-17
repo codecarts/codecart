@@ -1,26 +1,26 @@
 import axios from 'axios';
 
-// This directly reads the environment variable provided by Render during the build.
+// This now ONLY reads the environment variable. There is no fallback.
 const API_URL = import.meta.env.VITE_API_URL;
 
-// If the variable is missing during the build, this will log an error.
+// This error will now cause the build to fail on Render if the variable is missing.
 if (!API_URL) {
-  console.error("VITE_API_URL is not set! The application will not connect to the backend.");
+  throw new Error("FATAL ERROR: VITE_API_URL is not set. The application cannot be built.");
 }
 
 const apiClient = axios.create({
-  baseURL: `${API_URL}/api`, // Set the base URL for all requests
+  baseURL: `${API_URL}/api`,
 });
 
-
 // --- Public GET Requests ---
-export const getNotes = () => apiClient.get('/resources?type=note');
-export const getPyqs = () => apiClient.get('/resources?type=pyq');
+export const getNotes = () => apiClient.get('/resources', { params: { type: 'note' } });
+export const getPyqs = () => apiClient.get('/resources', { params: { type: 'pyq' } });
 export const getBlogs = () => apiClient.get('/blogs');
 export const getProducts = () => apiClient.get('/products');
 
-// --- Admin POST Requests ---
-export const verifyAdmin = (credentials) => 
+// --- Admin Auth ---
+// Using a separate axios instance for verifyAdmin to avoid potential conflicts
+export const verifyAdmin = (credentials) =>
   axios.post(`${API_URL}/api/admin/verify`, credentials);
 
 const createConfig = (credentials) => ({
@@ -31,6 +31,7 @@ const createConfig = (credentials) => ({
   },
 });
 
+// --- Admin POST Requests ---
 export const createResource = (data, credentials) =>
   apiClient.post('/resources', data, createConfig(credentials));
 
