@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+// This is the corrected import path and hook
+import { useAdminAuth } from '../context/AdminAuthContext'; 
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login } = useAdminAuth(); // Use the correct auth hook
 
   const handleChange = (e) => {
     const { name, value } = e.target;
