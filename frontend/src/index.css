@@ -101,39 +101,22 @@ nav a.active::after {
 
 /* Logo styles */
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.5rem; /* This is a base size, but the span will override it */
   font-weight: 700;
   color: var(--primary-dark);
   text-decoration: none;
   margin-right: auto;
   display: flex;
   align-items: center;
-  /* Remove position: relative from the main link */
 }
 
-/* Apply the hover effect only to the logo's text span */
+/* Style the 'codecart' text specifically */
 .logo span {
-    position: relative;
-    padding: 0.5rem 0;
+  font-size: 1.7rem; /* Increased font size */
+  line-height: 1;
 }
 
-.logo span::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 3px;
-    background: var(--accent-color);
-    bottom: 0;
-    left: 0;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.3s ease-out;
-}
-
-/* This now specifically targets the span on hover, not the whole logo link */
-.logo:hover span::after {
-    transform: scaleX(1);
-}
+/* All ::after pseudo-elements and hover effects for the logo have been removed */
 
 /* --- Card Styles for Notes, PYQs etc. --- */
 .card-grid {
