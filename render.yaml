@@ -2,7 +2,7 @@
 
 services:
   # 1. The PostgreSQL Database
-  - type: postgresql # Corrected the spelling
+  - type: postgresql
     name: codecart-db
     plan: free
     databaseName: codecart_db
@@ -21,11 +21,10 @@ services:
         fromDatabase:
           name: codecart-db
           property: connectionString
+      # --- IMPORTANT: Set these secret values in the Render Dashboard ---
       - key: ADMIN_EMAIL
         sync: false
       - key: ADMIN_PASSWORD
-        sync: false
-      - key: ADMIN_SECRET_KEY
         sync: false
 
   # 3. The React Frontend (Static Site)
