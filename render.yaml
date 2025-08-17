@@ -2,7 +2,7 @@
 
 services:
   # 1. The PostgreSQL Database
-  - type: postgresql # This line was changed from postgres
+  - type: postgresql # Corrected the spelling
     name: codecart-db
     plan: free
     databaseName: codecart_db
