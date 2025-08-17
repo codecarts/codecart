@@ -1,23 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
-
-// Using real, working icon URLs from svgrepo.com
-const notesIcon = "https://www.svgrepo.com/show/532556/document-text.svg";
-const pyqsIcon = "https://www.svgrepo.com/show/532508/question-answer.svg";
-const blogsIcon = "https://www.svgrepo.com/show/532409/edit-pen.svg";
-const productsIcon = "https://www.svgrepo.com/show/532448/package.svg";
+import customBackgroundImage from '../assets/background.jpg'; // Assuming your image is here
 
 const HomePage = () => {
+  const heroStyle = {
+    backgroundImage: `url(${customBackgroundImage})`
+  };
+
   return (
     <>
-      <div className="container">
-        {/* Mobile Search Bar */}
-        <input type="text" placeholder="Search for notes, blogs..." className="mobile-search-bar" />
-      </div>
-
-      {/* --- Hero Section (Banner for mobile) --- */}
-      <section className="hero">
+      <section className="hero" style={heroStyle}>
         <div className="hero-content">
           <h1>Your Ultimate Study Resource Hub</h1>
           <p>Access high-quality notes, previous year questions, and tech resources all in one place.</p>
@@ -25,29 +18,33 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* --- Category Grid Section --- */}
-      <section className="container">
-        <div className="category-grid">
-          <Link to="/notes" className="category-icon">
-            <img src={notesIcon} alt="Notes" />
-            <span>Notes</span>
-          </Link>
-          <Link to="/pyqs" className="category-icon">
-            <img src={pyqsIcon} alt="PYQs" />
-            <span>PYQs</span>
-          </Link>
-          <Link to="/blogs" className="category-icon">
-            <img src={blogsIcon} alt="Blogs" />
-            <span>Blogs</span>
-          </Link>
-          <Link to="/products" className="category-icon">
-            <img src={productsIcon} alt="Products" />
-            <span>Products</span>
-          </Link>
+      <section className="features-section">
+        <div className="container">
+          <h2>Our Resources</h2>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon">📖</div>
+              <h3>Subject Notes</h3>
+              <p>Well-organized notes covering all important topics and concepts.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">📚</div>
+              <h3>PYQs Collection</h3>
+              <p>Previous year question papers with solutions for exam preparation.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">💻</div>
+              <h3>Tech Blogs</h3>
+              <p>Latest technology articles and tutorials for skill development.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">🎓</div>
+              <h3>Study Guides</h3>
+              <p>Effective learning strategies and exam preparation tips.</p>
+            </div>
+          </div>
         </div>
       </section>
-      
-      {/* You can add horizontally scrolling "Deals For You" sections here later */}
     </>
   );
 };

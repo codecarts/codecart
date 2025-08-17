@@ -38,7 +38,7 @@ function Navigation() {
         <span>codecart</span>
       </Link>
       
-      <div className="desktop-nav-links" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+      <div className="desktop-nav-links">
         <NavLink to="/notes">Notes</NavLink>
         <NavLink to="/pyqs">PYQs</NavLink>
         <NavLink to="/blogs">Blogs</NavLink>
@@ -93,7 +93,10 @@ function App() {
             <Route path="/login" element={<UserLoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
-            <Route path="/admin/upload" element={<AdminProtectedRoute><AdminUploadPage /></AdminProtectedRoute>} />
+            <Route
+              path="/admin/upload"
+              element={<AdminProtectedRoute><AdminUploadPage /></AdminProtectedRoute>}
+            />
           </Routes>
         </main>
         <Footer />
