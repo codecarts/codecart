@@ -118,3 +118,51 @@
         font-size: 2rem;
     }
 }
+
+/* =============================================== */
+/* ---      Homepage Mobile & Tablet Styles    --- */
+/* =============================================== */
+@media (max-width: 768px) {
+    /* Reduce the height of the hero section on mobile */
+    .hero {
+        min-height: 60vh;
+    }
+
+    /* Make the hero text smaller to fit better */
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-button {
+        padding: 0.8rem 1.8rem;
+        font-size: 1rem;
+    }
+    
+    /* Make the "Our Resources" section more compact */
+    .features-section {
+        padding: 3rem 1rem;
+    }
+    
+    .features-section h2 {
+        font-size: 2rem;
+    }
+
+    /* Make the resource cards smaller */
+    .feature-card {
+        padding: 1.5rem;
+        text-align: center; /* Center text inside cards on mobile */
+    }
+    
+    .feature-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .feature-card p {
+        font-size: 0.9rem;
+    }
+}
