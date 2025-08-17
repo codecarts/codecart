@@ -5,7 +5,6 @@ import { UserAuthProvider, useUserAuth } from './context/UserAuthContext';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
 import logoImage from './assets/logo.png';
-import './Mobile.css';
 
 // Import all pages
 import HomePage from './pages/HomePage';

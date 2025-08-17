@@ -87,3 +87,44 @@ nav a.active {
 .footer p {
   margin: 0;
 }
+
+/* =============================================== */
+/* ---        Mobile & Tablet Styles           --- */
+/* =============================================== */
+@media (max-width: 768px) {
+    /* --- General Layout --- */
+    .container {
+        padding: 0 1rem;
+    }
+    
+    /* --- Navigation --- */
+    nav {
+        padding: 0.8rem 1rem;
+    }
+
+    .desktop-nav-links {
+        display: none; /* Hide desktop links */
+    }
+
+    .hamburger-icon {
+        display: block; /* Show hamburger icon */
+    }
+
+    .logo img {
+        height: 35px;
+    }
+    
+    .logo span {
+        font-size: 1.3rem;
+    }
+    
+    /* --- Card Grids --- */
+    .card-grid {
+        grid-template-columns: 1fr; /* Stack cards vertically */
+    }
+    
+    /* --- Footer --- */
+    .footer {
+        padding: 1.5rem 1rem;
+    }
+}
