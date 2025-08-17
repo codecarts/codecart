@@ -1,25 +1,20 @@
-/* Define color palette and fonts for easy reuse */
 :root {
-  /* Refined color palette */
-  --primary-dark: #0A2540;   /* Deep blue for text and headers */
-  --primary-blue: #007aff;   /* A brighter blue for links/accents */
-  --accent-color: #f7b733;   /* Yellow/Orange for buttons and highlights */
-  --primary-text: #333745;   /* Main body text */
-  --secondary-text: #5a6275; /* Lighter text for descriptions */
-  --background-light: #f6f9fc; /* Off-white for page background */
-  --background-white: #ffffff; /* For cards and nav */
+  --primary-dark: #0A2540;
+  --primary-blue: #007aff;
+  --accent-color: #f7b733;
+  --primary-text: #333745;
+  --secondary-text: #5a6275;
+  --background-light: #f6f9fc;
+  --background-white: #ffffff;
   --border-color: #e6ebf1;
   --font-family: 'Poppins', sans-serif;
 }
 
-/* Base styles */
 body {
   font-family: var(--font-family);
   margin: 0;
   background-color: var(--background-light);
   color: var(--primary-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
@@ -32,15 +27,13 @@ main {
   flex-grow: 1;
 }
 
-/* Reusable container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-
 }
 
-/* --- Navigation Bar Styles --- */
+/* --- Navigation Bar --- */
 nav {
   display: flex;
   align-items: center;
@@ -48,126 +41,58 @@ nav {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* Base styles for all clickable nav items */
+.logo {
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--primary-dark);
+}
+
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo span {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.desktop-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 nav a {
   font-weight: 600;
   color: var(--primary-dark);
   text-decoration: none;
-  margin: 0 1rem;
-  padding: 0.5rem 0; /* Add padding for spacing the underline */
-  position: relative; /* Required for the pseudo-element */
-  transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-/* The loading bar pseudo-element */
-nav a::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 3px;
-  background: var(--accent-color);
-  bottom: 0;
-  left: 0;
-  transform: scaleX(0); /* Initially hidden */
-  transform-origin: center; /* Animate from the center */
-  transition: transform 0.3s ease-out;
-}
-
-/* The hover effect */
 nav a:hover {
-  color: var(--primary-dark); /* Keep color consistent on hover */
+  color: var(--primary-dark);
+  background-color: #f0f0f0;
 }
 
-nav a:hover::after {
-  transform: scaleX(1); /* Show the bar on hover */
-}
-
-/* Special case for the currently active page link */
 nav a.active {
   color: var(--accent-color);
-  border-bottom: none; /* Remove the old border */
 }
 
-nav a.active::after {
-    transform: scaleX(1); /* Keep the bar visible for the active link */
-}
-
-
-/* Logo styles */
-.logo {
-  font-size: 1.5rem; /* This is a base size, but the span will override it */
-  font-weight: 700;
-  color: var(--primary-dark);
-  text-decoration: none;
-  margin-right: auto;
-  display: flex;
-  align-items: center;
-}
-
-/* Style the 'codecart' text specifically */
-.logo span {
-  font-size: 1.7rem; /* Increased font size */
-  line-height: 1;
-}
-
-/* All ::after pseudo-elements and hover effects for the logo have been removed */
-
-/* --- Card Styles for Notes, PYQs etc. --- */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.card {
-  background: var(--background-white);
-  border: 1px solid var(--border-color); /* Using a variable here */
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: left;
-}
-
-/* Dynamic hover effect for cards */
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.card h3 {
-  margin-top: 0;
-  color: var(--primary-dark);
-}
-
-.card a {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
-  background-color: var(--primary-dark);
-  color: var(--background-white);
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.card a:hover {
-  background-color: var(--accent-color);
-  color: var(--primary-dark);
-}
-
-/* --- NEW Footer Styles --- */
+/* --- Footer --- */
 .footer {
   background-color: var(--primary-dark);
-  color: #a9b3c6; /* Lighter text for footer */
+  color: #a9b3c6;
   padding: 2rem;
   text-align: center;
   font-size: 0.9rem;
@@ -175,55 +100,4 @@ nav a.active::after {
 
 .footer p {
   margin: 0;
-}
-
-/* --- Media Queries for Mobile Responsiveness --- */
-
-@media (max-width: 768px) {
-  /* Reduce padding on the navigation bar for smaller screens */
-  nav {
-    padding: 0.8rem 1rem;
-  }
-  
-  /* Make nav links smaller and closer together */
-  nav a {
-    margin: 0 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  /* Make the logo text slightly smaller */
-  .logo span {
-    font-size: 1.3rem;
-  }
-
-  /* Reduce the size of page headers */
-  .page-header h1, .auth-form-card h1 {
-    font-size: 1.8rem;
-  }
-
-  /* Reduce padding on forms for a better fit */
-  .auth-form-card {
-    padding: 2rem 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  /* Further reduce nav padding on very small screens */
-  nav {
-    padding: 0.5rem 1rem;
-  }
-  
-  /* Hide text links and just show icons or a menu button if needed, for now we just space them out */
-  nav a {
-    margin: 0 0.4rem;
-  }
-
-  /* Make hero text smaller to prevent awkward wrapping */
-  .hero-content h1 {
-    font-size: 2.5rem;
-  }
-
-  .hero-content p {
-    font-size: 1rem;
-  }
 }

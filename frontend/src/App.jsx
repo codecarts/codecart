@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
-
-// This is the corrected import block
-import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
+import { AuthProvider as AdminAuthProvider } from './context/AdminAuthContext'; 
 import { UserAuthProvider, useUserAuth } from './context/UserAuthContext';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
-
-// Import your logo and all page components
 import logoImage from './assets/logo.png';
+import './Mobile.css'; // Make sure this is imported
+
+// Import all pages
 import HomePage from './pages/HomePage';
 import NotesPage from './pages/NotesPage';
 import PyqsPage from './pages/PyqsPage';
@@ -39,6 +38,7 @@ function Navigation() {
         <span>codecart</span>
       </Link>
       
+      {/* Desktop Links */}
       <div className="desktop-nav-links" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
         <NavLink to="/notes">Notes</NavLink>
         <NavLink to="/pyqs">PYQs</NavLink>
@@ -52,10 +52,12 @@ function Navigation() {
         )}
       </div>
       
+      {/* Hamburger Icon for Mobile */}
       <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
         ☰
       </button>
 
+      {/* Mobile Menu Overlay */}
       <div className={`mobile-nav-menu ${isMenuOpen ? 'open' : ''}`}>
         <NavLink to="/notes" onClick={closeMenu}>Notes</NavLink>
         <NavLink to="/pyqs" onClick={closeMenu}>PYQs</NavLink>
@@ -87,24 +89,14 @@ function App() {
         <Navigation />
         <main>
           <Routes>
-            {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/notes" element={<NotesPage />} />
             <Route path="/pyqs" element={<PyqsPage />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/products" element={<ProductsPage />} />
-            
-            {/* User Auth Routes */}
+            <Route path="/contact" element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>} />
             <Route path="/login" element={<UserLoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            
-            {/* Protected User Route */}
-            <Route
-              path="/contact"
-              element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>}
-            />
-
-            {/* Admin Routes (hidden but accessible via URL) */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route
               path="/admin/upload"

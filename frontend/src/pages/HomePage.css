@@ -1,19 +1,15 @@
-/* --- Hero Section Styles --- */
-/* --- Hero Section Styles --- */
 .hero {
-  position: relative; /* This is essential for the pseudo-element */
-  min-height: 90vh;
+  position: relative;
+  min-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: white;
-  /* Remove the background-image from the main element */
+  background-size: cover;
+  background-position: center;
 }
 
-/* The rest of the file remains the same */
-
-/* Dark overlay for text readability */
 .hero::before {
   content: '';
   position: absolute;
@@ -21,27 +17,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  
-  /* Apply the background image here */
-  background-image: url('/background.jpg'); /* Make sure this path is correct */
-  background-size: cover;
-  background-position: center;
-  
-  /* Set the desired opacity */
-  opacity: 0.75;
-  
-  /* Ensure it's behind the content */
-  z-index: -1;
+  background-color: rgba(10, 37, 64, 0.6);
 }
 
 .hero-content {
-  position: relative; /* To ensure it's on top of the overlay */
+  position: relative;
   max-width: 800px;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.05); /* Subtle glassmorphism effect */
-  backdrop-filter: blur(4px);
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .hero-content h1 {
@@ -69,62 +51,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Dynamic button hover effect */
 .hero-button:hover {
   transform: scale(1.05);
   box-shadow: 0 5px 15px rgba(247, 183, 51, 0.4);
-}
-
-
-/* --- Features Section Styles --- */
-.features-section {
-  padding: 5rem 2rem;
-  background-color: var(--background-white);
-  text-align: center;
-}
-
-.features-section h2 {
-  font-size: 2.5rem;
-  color: var(--primary-dark);
-  margin-bottom: 0.5rem;
-}
-
-/* The orange underline */
-.features-section h2::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 4px;
-    background: var(--accent-color);
-    margin: 1rem auto 3rem;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  text-align: left;
-}
-
-.feature-card {
-  padding: 2rem;
-  border-radius: 12px;
-  background: var(--background-light);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Dynamic card hover effect */
-.feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.feature-card img {
-    height: 50px;
-    margin-bottom: 1rem;
-}
-
-.feature-card h3 {
-    font-size: 1.3rem;
-    color: var(--primary-dark);
 }
