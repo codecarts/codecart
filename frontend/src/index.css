@@ -176,3 +176,54 @@ nav a.active::after {
 .footer p {
   margin: 0;
 }
+
+/* --- Media Queries for Mobile Responsiveness --- */
+
+@media (max-width: 768px) {
+  /* Reduce padding on the navigation bar for smaller screens */
+  nav {
+    padding: 0.8rem 1rem;
+  }
+  
+  /* Make nav links smaller and closer together */
+  nav a {
+    margin: 0 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  /* Make the logo text slightly smaller */
+  .logo span {
+    font-size: 1.3rem;
+  }
+
+  /* Reduce the size of page headers */
+  .page-header h1, .auth-form-card h1 {
+    font-size: 1.8rem;
+  }
+
+  /* Reduce padding on forms for a better fit */
+  .auth-form-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further reduce nav padding on very small screens */
+  nav {
+    padding: 0.5rem 1rem;
+  }
+  
+  /* Hide text links and just show icons or a menu button if needed, for now we just space them out */
+  nav a {
+    margin: 0 0.4rem;
+  }
+
+  /* Make hero text smaller to prevent awkward wrapping */
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+}
