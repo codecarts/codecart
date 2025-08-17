@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
-import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
-import { UserAuthProvider, useUserAuth } from './context/UserAuthContext';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { AdminAuthProvider } from './context/AdminAuthContext';
+import { UserAuthProvider } from './context/UserAuthContext';
+import { useMediaQuery } from './hooks/useMediaQuery'; // Import the hook
+
+// Import the separate navigation components
+import { DesktopNavigation } from './components/DesktopNavigation';
+import { MobileNavigation } from './components/MobileNavigation';
+
+// Import all page and protected route components
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
-import logoImage from './assets/logo.png';
-
-// Import all pages
 import HomePage from './pages/HomePage';
 import NotesPage from './pages/NotesPage';
 import PyqsPage from './pages/PyqsPage';
@@ -18,56 +22,6 @@ import AdminUploadPage from './pages/AdminUploadPage';
 import UserLoginPage from './pages/UserLoginPage';
 import RegisterPage from './pages/RegisterPage';
 
-function Navigation() {
-  const { user, logout } = useUserAuth();
-  const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
-  
-  const closeMenu = () => setIsMenuOpen(false);
-
-  return (
-    <nav>
-      <Link to="/" className="logo">
-        <img src={logoImage} alt="codecart logo" />
-        <span>codecart</span>
-      </Link>
-      
-      <div className="desktop-nav-links">
-        <NavLink to="/notes">Notes</NavLink>
-        <NavLink to="/pyqs">PYQs</NavLink>
-        <NavLink to="/blogs">Blogs</NavLink>
-        <NavLink to="/products">Products</NavLink>
-        <NavLink to="/contact">Contact</NavLink>
-        {user ? (
-          <button onClick={handleLogout}>Logout</button>
-        ) : (
-          <NavLink to="/login">Login</NavLink>
-        )}
-      </div>
-      
-      <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>☰</button>
-
-      <div className={`mobile-nav-menu ${isMenuOpen ? 'open' : ''}`}>
-        <NavLink to="/notes" onClick={closeMenu}>Notes</NavLink>
-        <NavLink to="/pyqs" onClick={closeMenu}>PYQs</NavLink>
-        <NavLink to="/blogs" onClick={closeMenu}>Blogs</NavLink>
-        <NavLink to="/products" onClick={closeMenu}>Products</NavLink>
-        <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
-         {user ? (
-          <a onClick={() => { handleLogout(); closeMenu(); }} style={{cursor: 'pointer'}}>Logout</a>
-        ) : (
-          <NavLink to="/login" onClick={closeMenu}>Login</NavLink>
-        )}
-      </div>
-    </nav>
-  );
-}
-
 function Footer() {
   return (
     <footer className="footer">
@@ -77,10 +31,15 @@ function Footer() {
 }
 
 function App() {
+  // Check if the screen is desktop-sized (769px or wider)
+  const isDesktop = useMediaQuery('(min-width: 769px)');
+
   return (
     <AdminAuthProvider>
       <UserAuthProvider>
-        <Navigation />
+        {/* This is the key change: conditionally render the correct navigation */}
+        {isDesktop ? <DesktopNavigation /> : <MobileNavigation />}
+        
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />
