@@ -108,9 +108,10 @@ nav a.active::after {
   margin-right: auto;
   display: flex;
   align-items: center;
+  /* Remove position: relative from the main link */
 }
 
-/* Apply the same hover effect to the logo text */
+/* Apply the hover effect only to the logo's text span */
 .logo span {
     position: relative;
     padding: 0.5rem 0;
@@ -129,17 +130,9 @@ nav a.active::after {
     transition: transform 0.3s ease-out;
 }
 
+/* This now specifically targets the span on hover, not the whole logo link */
 .logo:hover span::after {
     transform: scaleX(1);
-}
-
-/* Logo styles */
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-dark);
-  text-decoration: none;
-  margin-right: auto; /* Pushes other links to the right */
 }
 
 /* --- Card Styles for Notes, PYQs etc. --- */
