@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { createResource, createBlog, createProduct } from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import { useAdminAuth } from '../context/AdminAuthContext'; // Corrected import
 
 const AdminUploadPage = () => {
   const [formType, setFormType] = useState('resource');
   const [formData, setFormData] = useState({});
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const { auth } = useAuth();
+  const { auth } = useAdminAuth(); // Use the correct auth hook
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
