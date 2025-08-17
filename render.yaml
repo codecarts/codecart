@@ -2,7 +2,7 @@
 
 services:
   # 1. The PostgreSQL Database
-  - type: psql
+  - type: postgres # This line was changed from psql
     name: codecart-db
     plan: free
     databaseName: codecart_db
@@ -21,7 +21,6 @@ services:
         fromDatabase:
           name: codecart-db
           property: connectionString
-      # --- IMPORTANT: Set these secret values in the Render Dashboard after deploying ---
       - key: ADMIN_EMAIL
         sync: false
       - key: ADMIN_PASSWORD
