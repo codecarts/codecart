@@ -1,11 +1,9 @@
 import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
 
-// Import both authentication contexts
-import { AuthProvider as AdminAuthProvider } from './context/AdminAuthContext'; 
+// This is the corrected import block
+import { AdminAuthProvider } from './context/AdminAuthContext';
+import { useAdminAuth } from './context/AdminAuthContext';
 import { UserAuthProvider, useUserAuth } from './context/UserAuthContext';
-
-// Import both protected route components
-// Import both protected route components directly
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
 
@@ -17,18 +15,18 @@ import PyqsPage from './pages/PyqsPage';
 import BlogsPage from './pages/BlogsPage';
 import ProductsPage from './pages/ProductsPage';
 import ContactPage from './pages/ContactPage';
-import AdminLoginPage from './pages/LoginPage'; // This is your original login page
+import AdminLoginPage from './pages/LoginPage';
 import AdminUploadPage from './pages/AdminUploadPage';
-import UserLoginPage from './pages/UserLoginPage'; // The new login page for users
-import RegisterPage from './pages/RegisterPage';   // The new registration page
+import UserLoginPage from './pages/UserLoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 function Navigation() {
-  const { user, logout } = useUserAuth(); // Use the new user auth for the nav bar
+  const { user, logout } = useUserAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    navigate('/'); // Redirect to homepage after user logs out
+    navigate('/');
   };
 
   return (
@@ -43,7 +41,6 @@ function Navigation() {
       <NavLink to="/products">Products</NavLink>
       <NavLink to="/contact">Contact</NavLink>
       
-      {/* Conditionally show Login or Logout button */}
       <div style={{ marginLeft: 'auto' }}>
         {user ? (
           <button onClick={handleLogout} style={{ background: '#ff4d4d', color: 'white', border: 'none', padding: '8px 12px', borderRadius: '5px', cursor: 'pointer' }}>
