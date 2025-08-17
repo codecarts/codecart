@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-// Import the specific verifyAdmin function
-import { verifyAdmin } from '../services/api';
-
 const LoginPage = () => {
-  const [credentials, setCredentials] = useState({ email: '', password: '', secretKey: '' });
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -19,29 +17,31 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
-      // Use the dedicated verifyAdmin function
-      await verifyAdmin(credentials);
-      
-      // If the request succeeds, call the login function from context
-      login(credentials);
+      await login(credentials);
       navigate('/admin/upload');
     } catch (err) {
       setError('Login failed. Please check your credentials.');
       console.error(err);
+    } finally {
+        setLoading(false);
     }
   };
 
   return (
     <div>
-      <h1>Admin Login</h1>
+      <div className="page-header">
+        <h1>Admin Login</h1>
+      </div>
       <form onSubmit={handleSubmit} className="admin-form">
         <h3>Enter Credentials to Continue</h3>
         <input type="email" name="email" placeholder="Admin Email" onChange={handleChange} required />
         <input type="password" name="password" placeholder="Admin Password" onChange={handleChange} required />
-        <input type="password" name="secretKey" placeholder="Admin Secret Key" onChange={handleChange} required />
-        <button type="submit">Login</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+        </button>
+        {error && <p style={{ color: 'red', textAlign: 'center', marginTop: '1rem' }}>{error}</p>}
       </form>
     </div>
   );

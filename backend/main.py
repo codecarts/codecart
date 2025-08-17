@@ -8,41 +8,34 @@ from app import models
 from app.api import admin
 from app import schemas
 
-# This command ensures your database tables are created when the app starts
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI(title="codecart API")
 
-# Configure CORS to allow requests from both your local and deployed frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",                  # For local development
-        "https://codecart-frontend.onrender.com", # For your deployed site
-        "https://codecart.qzz.io"                 # Comma was added here
+        # "http://localhost:5173",  # This line has been removed
+        "https://codecart-frontend.onrender.com",
+        "https://codecart.qzz.io"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-# --- ADMIN LOGIN ENDPOINT ---
 @app.post("/api/admin/verify", status_code=status.HTTP_200_OK)
 def verify_admin_credentials(credentials: schemas.AdminCredentials):
     is_email_valid = (credentials.email == admin.ADMIN_EMAIL)
     is_password_valid = (credentials.password == admin.ADMIN_PASSWORD)
-    is_secret_valid = (credentials.secretKey == admin.ADMIN_SECRET)
 
-    if not all([is_email_valid, is_password_valid, is_secret_valid]):
+    if not all([is_email_valid, is_password_valid]):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid Admin Credentials.",
         )
     return {"message": "Admin verification successful"}
 
-
-# --- PUBLIC GET ENDPOINTS ---
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the codecart API"}
@@ -59,8 +52,6 @@ def get_all_blogs(db: Session = Depends(database.get_db)):
 def get_all_products(db: Session = Depends(database.get_db)):
     return db.query(models.Product).order_by(models.Product.id.desc()).all()
 
-
-# --- PROTECTED ADMIN POST ENDPOINTS ---
 @app.post("/api/resources", response_model=schemas.Resource, status_code=status.HTTP_201_CREATED)
 def create_resource(
     resource: schemas.ResourceCreate,

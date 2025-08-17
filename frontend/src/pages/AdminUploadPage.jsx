@@ -6,6 +6,7 @@ const AdminUploadPage = () => {
   const [formType, setFormType] = useState('resource');
   const [formData, setFormData] = useState({});
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const { auth } = useAuth();
 
   const handleInputChange = (e) => {
@@ -19,6 +20,7 @@ const AdminUploadPage = () => {
       setMessage('Error: Not authenticated.');
       return;
     }
+    setLoading(true);
     setMessage('Uploading...');
     try {
       let response;
@@ -33,13 +35,13 @@ const AdminUploadPage = () => {
       e.target.reset();
       setFormData({});
     } catch (error) {
-      const errorMsg = error.response?.data?.detail || 'An unknown error occurred.';
+      const errorMsg = error.response?.data?.detail || 'An error occurred during upload.';
       setMessage(`Error: ${errorMsg}`);
-      console.error(error);
+    } finally {
+        setLoading(false);
     }
   };
 
-  // This is the full, un-collapsed function that was causing the error
   const renderForm = () => {
     switch (formType) {
       case 'blog':
@@ -72,7 +74,6 @@ const AdminUploadPage = () => {
             </select>
             <input name="category" placeholder="Subject/Category (e.g., Engineering Physics)" onChange={handleInputChange} required />
             <input name="title" placeholder="Resource Title" onChange={handleInputChange} required />
-            <input name="title" placeholder="Resource Title" onChange={handleInputChange} required />
             <textarea name="description" placeholder="Short Description" onChange={handleInputChange}></textarea>
             <input name="gdrive_link" placeholder="Google Drive Link" onChange={handleInputChange} required />
           </>
@@ -81,8 +82,8 @@ const AdminUploadPage = () => {
   };
 
   return (
-    <div>
-      <h1>Admin Upload Panel</h1>
+    <div className="container" style={{paddingTop: '2rem', paddingBottom: '2rem'}}>
+      <h1 style={{textAlign: 'center'}}>Admin Upload Panel</h1>
       <div style={{ marginBottom: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
         <button onClick={() => setFormType('resource')}>Upload Note/PYQ</button>
         <button onClick={() => setFormType('blog')}>Upload Blog</button>
@@ -90,8 +91,10 @@ const AdminUploadPage = () => {
       </div>
       <form onSubmit={handleSubmit} className="admin-form">
         {renderForm()}
-        <button type="submit" style={{ marginTop: '1rem' }}>Upload</button>
-        {message && <p>{message}</p>}
+        <button type="submit" disabled={loading} style={{ marginTop: '1rem' }}>
+            {loading ? 'Uploading...' : 'Upload'}
+        </button>
+        {message && <p style={{textAlign: 'center', marginTop: '1rem'}}>{message}</p>}
       </form>
     </div>
   );

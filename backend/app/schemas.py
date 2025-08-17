@@ -1,10 +1,7 @@
-# backend/app/schemas.py - CORRECTED
-
 from pydantic import BaseModel
 from datetime import datetime
 from .models import ResourceType
 
-# Base schema for a Product
 class ProductBase(BaseModel):
     name: str
     description: str | None = None
@@ -17,9 +14,8 @@ class ProductCreate(ProductBase):
 class Product(ProductBase):
     id: int
     class Config:
-        from_attributes = True # Changed from orm_mode
+        from_attributes = True
 
-# Base schema for a Blog
 class BlogBase(BaseModel):
     title: str
     author: str
@@ -32,15 +28,14 @@ class Blog(BlogBase):
     id: int
     created_at: datetime
     class Config:
-        from_attributes = True # Changed from orm_mode
+        from_attributes = True
 
-# Base schema for a Resource (Note/PYQ)
 class ResourceBase(BaseModel):
     title: str
     description: str | None = None
     gdrive_link: str
     resource_type: ResourceType
-    category: str # Add this line
+    category: str
 
 class ResourceCreate(ResourceBase):
     pass
@@ -49,10 +44,8 @@ class Resource(ResourceBase):
     id: int
     created_at: datetime
     class Config:
-        from_attributes = True # Changed from orm_mode
+        from_attributes = True
 
-# Add this new class at the end of the file
 class AdminCredentials(BaseModel):
     email: str
     password: str
-    secretKey: str

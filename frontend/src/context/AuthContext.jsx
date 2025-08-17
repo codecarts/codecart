@@ -1,21 +1,18 @@
 import { createContext, useState, useContext } from 'react';
-import axios from 'axios';
+import { verifyAdmin } from '../services/api';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  // Get initial state from sessionStorage to persist login across page reloads
   const [auth, setAuth] = useState(() => {
     const storedAuth = sessionStorage.getItem('auth');
     return storedAuth ? JSON.parse(storedAuth) : null;
   });
 
   const login = async (credentials) => {
-    // Call the new backend endpoint to verify credentials
-    await axios.post('http://127.0.0.1:8000/api/admin/verify', credentials);
+    await verifyAdmin(credentials); // This will throw an error if it fails
     
-    // If the request succeeds, store credentials and set auth state
-    const authData = { isAuthenticated: true, credentials };
+    const authData = { isAuthenticated: true, credentials: { email: credentials.email, password: credentials.password } };
     setAuth(authData);
     sessionStorage.setItem('auth', JSON.stringify(authData));
   };
@@ -32,7 +29,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to easily use the auth context
 export const useAuth = () => {
   return useContext(AuthContext);
 };
