@@ -20,41 +20,67 @@ import AdminUploadPage from './pages/AdminUploadPage';
 import UserLoginPage from './pages/UserLoginPage';
 import RegisterPage from './pages/RegisterPage';
 
+// Add useState to manage the mobile menu state
+import React, { useState } from 'react'; 
+import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
+import './Mobile.css'; // Import the new mobile styles
+
 function Navigation() {
   const { user, logout } = useUserAuth();
   const navigate = useNavigate();
+  // State to control the mobile menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/');
   };
+  
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <nav>
       <Link to="/" className="logo">
-        <img src={logoImage} alt="codecart logo" style={{ height: '40px', marginRight: '10px' }} />
-        <span style={{ fontWeight: '700' }}>codecart</span>
+        <img src={logoImage} alt="codecart logo" />
+        <span>codecart</span>
       </Link>
-      <NavLink to="/notes">Notes</NavLink>
-      <NavLink to="/pyqs">PYQs</NavLink>
-      <NavLink to="/blogs">Blogs</NavLink>
-      <NavLink to="/products">Products</NavLink>
-      <NavLink to="/contact">Contact</NavLink>
       
-      <div style={{ marginLeft: 'auto' }}>
+      {/* Desktop Links */}
+      <div className="desktop-nav-links" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+        <NavLink to="/notes">Notes</NavLink>
+        <NavLink to="/pyqs">PYQs</NavLink>
+        <NavLink to="/blogs">Blogs</NavLink>
+        <NavLink to="/products">Products</NavLink>
+        <NavLink to="/contact">Contact</NavLink>
         {user ? (
-          <button onClick={handleLogout} style={{ background: '#ff4d4d', color: 'white', border: 'none', padding: '8px 12px', borderRadius: '5px', cursor: 'pointer' }}>
-            Logout
-          </button>
+          <button onClick={handleLogout} className="logout-button">Logout</button>
         ) : (
-          <NavLink to="/login" style={{ background: 'var(--primary-dark)', color: 'white', padding: '8px 12px', borderRadius: '5px' }}>
-            Login
-          </NavLink>
+          <NavLink to="/login" className="login-button">Login</NavLink>
+        )}
+      </div>
+      
+      {/* Hamburger Icon */}
+      <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        ☰
+      </button>
+
+      {/* Mobile Menu */}
+      <div className={`mobile-nav-menu ${isMenuOpen ? 'open' : ''}`}>
+        <NavLink to="/notes" onClick={closeMenu}>Notes</NavLink>
+        <NavLink to="/pyqs" onClick={closeMenu}>PYQs</NavLink>
+        <NavLink to="/blogs" onClick={closeMenu}>Blogs</NavLink>
+        <NavLink to="/products" onClick={closeMenu}>Products</NavLink>
+        <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
+         {user ? (
+          <a onClick={() => { handleLogout(); closeMenu(); }} style={{cursor: 'pointer'}}>Logout</a>
+        ) : (
+          <NavLink to="/login" onClick={closeMenu}>Login</NavLink>
         )}
       </div>
     </nav>
   );
 }
+
 
 function Footer() {
   return (
