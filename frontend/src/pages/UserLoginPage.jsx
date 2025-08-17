@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUserAuth } from '../context/UserAuthContext';
+import './AuthPages.css'; // Import the new stylesheet
 
 const UserLoginPage = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -19,7 +20,7 @@ const UserLoginPage = () => {
     setLoading(true);
     try {
       await login(formData.email, formData.password);
-      navigate('/contact'); // Redirect to contact page on success
+      navigate('/contact');
     } catch (err) {
       setError(err.response?.data?.detail || 'Login failed.');
     } finally {
@@ -28,17 +29,19 @@ const UserLoginPage = () => {
   };
 
   return (
-    <div>
-      <div className="page-header"><h1>User Login</h1></div>
-      <form onSubmit={handleSubmit} className="admin-form">
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <p style={{textAlign: 'center', marginTop: '1rem'}}>
+    <div className="auth-page-container">
+      <div className="auth-form-card">
+        <h1>User Login</h1>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+          <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+          <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+        </form>
+        <p className="auth-form-footer">
           Don't have an account? <Link to="/register">Register here</Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 };
