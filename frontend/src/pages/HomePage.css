@@ -9,7 +9,6 @@
   background-size: cover;
   background-position: center;
 }
-
 .hero::before {
   content: '';
   position: absolute;
@@ -19,19 +18,16 @@
   height: 100%;
   background-color: rgba(10, 37, 64, 0.6);
 }
-
 .hero-content {
   position: relative;
   max-width: 800px;
   padding: 2rem;
 }
-
 .hero-content h1 {
   font-size: 3.5rem;
   font-weight: 700;
   margin: 0;
 }
-
 .hero-content p {
   font-size: 1.2rem;
   margin: 1rem 0 2rem 0;
@@ -39,7 +35,6 @@
   margin-left: auto;
   margin-right: auto;
 }
-
 .hero-button {
   background-color: var(--accent-color);
   color: var(--primary-dark);
@@ -50,7 +45,6 @@
   text-decoration: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .hero-button:hover {
   transform: scale(1.05);
   box-shadow: 0 5px 15px rgba(247, 183, 51, 0.4);
