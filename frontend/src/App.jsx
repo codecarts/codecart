@@ -1,14 +1,14 @@
+// All imports are now consolidated and correct
+import React, { useState } from 'react';
 import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
-
-// This is the corrected import block
-import { AdminAuthProvider } from './context/AdminAuthContext';
-import { useAdminAuth } from './context/AdminAuthContext';
+import { AuthProvider as AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
 import { UserAuthProvider, useUserAuth } from './context/UserAuthContext';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
-
-// Import your logo and all page components
 import logoImage from './assets/logo.png';
+import './Mobile.css';
+
+// Import all your page components
 import HomePage from './pages/HomePage';
 import NotesPage from './pages/NotesPage';
 import PyqsPage from './pages/PyqsPage';
@@ -20,15 +20,9 @@ import AdminUploadPage from './pages/AdminUploadPage';
 import UserLoginPage from './pages/UserLoginPage';
 import RegisterPage from './pages/RegisterPage';
 
-// Add useState to manage the mobile menu state
-import React, { useState } from 'react'; 
-import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
-import './Mobile.css'; // Import the new mobile styles
-
 function Navigation() {
   const { user, logout } = useUserAuth();
   const navigate = useNavigate();
-  // State to control the mobile menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -45,7 +39,6 @@ function Navigation() {
         <span>codecart</span>
       </Link>
       
-      {/* Desktop Links */}
       <div className="desktop-nav-links" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
         <NavLink to="/notes">Notes</NavLink>
         <NavLink to="/pyqs">PYQs</NavLink>
@@ -59,12 +52,10 @@ function Navigation() {
         )}
       </div>
       
-      {/* Hamburger Icon */}
       <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
         ☰
       </button>
 
-      {/* Mobile Menu */}
       <div className={`mobile-nav-menu ${isMenuOpen ? 'open' : ''}`}>
         <NavLink to="/notes" onClick={closeMenu}>Notes</NavLink>
         <NavLink to="/pyqs" onClick={closeMenu}>PYQs</NavLink>
@@ -81,7 +72,6 @@ function Navigation() {
   );
 }
 
-
 function Footer() {
   return (
     <footer className="footer">
@@ -97,24 +87,17 @@ function App() {
         <Navigation />
         <main>
           <Routes>
-            {/* Public Routes */}
+            {/* ... other public routes ... */}
             <Route path="/" element={<HomePage />} />
             <Route path="/notes" element={<NotesPage />} />
             <Route path="/pyqs" element={<PyqsPage />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/products" element={<ProductsPage />} />
-            
-            {/* User Auth Routes */}
+            <Route path="/contact" element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>} />
             <Route path="/login" element={<UserLoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             
-            {/* Protected User Route */}
-            <Route
-              path="/contact"
-              element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>}
-            />
-
-            {/* Admin Routes (hidden but accessible via URL) */}
+            {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route
               path="/admin/upload"
