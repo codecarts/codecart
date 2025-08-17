@@ -5,3 +5,5 @@ pydantic
 python-dotenv
 gunicorn
 psycopg2-binary
+passlib[bcrypt]
+python-jose[cryptography]
