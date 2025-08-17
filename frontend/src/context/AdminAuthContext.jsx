@@ -1,34 +1,35 @@
 import { createContext, useState, useContext } from 'react';
 import { verifyAdmin } from '../services/api';
 
-const AuthContext = createContext(null);
+const AdminAuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
+// The component has been correctly named 'AdminAuthProvider' here
+export const AdminAuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(() => {
-    const storedAuth = sessionStorage.getItem('auth');
+    const storedAuth = sessionStorage.getItem('admin_auth');
     return storedAuth ? JSON.parse(storedAuth) : null;
   });
 
   const login = async (credentials) => {
-    await verifyAdmin(credentials); // This will throw an error if it fails
+    await verifyAdmin(credentials); 
     
-    const authData = { isAuthenticated: true, credentials: { email: credentials.email, password: credentials.password } };
+    const authData = { isAuthenticated: true, credentials };
     setAuth(authData);
-    sessionStorage.setItem('auth', JSON.stringify(authData));
+    sessionStorage.setItem('admin_auth', JSON.stringify(authData));
   };
 
   const logout = () => {
     setAuth(null);
-    sessionStorage.removeItem('auth');
+    sessionStorage.removeItem('admin_auth');
   };
 
   return (
-    <AuthContext.Provider value={{ auth, login, logout }}>
+    <AdminAuthContext.Provider value={{ auth, login, logout }}>
       {children}
-    </AuthContext.Provider>
+    </AdminAuthContext.Provider>
   );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
+export const useAdminAuth = () => {
+  return useContext(AdminAuthContext);
 };
