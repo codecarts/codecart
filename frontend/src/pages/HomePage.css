@@ -98,31 +98,6 @@
 /* ---      Homepage Mobile & Tablet Styles    --- */
 /* =============================================== */
 @media (max-width: 768px) {
-    .hero {
-        min-height: 70vh;
-    }
-
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
-    
-    .hero-content p {
-        font-size: 1rem;
-    }
-    
-    .features-section {
-        padding: 3rem 1rem;
-    }
-    
-    .features-section h2 {
-        font-size: 2rem;
-    }
-}
-
-/* =============================================== */
-/* ---      Homepage Mobile & Tablet Styles    --- */
-/* =============================================== */
-@media (max-width: 768px) {
     /* Reduce the height of the hero section on mobile */
     .hero {
         min-height: 60vh;
