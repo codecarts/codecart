@@ -1,7 +1,6 @@
-/* --- Default Mobile Styles --- */
 .hero {
   position: relative;
-  min-height: 60vh; /* Shorter height for mobile */
+  min-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,7 +8,6 @@
   color: white;
   background-size: cover;
   background-position: center;
-  padding: 0 1rem; /* Padding for small screens */
 }
 .hero::before {
   content: '';
@@ -23,93 +21,123 @@
 .hero-content {
   position: relative;
   max-width: 800px;
+  padding: 2rem;
 }
 .hero-content h1 {
-  font-size: 2.2rem; /* Compact font size for mobile */
+  font-size: 3.5rem;
   font-weight: 700;
   margin: 0;
 }
 .hero-content p {
-  font-size: 1rem;
-  margin: 1rem 0 1.5rem 0;
+  font-size: 1.2rem;
+  margin: 1rem 0 2rem 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .hero-button {
   background-color: var(--accent-color);
   color: var(--primary-dark);
-  padding: 0.8rem 1.8rem;
+  padding: 1rem 2.5rem;
   border-radius: 50px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(247, 183, 51, 0.4);
 }
 .features-section {
-  padding: 3rem 1rem;
+  padding: 5rem 2rem;
   background-color: var(--background-white);
   text-align: center;
 }
 .features-section h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: var(--primary-dark);
   margin-bottom: 0.5rem;
 }
 .features-section h2::after {
   content: '';
   display: block;
-  width: 60px;
+  width: 80px;
   height: 4px;
   background: var(--accent-color);
-  margin: 1rem auto 2rem;
+  margin: 1rem auto 3rem;
 }
 .features-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two columns for mobile */
-  gap: 1.5rem;
-  text-align: center;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  text-align: left;
 }
 .feature-card {
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 12px;
   background: var(--background-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 .feature-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 1rem;
   color: var(--primary-dark);
 }
 .feature-card h3 {
-  font-size: 1rem;
+  font-size: 1.3rem;
   color: var(--primary-dark);
-  margin: 0.5rem 0;
-}
-.feature-card p {
-  font-size: 0.85rem;
-  color: var(--secondary-text);
-  margin: 0;
 }
 
-/* --- Tablet and Desktop Styles --- */
-/* This media query only applies styles on screens wider than 768px */
-@media (min-width: 768px) {
-  .hero {
-    min-height: 85vh;
-  }
-  .hero-content h1 {
-    font-size: 3.5rem; /* Larger font size for PC */
-  }
-  .hero-content p {
-    font-size: 1.2rem;
-  }
-  .hero-button {
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-  }
-  .features-section {
-    padding: 5rem 2rem;
-  }
-  .features-section h2 {
-    font-size: 2.5rem;
-  }
-  .features-grid {
-    grid-template-columns: repeat(4, 1fr); /* Four columns for PC */
-  }
+/* =============================================== */
+/* ---      Homepage Mobile & Tablet Styles    --- */
+/* =============================================== */
+@media (max-width: 768px) {
+    /* Reduce the height of the hero section on mobile */
+    .hero {
+        min-height: 60vh;
+    }
+
+    /* Make the hero text smaller to fit better */
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-button {
+        padding: 0.8rem 1.8rem;
+        font-size: 1rem;
+    }
+    
+    /* Make the "Our Resources" section more compact */
+    .features-section {
+        padding: 3rem 1rem;
+    }
+    
+    .features-section h2 {
+        font-size: 2rem;
+    }
+
+    /* Make the resource cards smaller */
+    .feature-card {
+        padding: 1.5rem;
+        text-align: center; /* Center text inside cards on mobile */
+    }
+    
+    .feature-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .feature-card p {
+        font-size: 0.9rem;
+    }
 }
