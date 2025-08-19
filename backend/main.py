@@ -38,6 +38,28 @@ def register_user(user: schemas.UserCreate, db: Session = Depends(database.get_d
     db.refresh(new_user)
     return new_user
 
+# Endpoint for logged-in users to SUBMIT a message
+@app.post("/api/contact", response_model=schemas.ContactMessage, status_code=status.HTTP_201_CREATED)
+def submit_contact_form(
+    message: schemas.ContactMessageCreate,
+    db: Session = Depends(database.get_db),
+    token: str = Depends(auth.oauth2_scheme) # Ensures user is logged in
+):
+    db_message = models.ContactMessage(**message.dict())
+    db.add(db_message)
+    db.commit()
+    db.refresh(db_message)
+    return db_message
+
+# Endpoint for ADMINS to VIEW all messages
+@app.get("/api/contact", response_model=List[schemas.ContactMessage])
+def get_contact_messages(
+    is_admin: bool = Depends(admin.verify_admin), # Ensures only admin can access
+    db: Session = Depends(database.get_db)
+):
+    messages = db.query(models.ContactMessage).order_by(models.ContactMessage.created_at.desc()).all()
+    return messages
+
 @app.post("/api/users/login", response_model=schemas.Token)
 def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
     user = db.query(models.User).filter(models.User.email == form_data.username).first()

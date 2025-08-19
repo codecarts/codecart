@@ -2,13 +2,14 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { UserAuthProvider } from './context/UserAuthContext';
-import { useMediaQuery } from './hooks/useMediaQuery'; // Import the hook
+import { useMediaQuery } from './hooks/useMediaQuery';
 
 // Import the separate navigation components
 import { DesktopNavigation } from './components/DesktopNavigation';
 import { MobileNavigation } from './components/MobileNavigation';
 
 // Import all page and protected route components
+import ContactMessagesPage from './pages/ContactMessagesPage';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
 import HomePage from './pages/HomePage';
@@ -37,7 +38,7 @@ function App() {
   return (
     <AdminAuthProvider>
       <UserAuthProvider>
-        {/* This is the key change: conditionally render the correct navigation */}
+        {/* Conditionally render the correct navigation */}
         {isDesktop ? <DesktopNavigation /> : <MobileNavigation />}
         
         <main>
@@ -51,12 +52,21 @@ function App() {
             <Route path="/login" element={<UserLoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
+            
             <Route
               path="/admin/upload"
               element={<AdminProtectedRoute><AdminUploadPage /></AdminProtectedRoute>}
             />
+
+            {/* The duplicate route has been removed from here */}
+            
+            <Route
+              path="/admin/messages"
+              element={<AdminProtectedRoute><ContactMessagesPage /></AdminProtectedRoute>}
+            />
           </Routes>
         </main>
+        
         <Footer />
       </UserAuthProvider>
     </AdminAuthProvider>

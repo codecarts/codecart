@@ -36,3 +36,13 @@ export const createBlog = (data, credentials) =>
 
 export const createProduct = (data, credentials) =>
   apiClient.post('/products', data, createConfig(credentials));
+
+// --- User Contact Form ---
+export const submitContactForm = (data, token) =>
+  apiClient.post('/contact', data, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+
+// --- Admin View Messages ---
+export const getContactMessages = (credentials) =>
+  apiClient.get('/contact', withAdmin(credentials)); // Reuses your admin header helper

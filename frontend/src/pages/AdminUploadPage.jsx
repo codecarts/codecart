@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Added the missing Link import
 import { createResource, createBlog, createProduct } from '../services/api';
-import { useAdminAuth } from '../context/AdminAuthContext'; // Corrected import
+import { useAdminAuth } from '../context/AdminAuthContext';
 
 const AdminUploadPage = () => {
   const [formType, setFormType] = useState('resource');
   const [formData, setFormData] = useState({});
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const { auth } = useAdminAuth(); // Use the correct auth hook
+  const { auth } = useAdminAuth();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -83,12 +84,17 @@ const AdminUploadPage = () => {
 
   return (
     <div className="container" style={{paddingTop: '2rem', paddingBottom: '2rem'}}>
-      <h1 style={{textAlign: 'center'}}>Admin Upload Panel</h1>
-      <div style={{ marginBottom: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem'}}>
+        <h1 style={{margin: 0}}>Admin Upload Panel</h1>
+        <Link to="/admin/messages" style={{fontWeight: 600}}>View Contact Messages</Link>
+      </div>
+      
+      <div style={{ margin: '2rem 0', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
         <button onClick={() => setFormType('resource')}>Upload Note/PYQ</button>
         <button onClick={() => setFormType('blog')}>Upload Blog</button>
         <button onClick={() => setFormType('product')}>Upload Product</button>
       </div>
+      
       <form onSubmit={handleSubmit} className="admin-form">
         {renderForm()}
         <button type="submit" disabled={loading} style={{ marginTop: '1rem' }}>
