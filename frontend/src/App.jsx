@@ -1,17 +1,16 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
+
+// Import all contexts and protected route components
 import { AdminAuthProvider } from './context/AdminAuthContext';
-import { UserAuthProvider } from './context/UserAuthContext';
-import { useMediaQuery } from './hooks/useMediaQuery';
-
-// Import the separate navigation components
-import { DesktopNavigation } from './components/DesktopNavigation';
-import { MobileNavigation } from './components/MobileNavigation';
-
-// Import all page and protected route components
-import ContactMessagesPage from './pages/ContactMessagesPage';
+import { UserAuthProvider, useUserAuth } from './context/UserAuthContext';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
+
+// Import your logo and all page components
+import logoImage from './assets/logo.png'; // Make sure you have a logo.png in src/assets
+import './Mobile.css'; // The CSS for the mobile navigation
+
 import HomePage from './pages/HomePage';
 import NotesPage from './pages/NotesPage';
 import PyqsPage from './pages/PyqsPage';
@@ -22,6 +21,70 @@ import AdminLoginPage from './pages/LoginPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import UserLoginPage from './pages/UserLoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ContactMessagesPage from './pages/ContactMessagesPage';
+
+function Navigation() {
+  const { user, logout } = useUserAuth();
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const closeMenu = () => setIsMenuOpen(false);
+
+  return (
+    <>
+      <nav>
+        <Link to="/" className="logo">
+          <img src={logoImage} alt="codecart logo" />
+          <span>codecart</span>
+        </Link>
+        
+        {/* Desktop Links */}
+        <div className="desktop-nav-links" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+          <NavLink to="/notes">Notes</NavLink>
+          <NavLink to="/pyqs">PYQs</NavLink>
+          <NavLink to="/blogs">Blogs</NavLink>
+          <NavLink to="/products">Products</NavLink>
+          <NavLink to="/contact">Contact</NavLink>
+          {user ? (
+            <button onClick={handleLogout}>Logout</button>
+          ) : (
+            <NavLink to="/login">Login</NavLink>
+          )}
+        </div>
+        
+        {/* Hamburger Icon for Mobile */}
+        <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          ☰
+        </button>
+      </nav>
+
+      {/* Background Overlay for Mobile Menu */}
+      <div className={`overlay ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
+
+      {/* Mobile Menu Slide-out */}
+      <div className={`mobile-nav-menu ${isMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-nav-header">
+          <button className="close-icon" onClick={closeMenu}>×</button>
+        </div>
+        <NavLink to="/notes" onClick={closeMenu}>Notes</NavLink>
+        <NavLink to="/pyqs" onClick={closeMenu}>PYQs</NavLink>
+        <NavLink to="/blogs" onClick={closeMenu}>Blogs</NavLink>
+        <NavLink to="/products" onClick={closeMenu}>Products</NavLink>
+        <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
+         {user ? (
+          <a onClick={() => { handleLogout(); closeMenu(); }} style={{cursor: 'pointer'}}>Logout</a>
+        ) : (
+          <NavLink to="/login" onClick={closeMenu}>Login</NavLink>
+        )}
+      </div>
+    </>
+  );
+}
 
 function Footer() {
   return (
@@ -32,41 +95,41 @@ function Footer() {
 }
 
 function App() {
-  // Check if the screen is desktop-sized (769px or wider)
-  const isDesktop = useMediaQuery('(min-width: 769px)');
-
   return (
     <AdminAuthProvider>
       <UserAuthProvider>
-        {/* Conditionally render the correct navigation */}
-        {isDesktop ? <DesktopNavigation /> : <MobileNavigation />}
-        
+        <Navigation />
         <main>
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/notes" element={<NotesPage />} />
             <Route path="/pyqs" element={<PyqsPage />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/products" element={<ProductsPage />} />
-            <Route path="/contact" element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>} />
+            
+            {/* User Auth Routes */}
             <Route path="/login" element={<UserLoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/admin/login" element={<AdminLoginPage />} />
             
+            {/* Protected User Route */}
+            <Route
+              path="/contact"
+              element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>}
+            />
+
+            {/* Admin Routes (hidden but accessible via URL) */}
+            <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route
               path="/admin/upload"
               element={<AdminProtectedRoute><AdminUploadPage /></AdminProtectedRoute>}
             />
-
-            {/* The duplicate route has been removed from here */}
-            
             <Route
               path="/admin/messages"
               element={<AdminProtectedRoute><ContactMessagesPage /></AdminProtectedRoute>}
             />
           </Routes>
         </main>
-        
         <Footer />
       </UserAuthProvider>
     </AdminAuthProvider>
