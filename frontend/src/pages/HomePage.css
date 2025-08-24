@@ -9,6 +9,7 @@
   background-size: cover;
   background-position: center;
 }
+/* Dark overlay for text readability */
 .hero::before {
   content: '';
   position: absolute;
@@ -16,7 +17,16 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(10, 37, 64, 0.6);
+  
+  /* Apply the background image here */
+  background-image: url('/background.jpg'); /* Make sure this path is correct */
+  background-size: cover;
+  background-position: center;
+  
+  /* Set the desired opacity */
+  opacity: 0.80;
+  
+  z-index: -1;
 }
 .hero-content {
   position: relative;
