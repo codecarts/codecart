@@ -32,7 +32,7 @@ function Navigation() {
     logout();
     navigate('/');
   };
-
+  
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
@@ -44,16 +44,16 @@ function Navigation() {
         </Link>
         
         {/* Desktop Links */}
-        <div className="desktop-nav-links" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+        <div className="desktop-nav-links">
           <NavLink to="/notes">Notes</NavLink>
           <NavLink to="/pyqs">PYQs</NavLink>
           <NavLink to="/blogs">Blogs</NavLink>
           <NavLink to="/products">Products</NavLink>
           <NavLink to="/contact">Contact</NavLink>
           {user ? (
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout} className="logout-button">Logout</button>
           ) : (
-            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/login" className="login-button">Login</NavLink>
           )}
         </div>
         
@@ -63,7 +63,7 @@ function Navigation() {
         </button>
       </nav>
 
-      {/* Background Overlay for Mobile Menu */}
+      {/* Background Overlay */}
       <div className={`overlay ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
 
       {/* Mobile Menu Slide-out */}
