@@ -1,16 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
-import customBackgroundImage from '../assets/background.jpg'; // Assuming your image is here
 
 const HomePage = () => {
-  const heroStyle = {
-    backgroundImage: `url(${customBackgroundImage})`
-  };
-
   return (
     <>
-      <section className="hero" style={heroStyle}>
+      <section className="hero">
         <div className="hero-content">
           <h1>Your Ultimate Study Resource Hub</h1>
           <p>Access high-quality notes, previous year questions, and tech resources all in one place.</p>
