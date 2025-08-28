@@ -57,9 +57,9 @@ function Navigation() {
           )}
         </div>
         
-        {/* Hamburger Icon for Mobile */}
-        <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          ☰
+         {/* Hamburger Icon for Mobile */}
+      <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          {isMenuOpen ? "Home" : "☰"} {/* Show "Home" when open, "☰" when closed */}
         </button>
       </nav>
 
