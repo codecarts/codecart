@@ -121,52 +121,14 @@ nav a.active {
 }
 
 /* =============================================== */
-/* ---        Mobile & Tablet Styles           --- */
+/* ---        MOBILE-ONLY STYLES (768px and below) --- */
 /* =============================================== */
 @media (max-width: 768px) {
-    /* --- General Layout --- */
-    .container {
-        padding: 0 1rem;
-    }
-    
     /* --- Navigation --- */
     nav {
         padding: 0.8rem 1rem;
     }
 
-    .desktop-nav-links {
-        display: none; /* Hide desktop links */
-    }
-
-    .hamburger-icon {
-        display: block; /* Show hamburger icon */
-    }
-
-    .logo img {
-        height: 35px;
-    }
-    
-    .logo span {
-        font-size: 1.3rem;
-    }
-    
-    /* --- Card Grids --- */
-    .card-grid {
-        grid-template-columns: 1fr; /* Stack cards vertically */
-    }
-    
-    /* --- Footer --- */
-    .footer {
-        padding: 1.5rem 1rem;
-    }
-}
-
-/* =============================================== */
-/* ---        MOBILE-ONLY STYLES (768px and below) --- */
-/* =============================================== */
-@media (max-width: 768px) {
-
-    /* --- Navigation --- */
     /* Hide the desktop navigation links */
     .desktop-nav-links {
         display: none;
@@ -175,8 +137,14 @@ nav a.active {
     /* Show the hamburger icon */
     .hamburger-icon {
         display: block;
+        font-size: 1.8rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 1002;
+        margin-left: auto;
     }
-
+    
     .logo img {
         height: 35px;
     }
@@ -184,9 +152,76 @@ nav a.active {
     .logo span {
         font-size: 1.3rem;
     }
-    
-    /* --- Card Grids (for Notes, Blogs, etc.) --- */
-    .card-grid {
-        grid-template-columns: 1fr; /* Stack cards in a single column */
+
+    /* --- Mobile Slide-out Menu --- */
+    .mobile-nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: var(--background-white);
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        box-sizing: border-box;
+        transition: right 0.4s ease-in-out;
+        z-index: 1001;
+    }
+
+    .mobile-nav-menu.open {
+        right: 0;
+    }
+
+    .mobile-nav-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .mobile-nav-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+    }
+
+    .close-icon {
+        font-size: 2rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .mobile-nav-menu a {
+        font-size: 1.2rem;
+        font-weight: 600;
+        padding: 1rem 0;
+        text-align: left;
+        color: var(--primary-dark);
+        text-decoration: none;
+    }
+
+    /* Background overlay when menu is open */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+        z-index: 1000;
+    }
+
+    .overlay.open {
+        opacity: 1;
+        visibility: visible;
     }
 }
