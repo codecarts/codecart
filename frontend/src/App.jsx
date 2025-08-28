@@ -24,7 +24,7 @@ import RegisterPage from './pages/RegisterPage';
 import ContactMessagesPage from './pages/ContactMessagesPage';
 
 function Navigation() {
-  const { user, logout } = useUser_auth();
+  const { user, logout } = useUserAuth();
   const navigate = useNavigate();
   const [is_menu_open, set_is_menu_open] = useState(false);
 
