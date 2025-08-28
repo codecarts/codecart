@@ -92,9 +92,40 @@ def verify_admin_credentials(credentials: schemas.AdminCredentials):
 def read_root():
     return {"message": "Welcome to the codecart API"}
 
-@app.get("/api/resources", response_model=List[schemas.Resource])
-def get_all_resources(db: Session = Depends(database.get_db)):
-    return db.query(models.Resource).order_by(models.Resource.created_at.desc()).all()
+@app.get("/api/notes", response_model=List[schemas.Note])
+def get_all_notes(db: Session = Depends(database.get_db)):
+    return db.query(models.Note).order_by(models.Note.created_at.desc()).all()
+
+@app.get("/api/pyqs", response_model=List[schemas.Pyq])
+def get_all_pyqs(db: Session = Depends(database.get_db)):
+    return db.query(models.Pyq).order_by(models.Pyq.created_at.desc()).all()
+
+
+# --- PROTECTED ADMIN POST ENDPOINTS ---
+# Replace create_resource with these two:
+@app.post("/api/notes", response_model=schemas.Note, status_code=status.HTTP_201_CREATED)
+def create_note(
+    note: schemas.NoteCreate,
+    is_admin: bool = Depends(admin.verify_admin),
+    db: Session = Depends(database.get_db)
+):
+    db_note = models.Note(**note.dict())
+    db.add(db_note)
+    db.commit()
+    db.refresh(db_note)
+    return db_note
+
+@app.post("/api/pyqs", response_model=schemas.Pyq, status_code=status.HTTP_201_CREATED)
+def create_pyq(
+    pyq: schemas.PyqCreate,
+    is_admin: bool = Depends(admin.verify_admin),
+    db: Session = Depends(database.get_db)
+):
+    db_pyq = models.Pyq(**pyq.dict())
+    db.add(db_pyq)
+    db.commit()
+    db.refresh(db_pyq)
+    return db_pyq
 
 @app.get("/api/blogs", response_model=List[schemas.Blog])
 def get_all_blogs(db: Session = Depends(database.get_db)):

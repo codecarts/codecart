@@ -28,8 +28,8 @@ export const withAdmin = (credentials) => ({
 });
 
 // Public GETs
-export const getNotes = () => apiClient.get('/resources', { params: { type: 'note' } });
-export const getPyqs = () => apiClient.get('/resources', { params: { type: 'pyq' } });
+export const getNotes = () => apiClient.get('/notes'); // Updated
+export const getPyqs = () => apiClient.get('/pyqs');   // Updated
 export const getBlogs = () => apiClient.get('/blogs');
 export const getProducts = () => apiClient.get('/products');
 
@@ -44,8 +44,11 @@ export const getContactMessages = (credentials) =>
   apiClient.get('/contact', withAdmin(credentials));
 
 // Admin mutations
-export const createResource = (data, credentials) =>
-  apiClient.post('/resources', data, withAdmin(credentials));
+export const createNote = (data, credentials) =>
+  apiClient.post('/notes', data, withAdmin(credentials));
+  
+export const createPyq = (data, credentials) =>
+  apiClient.post('/pyqs', data, withAdmin(credentials));
 export const createBlog = (data, credentials) =>
   apiClient.post('/blogs', data, withAdmin(credentials));
 export const createProduct = (data, credentials) =>

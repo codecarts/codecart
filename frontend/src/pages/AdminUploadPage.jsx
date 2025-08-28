@@ -25,8 +25,19 @@ const AdminUploadPage = () => {
     setMessage('Uploading...');
     try {
       let response;
+      const resourceType = formData.resource_type;
+      
+      // Remove resource_type from formData as the backend models don't have it
+      const { resource_type, ...uploadData } = formData;
+
       if (formType === 'resource') {
-        response = await createResource(formData, auth.credentials);
+        if (resourceType === 'note') {
+          response = await createNote(uploadData, auth.credentials);
+        } else if (resourceType === 'pyq') {
+          response = await createPyq(uploadData, auth.credentials);
+        } else {
+          throw new Error("Invalid resource type selected.");
+        }
       } else if (formType === 'blog') {
         response = await createBlog(formData, auth.credentials);
       } else {

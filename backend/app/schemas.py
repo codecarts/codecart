@@ -30,17 +30,33 @@ class Blog(BlogBase):
     class Config:
         from_attributes = True
 
-class ResourceBase(BaseModel):
+# --- Note Schemas ---
+class NoteBase(BaseModel):
     title: str
     description: str | None = None
-    gdrive_link: str
-    resource_type: ResourceType
     category: str
+    gdrive_link: str
 
-class ResourceCreate(ResourceBase):
+class NoteCreate(NoteBase):
     pass
 
-class Resource(ResourceBase):
+class Note(NoteBase):
+    id: int
+    created_at: datetime
+    class Config:
+        from_attributes = True
+
+# --- PYQ Schemas ---
+class PyqBase(BaseModel):
+    title: str
+    description: str | None = None
+    category: str
+    gdrive_link: str
+
+class PyqCreate(PyqBase):
+    pass
+
+class Pyq(PyqBase):
     id: int
     created_at: datetime
     class Config:

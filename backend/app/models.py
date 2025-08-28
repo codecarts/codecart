@@ -6,14 +6,22 @@ class ResourceType(str, enum.Enum):
     note = "note"
     pyq = "pyq"
 
-class Resource(Base):
-    __tablename__ = "resources"
+class Note(Base):
+    __tablename__ = "notes"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     description = Column(String)
+    category = Column(String, index=True)
     gdrive_link = Column(String, nullable=False)
-    resource_type = Column(Enum(ResourceType))
-    category = Column(String, index=True, default="General")
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class Pyq(Base):
+    __tablename__ = "pyqs"
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
+    description = Column(String)
+    category = Column(String, index=True)
+    gdrive_link = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class Blog(Base):
