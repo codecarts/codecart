@@ -63,7 +63,7 @@ function Navigation() {
 
       <div className={`mobile-nav-menu ${isMenuOpen ? 'open' : ''}`}>
         <div className="mobile-nav-header">
-          <div className="mobile-nav-title">Home</div>
+          <Link to="/" className="mobile-nav-title">Home</Link>
           <button className="close-icon" onClick={closeMenu}>×</button>
         </div>
         <NavLink to="/notes" onClick={closeMenu}>Notes</NavLink>
