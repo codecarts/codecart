@@ -55,7 +55,7 @@ function Navigation() {
         </div>
         
         <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? "Home" : "☰"}
+          {isMenuOpen ? "" : "☰"}
         </button>
       </nav>
 
