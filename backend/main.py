@@ -135,20 +135,6 @@ def get_all_blogs(db: Session = Depends(database.get_db)):
 def get_all_products(db: Session = Depends(database.get_db)):
     return db.query(models.Product).order_by(models.Product.id.desc()).all()
 
-
-# --- PROTECTED ADMIN POST ENDPOINTS ---
-@app.post("/api/resources", response_model=schemas.Resource, status_code=status.HTTP_201_CREATED)
-def create_resource(
-    resource: schemas.ResourceCreate,
-    is_admin: bool = Depends(admin.verify_admin),
-    db: Session = Depends(database.get_db)
-):
-    db_resource = models.Resource(**resource.dict())
-    db.add(db_resource)
-    db.commit()
-    db.refresh(db_resource)
-    return db_resource
-
 @app.post("/api/blogs", response_model=schemas.Blog, status_code=status.HTTP_201_CREATED)
 def create_blog(
     blog: schemas.BlogCreate,
