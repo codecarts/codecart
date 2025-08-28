@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Added the missing Link import
-import { createResource, createBlog, createProduct } from '../services/api';
+import { Link } from 'react-router-dom';
+// This is the corrected import line
+import { createNote, createPyq, createBlog, createProduct } from '../services/api';
 import { useAdminAuth } from '../context/AdminAuthContext';
 
 const AdminUploadPage = () => {
@@ -27,7 +28,6 @@ const AdminUploadPage = () => {
       let response;
       const resourceType = formData.resource_type;
       
-      // Remove resource_type from formData as the backend models don't have it
       const { resource_type, ...uploadData } = formData;
 
       if (formType === 'resource') {
