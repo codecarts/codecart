@@ -24,22 +24,22 @@ import RegisterPage from './pages/RegisterPage';
 import ContactMessagesPage from './pages/ContactMessagesPage';
 
 function Navigation() {
-  const { user, logout } = useUserAuth();
+  const { user, logout } = useUser_auth();
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [is_menu_open, set_is_menu_open] = useState(false);
 
-  const handleLogout = () => {
+  const handle_logout = () => {
     logout();
     navigate('/');
   };
   
-  const closeMenu = () => setIsMenuOpen(false);
+  const close_menu = () => set_is_menu_open(false);
 
   return (
     <>
       <nav>
         <Link to="/" className="logo">
-          <img src={logoImage} alt="codecart logo" />
+          <img src={logo_image} alt="codecart logo" />
           <span>codecart</span>
         </Link>
         
@@ -51,35 +51,37 @@ function Navigation() {
           <NavLink to="/products">Products</NavLink>
           <NavLink to="/contact">Contact</NavLink>
           {user ? (
-            <button onClick={handleLogout} className="logout-button">Logout</button>
+            <button onClick={handle_logout}>Logout</button>
           ) : (
-            <NavLink to="/login" className="login-button">Login</NavLink>
+            <NavLink to="/login">Login</NavLink>
           )}
         </div>
         
-         {/* Hamburger Icon for Mobile */}
-      <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? "Home" : "☰"} {/* Show "Home" when open, "☰" when closed */}
+        {/* Hamburger Icon for Mobile (now always shows the icon) */}
+        <button className="hamburger-icon" onClick={() => set_is_menu_open(!is_menu_open)}>
+          ☰
         </button>
       </nav>
 
       {/* Background Overlay */}
-      <div className={`overlay ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
+      <div className={`overlay ${is_menu_open ? 'open' : ''}`} onClick={close_menu}></div>
 
       {/* Mobile Menu Slide-out */}
-      <div className={`mobile-nav-menu ${isMenuOpen ? 'open' : ''}`}>
+      <div className={`mobile-nav-menu ${is_menu_open ? 'open' : ''}`}>
         <div className="mobile-nav-header">
-          <button className="close-icon" onClick={closeMenu}>×</button>
+           {/* The "Home" title is now here */}
+          <div className="mobile-nav-title">Home</div>
+          <button className="close-icon" onClick={close_menu}>×</button>
         </div>
-        <NavLink to="/notes" onClick={closeMenu}>Notes</NavLink>
-        <NavLink to="/pyqs" onClick={closeMenu}>PYQs</NavLink>
-        <NavLink to="/blogs" onClick={closeMenu}>Blogs</NavLink>
-        <NavLink to="/products" onClick={closeMenu}>Products</NavLink>
-        <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
+        <NavLink to="/notes" onClick={close_menu}>Notes</NavLink>
+        <NavLink to="/pyqs" onClick={close_menu}>PYQs</NavLink>
+        <NavLink to="/blogs" onClick={close_menu}>Blogs</NavLink>
+        <NavLink to="/products" onClick={close_menu}>Products</NavLink>
+        <NavLink to="/contact" onClick={close_menu}>Contact</NavLink>
          {user ? (
-          <a onClick={() => { handleLogout(); closeMenu(); }} style={{cursor: 'pointer'}}>Logout</a>
+          <a onClick={() => { handle_logout(); close_menu(); }} style={{cursor: 'pointer'}}>Logout</a>
         ) : (
-          <NavLink to="/login" onClick={closeMenu}>Login</NavLink>
+          <NavLink to="/login" onClick={close_menu}>Login</NavLink>
         )}
       </div>
     </>
