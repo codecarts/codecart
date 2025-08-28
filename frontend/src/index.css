@@ -14,8 +14,6 @@ body {
   margin: 0;
   background-color: var(--background-light);
   color: var(--primary-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 #root {
   display: flex;
@@ -28,12 +26,15 @@ main {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem; /* Mobile padding */
 }
+
+/* --- Mobile Navigation (Default) --- */
 nav {
   display: flex;
   align-items: center;
-  padding: 0.8rem 2rem;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -42,186 +43,131 @@ nav {
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* --- Animated Logo Underline --- */
 .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-dark);
-  text-decoration: none;
-  margin-right: auto;
   display: flex;
   align-items: center;
-  padding: 10px;
+  text-decoration: none;
+  color: var(--primary-dark);
 }
-
-/* Prepare the text for the underline */
-.logo span {
-  position: relative;
-  padding-bottom: 5px;
-}
-
-/* Create the underline and set its default state */
-.logo span::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: var(--accent-color); /* Default static color */
-}
-
-/* Apply the animation ONLY on hover */
-.logo:hover span::after {
-  animation: rgb-underline 4s linear infinite;
-}
-
-/* Define the color-changing animation */
-@keyframes rgb-underline {
-  0%   { background-color: #ff4d4d; } /* Red */
-  33%  { background-color: #4dff4d; } /* Green */
-  66%  { background-color: #4d4dff; } /* Blue */
-  100% { background-color: #ff4d4d; } /* Back to Red */
-}
-
-/* Keep the rest of your logo styles */
 .logo img {
-  height: 40px;
-  margin-right: 10px;
+  height: 35px;
+  margin-right: 8px;
+}
+.logo span {
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 .desktop-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: none; /* Hidden on mobile */
 }
-nav a {
+.hamburger-icon {
+  display: block; /* Shown on mobile */
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+/* --- Slide-out Mobile Menu --- */
+.mobile-nav-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 300px;
+  height: 100vh;
+  background: var(--background-white);
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  box-sizing: border-box;
+  transition: right 0.4s ease-in-out;
+  z-index: 1001;
+}
+.mobile-nav-menu.open {
+  right: 0;
+}
+.mobile-nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.mobile-nav-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.close-icon {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.mobile-nav-menu a {
+  font-size: 1.2rem;
   font-weight: 600;
+  padding: 1rem 0;
   color: var(--primary-dark);
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: color 0.3s ease, background-color 0.3s ease;
 }
-nav a:hover {
-  color: var(--primary-dark);
-  background-color: #f0f0f0;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease;
+  z-index: 1000;
 }
-nav a.active {
-  color: var(--accent-color);
+.overlay.open {
+  opacity: 1;
+  visibility: visible;
 }
+
+/* --- Footer --- */
 .footer {
   background-color: var(--primary-dark);
   color: #a9b3c6;
-  padding: 2rem;
+  padding: 2rem 1rem;
   text-align: center;
   font-size: 0.9rem;
 }
-.footer p {
-  margin: 0;
-}
 
 /* =============================================== */
-/* ---        MOBILE-ONLY STYLES (768px and below) --- */
+/* ---        PC / DESKTOP STYLES              --- */
 /* =============================================== */
-@media (max-width: 768px) {
-    /* --- Navigation --- */
-    nav {
-        padding: 0.8rem 1rem;
-    }
-
-    /* Hide the desktop navigation links */
-    .desktop-nav-links {
-        display: none;
-    }
-    
-    /* Show the hamburger icon */
-    .hamburger-icon {
-        display: block;
-        font-size: 1.8rem;
-        background: none;
-        border: none;
-        cursor: pointer;
-        z-index: 1002;
-        margin-left: auto;
-    }
-    
-    .logo img {
-        height: 35px;
-    }
-    
-    .logo span {
-        font-size: 1.3rem;
-    }
-
-    /* --- Mobile Slide-out Menu --- */
-    .mobile-nav-menu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 70%;
-        max-width: 300px;
-        height: 100vh;
-        background: var(--background-white);
-        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-        display: flex;
-        flex-direction: column;
-        padding: 2rem;
-        box-sizing: border-box;
-        transition: right 0.4s ease-in-out;
-        z-index: 1001;
-    }
-
-    .mobile-nav-menu.open {
-        right: 0;
-    }
-
-    .mobile-nav-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 1rem;
-        margin-bottom: 1rem;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .mobile-nav-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--primary-dark);
-    }
-
-    .close-icon {
-        font-size: 2rem;
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    .mobile-nav-menu a {
-        font-size: 1.2rem;
-        font-weight: 600;
-        padding: 1rem 0;
-        text-align: left;
-        color: var(--primary-dark);
-        text-decoration: none;
-    }
-
-    /* Background overlay when menu is open */
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.4);
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.4s ease, visibility 0.4s ease;
-        z-index: 1000;
-    }
-
-    .overlay.open {
-        opacity: 1;
-        visibility: visible;
-    }
+@media (min-width: 769px) {
+  .container {
+    padding: 0 2rem; /* Restore PC padding */
+  }
+  nav {
+    padding: 0.8rem 2rem;
+    justify-content: flex-start;
+  }
+  .logo {
+    margin-right: auto;
+  }
+  .hamburger-icon {
+    display: none; /* Hide hamburger on PC */
+  }
+  .desktop-nav-links {
+    display: flex; /* Show desktop links on PC */
+    align-items: center;
+    gap: 0.5rem;
+  }
+  nav a {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+  }
+  nav a:hover {
+    background-color: #f0f0f0;
+  }
 }
