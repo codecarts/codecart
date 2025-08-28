@@ -7,7 +7,6 @@ import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
 
 import logoImage from './assets/logo.png'; // Imported as 'logoImage'
-import './Mobile.css';
 
 import HomePage from './pages/HomePage';
 import NotesPage from './pages/NotesPage';

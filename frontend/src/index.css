@@ -160,3 +160,33 @@ nav a.active {
         padding: 1.5rem 1rem;
     }
 }
+
+/* =============================================== */
+/* ---        MOBILE-ONLY STYLES (768px and below) --- */
+/* =============================================== */
+@media (max-width: 768px) {
+
+    /* --- Navigation --- */
+    /* Hide the desktop navigation links */
+    .desktop-nav-links {
+        display: none;
+    }
+    
+    /* Show the hamburger icon */
+    .hamburger-icon {
+        display: block;
+    }
+
+    .logo img {
+        height: 35px;
+    }
+    
+    .logo span {
+        font-size: 1.3rem;
+    }
+    
+    /* --- Card Grids (for Notes, Blogs, etc.) --- */
+    .card-grid {
+        grid-template-columns: 1fr; /* Stack cards in a single column */
+    }
+}
