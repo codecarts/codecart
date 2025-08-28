@@ -1,3 +1,12 @@
+
+/* --- Mobile-first styles (at the top of the file) --- */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Changed from '1fr 1fr' to '1fr' */
+  gap: 1.5rem;
+  text-align: center;
+}
+
 /* --- Default Mobile Styles --- */
 .hero {
   position: relative;
@@ -119,8 +128,11 @@
     font-size: 2.5rem;
   }
   .features-grid {
-    grid-template-columns: repeat(4, 1fr); /* Four columns for PC */
-  }
+  display: grid;
+  grid-template-columns: 1fr; /* Changed from '1fr 1fr' to '1fr' */
+  gap: 1.5rem;
+  text-align: center;
+}
   .feature-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
