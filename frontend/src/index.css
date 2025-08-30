@@ -26,7 +26,7 @@ main {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem; /* Mobile padding */
+  padding: 0 1rem;
 }
 
 /* --- Mobile Navigation (Default) --- */
@@ -58,7 +58,7 @@ nav {
   font-weight: 700;
 }
 .desktop-nav-links {
-  display: none; /* Hidden on mobile */
+  display: none; /* Hidden on mobile by default */
 }
 .hamburger-icon {
   display: block; /* Shown on mobile */
@@ -67,7 +67,7 @@ nav {
   border: none;
   cursor: pointer;
   z-index: 1002;
-  margin-left: auto; /* This line was missing */
+  margin-left: auto;
 }
 
 /* --- Slide-out Mobile Menu --- */
@@ -101,6 +101,8 @@ nav {
 .mobile-nav-title {
   font-size: 1.5rem;
   font-weight: 700;
+  color: var(--primary-dark);
+  text-decoration: none;
 }
 .close-icon {
   font-size: 2rem;
@@ -161,7 +163,7 @@ nav {
 /* =============================================== */
 @media (min-width: 769px) {
   .container {
-    padding: 0 2rem; /* Restore PC padding */
+    padding: 0 2rem;
   }
   nav {
     padding: 0.8rem 2rem;
@@ -179,7 +181,6 @@ nav {
     gap: 0.5rem;
   }
   nav a {
-    text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 6px;
   }
