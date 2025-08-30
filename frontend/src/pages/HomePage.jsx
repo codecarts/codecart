@@ -52,7 +52,7 @@ const HomePage = () => {
               <FaTelegramPlane />
               <span>Telegram</span>
             </a>
-            <a href="https://instagram.com/your_instagram_page" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/codecart_?igsh=MTB0em8yYmk0YzBpbA==&utm_source=ig_contact_invite" target="_blank" rel="noopener noreferrer">
               <FaInstagram />
               <span>Instagram</span>
             </a>
