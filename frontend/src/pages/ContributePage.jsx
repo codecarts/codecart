@@ -16,7 +16,7 @@ const ContributePage = () => {
                 >
                     <input type="text" name="name" placeholder="Your Name" required />
                     <input type="email" name="email" placeholder="Your Email" required />
-                    <textarea name="message" placeholder="Brief description of the notes/pyq. Min 1 & Max-250 words" required></textarea>
+                    <textarea name="message" placeholder="Brief description of the notes or pyqs" required></textarea>
                     
                     <label htmlFor="file-upload" className="file-upload-label">
                         Select File to Upload
