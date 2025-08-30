@@ -48,7 +48,7 @@ const HomePage = () => {
           <h2>Connect With Us</h2>
           <p>Join our communities on Telegram and Instagram to stay updated with the latest notes, announcements, and discussions.</p>
           <div className="social-links">
-            <a href="https://t.me/your_telegram_group" target="_blank" rel="noopener noreferrer">
+            <a href="https://t.me/+gv1qThOnm1YyZmE9" target="_blank" rel="noopener noreferrer">
               <FaTelegramPlane />
               <span>Telegram</span>
             </a>
