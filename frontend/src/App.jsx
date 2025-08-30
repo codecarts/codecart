@@ -9,7 +9,6 @@ import UserProtectedRoute from './components/UserProtectedRoute';
 
 // Import your logo, mobile CSS, and icons
 import logoImage from './assets/logo.png';
-import './Mobile.css';
 import { FaTelegramPlane, FaInstagram } from 'react-icons/fa';
 
 // Import all page components
