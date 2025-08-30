@@ -9,7 +9,7 @@ const HomePage = () => {
       <section className="hero">
         <div className="hero-content">
           <h1>Your Ultimate Study Resource Hub</h1>
-          <p>Access high-quality notes, previous year questions, and tech resources all in one place.</p>
+          <p> Access high-quality notes, previous year questions, and tech resources all in one place. Get the latest on ongoing hackathons, competitions, and tech-related blogs.</p>
           <Link to="/notes" className="hero-button">Get Started</Link>
         </div>
       </section>
