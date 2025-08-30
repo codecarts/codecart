@@ -157,3 +157,51 @@ nav {
     background-color: #f0f0f0;
   }
 }
+
+/* --- Social CTA Section --- */
+.social-cta-section {
+  background-color: var(--background-white);
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.social-cta-section h2 {
+  font-size: 2rem;
+  color: var(--primary-dark);
+  margin: 0 0 1rem 0;
+}
+
+.social-cta-section p {
+  color: var(--secondary-text);
+  margin: 0 auto 2rem auto;
+  max-width: 600px;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--primary-dark);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.social-links a:hover {
+  transform: scale(1.05);
+  background-color: var(--accent-color);
+  color: var(--primary-dark);
+}
+
+.social-links a svg {
+  font-size: 1.5rem;
+}

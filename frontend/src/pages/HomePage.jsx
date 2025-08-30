@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaTelegramPlane, FaInstagram } from 'react-icons/fa'; // Import icons
 import './HomePage.css';
 
 const HomePage = () => {
@@ -37,6 +38,24 @@ const HomePage = () => {
               <h3>Study Guides</h3>
               <p>Effective learning strategies and exam preparation tips.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Add this new section */}
+      <section className="social-cta-section">
+        <div className="container">
+          <h2>Connect With Us</h2>
+          <p>Join our communities on Telegram and Instagram to stay updated with the latest notes, announcements, and discussions.</p>
+          <div className="social-links">
+            <a href="https://t.me/your_telegram_group" target="_blank" rel="noopener noreferrer">
+              <FaTelegramPlane />
+              <span>Telegram</span>
+            </a>
+            <a href="https://instagram.com/your_instagram_page" target="_blank" rel="noopener noreferrer">
+              <FaInstagram />
+              <span>Instagram</span>
+            </a>
           </div>
         </div>
       </section>

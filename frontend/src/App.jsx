@@ -89,15 +89,7 @@ function Navigation() {
 function Footer() {
   return (
     <footer className="footer">
-      <p>© 2025 codecart | Curated with care for students.</p>
-      <div className="footer-socials">
-        <a href="https://t.me/your_telegram_group" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-          <FaTelegramPlane />
-        </a>
-        <a href="https://instagram.com/your_instagram_page" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <FaInstagram />
-        </a>
-      </div>
+      <p>© 2025 codecart | All rights reserved.</p>
     </footer>
   );
 }
