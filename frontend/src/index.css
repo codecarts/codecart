@@ -23,11 +23,6 @@ body {
 main {
   flex-grow: 1;
 }
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
 
 /* --- Mobile Navigation (Default) --- */
 nav {
@@ -134,37 +129,10 @@ nav {
   visibility: visible;
 }
 
-/* --- Footer --- */
-.footer {
-  background-color: var(--primary-dark);
-  color: #a9b3c6;
-  padding: 1.2rem 1rem;
-  text-align: center;
-  font-size: 0.9rem;
-}
-.footer-socials {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-}
-.footer-socials a {
-  color: #a9b3c6;
-  text-decoration: none;
-  font-size: 1.5rem;
-  transition: color 0.3s ease;
-}
-.footer-socials a:hover {
-  color: var(--accent-color);
-}
-
 /* =============================================== */
 /* ---        PC / DESKTOP STYLES              --- */
 /* =============================================== */
 @media (min-width: 769px) {
-  .container {
-    padding: 0 2rem;
-  }
   nav {
     padding: 0.8rem 2rem;
     justify-content: flex-start;
@@ -181,6 +149,7 @@ nav {
     gap: 0.5rem;
   }
   nav a {
+    text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 6px;
   }
