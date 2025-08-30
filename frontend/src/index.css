@@ -22,6 +22,7 @@ body {
 }
 main {
   flex-grow: 1;
+  padding-top: 60px; /* Adjust this value if your nav bar height changes */
 }
 
 /* --- Mobile Navigation (Default) --- */
