@@ -52,7 +52,7 @@ function Navigation() {
           <NavLink to="/blogs">Blogs</NavLink>
           <NavLink to="/products">Products</NavLink>
           <NavLink to="/contact">Contact</NavLink>
-          <NavLink to="/contribute">Contribute</NavLink>
+          <NavLink to="/contribute">Share Resources</NavLink>
           {user ? (
             <button onClick={handleLogout}>Logout</button>
           ) : (
