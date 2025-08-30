@@ -59,6 +59,21 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      <section className="feedback-section">
+        <div className="container">
+          <h2>Have a Suggestion?</h2>
+          <p>We are always looking to improve. If you have any feedback or suggestions for the website, please let us know!</p>
+          <form 
+            className="feedback-form"
+            action="https://formspree.io/f/xgvlagno" // <-- PASTE YOUR NEW URL HERE
+            method="POST"
+          >
+            <textarea name="feedback" placeholder="Your feedback..." required></textarea>
+            <button type="submit">Send Feedback</button>
+          </form>
+        </div>
+      </section>
     </>
   );
 };
