@@ -5,7 +5,7 @@ import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { UserAuthProvider, useUserAuth } from './context/UserAuthContext';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
-import UserProtectedRoute from './components/UserProtectedRoute';
+import UserProtectedRoute from './components-UserProtectedRoute';
 
 // Import your logo, mobile CSS, and icons
 import logoImage from './assets/logo.png';
@@ -18,7 +18,7 @@ import PyqsPage from './pages/PyqsPage';
 import BlogsPage from './pages/BlogsPage';
 import ProductsPage from './pages/ProductsPage';
 import ContactPage from './pages/ContactPage';
-import ContributePage from './pages/ContributePage'; // New
+import ContributePage from './pages/ContributePage';
 import AdminLoginPage from './pages/LoginPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import UserLoginPage from './pages/UserLoginPage';
@@ -46,7 +46,7 @@ function Navigation() {
         </Link>
         
         {/* Desktop Links */}
-        <div className="desktop-nav-links" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+        <div className="desktop-nav-links">
           <NavLink to="/notes">Notes</NavLink>
           <NavLink to="/pyqs">PYQs</NavLink>
           <NavLink to="/blogs">Blogs</NavLink>
