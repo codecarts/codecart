@@ -5,7 +5,8 @@ import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { UserAuthProvider, useUserAuth } from './context/UserAuthContext';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
-import UserProtectedRoute from './components-UserProtectedRoute';
+// This is the corrected import path
+import UserProtectedRoute from './components/UserProtectedRoute';
 
 // Import your logo, mobile CSS, and icons
 import logoImage from './assets/logo.png';
@@ -45,7 +46,6 @@ function Navigation() {
           <span>codecart</span>
         </Link>
         
-        {/* Desktop Links */}
         <div className="desktop-nav-links">
           <NavLink to="/notes">Notes</NavLink>
           <NavLink to="/pyqs">PYQs</NavLink>
@@ -60,16 +60,11 @@ function Navigation() {
           )}
         </div>
         
-        {/* Hamburger Icon for Mobile */}
-        <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          ☰
-        </button>
+        <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>☰</button>
       </nav>
 
-      {/* Background Overlay */}
       <div className={`overlay ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
 
-      {/* Mobile Menu Slide-out */}
       <div className={`mobile-nav-menu ${isMenuOpen ? 'open' : ''}`}>
         <div className="mobile-nav-header">
           <Link to="/" className="mobile-nav-title" onClick={closeMenu}>Home</Link>
@@ -114,25 +109,18 @@ function App() {
         <Navigation />
         <main>
           <Routes>
-            {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/notes" element={<NotesPage />} />
             <Route path="/pyqs" element={<PyqsPage />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/contribute" element={<ContributePage />} />
-            
-            {/* User Auth Routes */}
             <Route path="/login" element={<UserLoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            
-            {/* Protected User Route */}
             <Route
               path="/contact"
               element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>}
             />
-
-            {/* Admin Routes (hidden but accessible via URL) */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route
               path="/admin/upload"
