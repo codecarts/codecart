@@ -6,20 +6,17 @@ const ContributePage = () => {
         <section className="contribute-section">
             <div className="contribute-container">
                 <h1>Help Us Grow</h1>
-                <p>Have notes, guides, or question papers you'd like to share? We'd love your contribution! Please use the form below to send us your files.</p>
+                <p>Have notes, guides, or question papers you'd like to share? We'd love your contribution! Click the button below to open the contribution form.</p>
                 
-                <div className="google-form-container">
-                    <iframe 
-                        src="https://docs.google.com/forms/d/e/1FAIpQLSdFILw78qsGMplOrh19-y5P9VSyBKbIGUiIWpeMLC5-SAtjkQ/viewform?usp=header" // <-- PASTE YOUR GOOGLE FORM URL HERE
-                        width="640" 
-                        height="1200" // Increased height for more fields
-                        frameBorder="0" 
-                        marginHeight="0" 
-                        marginWidth="0"
-                    >
-                        Loading…
-                    </iframe>
-                </div>
+                {/* Replace the iframe with this styled link */}
+                <a 
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSdFILw78qsGMplOrh19-y5P9VSyBKbIGUiIWpeMLC5-SAtjkQ/viewform?usp=header" // <-- PASTE YOUR GOOGLE FORM URL HERE
+                    className="google-form-button"
+                    target="_blank" // This opens the form in a new tab
+                    rel="noopener noreferrer"
+                >
+                    Open Contribution Form
+                </a>
             </div>
         </section>
     );
