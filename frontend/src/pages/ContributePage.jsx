@@ -10,7 +10,7 @@ const ContributePage = () => {
                 
                 <div className="google-form-container">
                     <iframe 
-                        src="https://forms.gle/AFyfg2W3bo4timbH8" // <-- PASTE YOUR GOOGLE FORM URL HERE
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSdFILw78qsGMplOrh19-y5P9VSyBKbIGUiIWpeMLC5-SAtjkQ/viewform?usp=header" // <-- PASTE YOUR GOOGLE FORM URL HERE
                         width="640" 
                         height="1200" // Increased height for more fields
                         frameBorder="0" 
