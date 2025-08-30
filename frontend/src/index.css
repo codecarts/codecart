@@ -139,6 +139,24 @@ nav {
   text-align: center;
   font-size: 0.9rem;
 }
+/* Add these new styles */
+.footer-socials {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.footer-socials a {
+  color: #a9b3c6;
+  text-decoration: none;
+  font-size: 1.5rem; /* Adjust icon size */
+  transition: color 0.3s ease;
+}
+
+.footer-socials a:hover {
+  color: var(--accent-color);
+}
 
 /* =============================================== */
 /* ---        PC / DESKTOP STYLES              --- */

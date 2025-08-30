@@ -1,0 +1,59 @@
+.contribute-section {
+    padding: 4rem 2rem;
+}
+.contribute-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+.contribute-container h1 {
+    color: var(--primary-dark);
+    font-size: 2.5rem;
+}
+.contribute-container p {
+    color: var(--secondary-text);
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+.contribute-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: left;
+    background: var(--background-white);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+.contribute-form input,
+.contribute-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+.file-upload-label {
+    padding: 1rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--secondary-text);
+    font-weight: 600;
+}
+.contribute-form input[type="file"] {
+    display: none; /* Hide the default ugly file input */
+}
+.contribute-form button {
+    padding: 1rem;
+    border: none;
+    background-color: var(--primary-dark);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+}
