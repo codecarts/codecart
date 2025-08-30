@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
 import { getPyqs } from '../services/api';
 import { FilterBar } from '../components/FilterBar';
-import './NotesPage.css';
+import './NotesPage.css'; // You can reuse the same CSS as the Notes page
 
 const PyqsPage = () => {
   const [pyqs, setPyqs] = useState([]);
   const [filteredPyqs, setFilteredPyqs] = useState([]);
-  const [loading, setLoading] = useState(true); // Add a loading state
-  const icon = "https://api.iconify.design/solar/calendar-minimalistic-linear.svg";
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true); // Set loading to true when fetching starts
+    setLoading(true);
     getPyqs()
       .then(response => {
         setPyqs(response.data);
@@ -20,7 +19,7 @@ const PyqsPage = () => {
         console.error("Failed to fetch PYQs:", error);
       })
       .finally(() => {
-        setLoading(false); // Set loading to false once fetching is complete
+        setLoading(false);
       });
   }, []);
 
@@ -37,6 +36,20 @@ const PyqsPage = () => {
     return acc;
   }, {});
 
+  // First, check if the page is loading.
+  if (loading) {
+    return (
+      <div>
+        <div className="page-header">
+          <h1>Previous Year Questions</h1>
+          <FilterBar onFilterChange={handleFilterChange} placeholder="Filter by subject or title..." />
+        </div>
+        <p style={{ textAlign: 'center', padding: '2rem' }}>Loading PYQs...</p>
+      </div>
+    );
+  }
+
+  // If not loading, return the main content.
   return (
     <div>
       <div className="page-header">
@@ -44,17 +57,14 @@ const PyqsPage = () => {
         <FilterBar onFilterChange={handleFilterChange} placeholder="Filter by subject or title..." />
       </div>
       <div className="container">
-        {/* Show a loading message while fetching */}
-        {loading ? (
-          <p style={{ textAlign: 'center' }}>Loading PYQs...</p>
-        ) : Object.keys(groupedPyqs).length > 0 ? (
+        {Object.keys(groupedPyqs).length > 0 ? (
           Object.entries(groupedPyqs).map(([category, pyqsInCategory]) => (
             <div key={category} className="resource-category">
               <h2>{category}</h2>
               <div className="resource-tags">
                 {pyqsInCategory.map(pyq => (
                   <a key={pyq.id} href={pyq.gdrive_link} className="resource-tag" target="_blank" rel="noopener noreferrer">
-                    <img src={icon} alt="icon"/>
+                    <img src={"https://api.iconify.design/solar/calendar-minimalistic-linear.svg"} alt="icon"/>
                     {pyq.title}
                   </a>
                 ))}
@@ -62,7 +72,7 @@ const PyqsPage = () => {
             </div>
           ))
         ) : (
-          <p style={{ textAlign: 'center' }}>No PYQs match your search.</p>
+          <p style={{ textAlign: 'center' }}>No PYQs have been added yet, or none match your search.</p>
         )}
       </div>
     </div>

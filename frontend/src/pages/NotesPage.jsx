@@ -6,10 +6,10 @@ import './NotesPage.css';
 const NotesPage = () => {
   const [notes, setNotes] = useState([]);
   const [filteredNotes, setFilteredNotes] = useState([]);
-  const [loading, setLoading] = useState(true); // Add a loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true); // Set loading to true when fetching starts
+    setLoading(true);
     getNotes()
       .then(response => {
         setNotes(response.data);
@@ -19,7 +19,7 @@ const NotesPage = () => {
         console.error("Failed to fetch notes:", error);
       })
       .finally(() => {
-        setLoading(false); // Set loading to false once fetching is complete
+        setLoading(false);
       });
   }, []);
 
@@ -36,6 +36,20 @@ const NotesPage = () => {
     return acc;
   }, {});
 
+  // First, check if the page is loading. If so, return a loading message.
+  if (loading) {
+    return (
+      <div>
+        <div className="page-header">
+          <h1>Subject Notes</h1>
+          <FilterBar onFilterChange={handleFilterChange} placeholder="Filter by subject or title..." />
+        </div>
+        <p style={{ textAlign: 'center', padding: '2rem' }}>Loading notes...</p>
+      </div>
+    );
+  }
+
+  // If not loading, return the main content.
   return (
     <div>
       <div className="page-header">
@@ -43,10 +57,7 @@ const NotesPage = () => {
         <FilterBar onFilterChange={handleFilterChange} placeholder="Filter by subject or title..." />
       </div>
       <div className="container">
-        {/* This is the key change: Show a loading message while fetching */}
-        {loading ? (
-          <p style={{ textAlign: 'center' }}>Loading notes...</p>
-        ) : Object.keys(groupedNotes).length > 0 ? (
+        {Object.keys(groupedNotes).length > 0 ? (
           Object.entries(groupedNotes).map(([category, notesInCategory]) => (
             <div key={category} className="resource-category">
               <h2>{category}</h2>
@@ -61,7 +72,7 @@ const NotesPage = () => {
             </div>
           ))
         ) : (
-          <p style={{ textAlign: 'center' }}>No notes match your search.</p>
+          <p style={{ textAlign: 'center' }}>No notes have been added yet, or none match your search.</p>
         )}
       </div>
     </div>
