@@ -25,6 +25,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.options("/{rest_of_path:path}")
+def preflight_handler():
+    return {"message": "CORS preflight passed"}
+
 # --- USER AUTHENTICATION ENDPOINTS ---
 @app.post("/api/users/register", response_model=schemas.UserOut, status_code=status.HTTP_201_CREATED)
 def register_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
