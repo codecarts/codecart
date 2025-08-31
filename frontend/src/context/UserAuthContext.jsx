@@ -6,13 +6,15 @@ const UserAuthContext = createContext(null);
 
 export const UserAuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
+    // Check local storage for a token to keep the user logged in
     const token = localStorage.getItem('user_token');
     return token ? { token } : null;
   });
 
   const login = async (email, password) => {
+    // Create form data as expected by Spring Security
     const formData = new URLSearchParams();
-    formData.append('username', email);
+    formData.append('username', email); // Spring Security expects 'username'
     formData.append('password', password);
 
     const response = await axios.post(`${API_URL}/api/users/login`, formData);
