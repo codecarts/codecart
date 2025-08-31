@@ -19,15 +19,11 @@ app = FastAPI(title="codecart API")
 # Configure CORS to allow requests from your deployed frontends
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://codecart.qzz.io"], # For testing; replace with specific URLs for production
+    allow_origins=["*"], # For testing; replace with specific URLs for production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.options("/{rest_of_path:path}")
-def preflight_handler():
-    return {"message": "CORS preflight passed"}
 
 # --- USER AUTHENTICATION ENDPOINTS ---
 @app.post("/api/users/register", response_model=schemas.UserOut, status_code=status.HTTP_201_CREATED)
