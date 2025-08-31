@@ -9,18 +9,20 @@ class ResourceType(str, enum.Enum):
 class Note(Base):
     __tablename__ = "notes"
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String)
-    category = Column(String, index=True)
+    department = Column(String, index=True)
+    course = Column(String, index=True)
+    semester = Column(Integer, index=True)
+    subject = Column(String, index=True)
     gdrive_link = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class Pyq(Base):
     __tablename__ = "pyqs"
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String)
-    category = Column(String, index=True)
+    department = Column(String, index=True)
+    course = Column(String, index=True)
+    semester = Column(Integer, index=True)
+    subject = Column(String, index=True)
     gdrive_link = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

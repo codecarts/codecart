@@ -32,9 +32,10 @@ class Blog(BlogBase):
 
 # --- Note Schemas ---
 class NoteBase(BaseModel):
-    title: str
-    description: str | None = None
-    category: str
+    department: str
+    course: str
+    semester: int
+    subject: str
     gdrive_link: str
 
 class NoteCreate(NoteBase):
@@ -48,9 +49,10 @@ class Note(NoteBase):
 
 # --- PYQ Schemas ---
 class PyqBase(BaseModel):
-    title: str
-    description: str | None = None
-    category: str
+    department: str
+    course: str
+    semester: int
+    subject: str
     gdrive_link: str
 
 class PyqCreate(PyqBase):
@@ -61,7 +63,7 @@ class Pyq(PyqBase):
     created_at: datetime
     class Config:
         from_attributes = True
-
+        
 class AdminCredentials(BaseModel):
     email: str
     password: str

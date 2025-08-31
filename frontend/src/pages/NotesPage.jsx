@@ -1,82 +1,81 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getNotes } from '../services/api';
-import { FilterBar } from '../components/FilterBar';
-import './NotesPage.css';
+import './HierarchicalView.css'; // Import the new stylesheet
 
 const NotesPage = () => {
-  const [notes, setNotes] = useState([]);
-  const [filteredNotes, setFilteredNotes] = useState([]);
-  const [loading, setLoading] = useState(true);
+    const [notes, setNotes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [openDepartment, setOpenDepartment] = useState(null);
 
-  useEffect(() => {
-    setLoading(true);
-    getNotes()
-      .then(response => {
-        setNotes(response.data);
-        setFilteredNotes(response.data);
-      })
-      .catch(error => {
-        console.error("Failed to fetch notes:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    useEffect(() => {
+        getNotes()
+            .then(response => setNotes(response.data))
+            .catch(error => console.error("Failed to fetch notes:", error))
+            .finally(() => setLoading(false));
+    }, []);
 
-  const handleFilterChange = (searchTerm) => {
-    const filtered = notes.filter(note =>
-      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.category.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredNotes(filtered);
-  };
+    const toggleDepartment = (department) => {
+        setOpenDepartment(openDepartment === department ? null : department);
+    };
 
-  const groupedNotes = filteredNotes.reduce((acc, note) => {
-    (acc[note.category] = acc[note.category] || []).push(note);
-    return acc;
-  }, {});
+    // Group data into a nested structure: Department > Course > Semester > Subjects
+    const groupedData = useMemo(() => {
+        const hierarchy = {};
+        notes.forEach(note => {
+            const { department, course, semester, subject, gdrive_link, id } = note;
+            if (!hierarchy[department]) hierarchy[department] = {};
+            if (!hierarchy[department][course]) hierarchy[department][course] = {};
+            if (!hierarchy[department][course][semester]) hierarchy[department][course][semester] = [];
+            hierarchy[department][course][semester].push({ id, subject, gdrive_link });
+        });
+        return hierarchy;
+    }, [notes]);
 
-  // First, check if the page is loading. If so, return a loading message.
-  if (loading) {
+    if (loading) return <p className="page-header">Loading notes...</p>;
+
     return (
-      <div>
-        <div className="page-header">
-          <h1>Subject Notes</h1>
-          <FilterBar onFilterChange={handleFilterChange} placeholder="Filter by subject or title..." />
-        </div>
-        <p style={{ textAlign: 'center', padding: '2rem' }}>Loading notes...</p>
-      </div>
-    );
-  }
-
-  // If not loading, return the main content.
-  return (
-    <div>
-      <div className="page-header">
-        <h1>Subject Notes</h1>
-        <FilterBar onFilterChange={handleFilterChange} placeholder="Filter by subject or title..." />
-      </div>
-      <div className="container">
-        {Object.keys(groupedNotes).length > 0 ? (
-          Object.entries(groupedNotes).map(([category, notesInCategory]) => (
-            <div key={category} className="resource-category">
-              <h2>{category}</h2>
-              <div className="resource-tags">
-                {notesInCategory.map(note => (
-                  <a key={note.id} href={note.gdrive_link} className="resource-tag" target="_blank" rel="noopener noreferrer">
-                    <img src={"https://api.iconify.design/solar/calendar-minimalistic-linear.svg"} alt="icon"/>
-                    {note.title}
-                  </a>
-                ))}
-              </div>
+        <div className="container" style={{ paddingTop: '2rem' }}>
+            <div className="page-header">
+                <h1>Subject Notes</h1>
+                <p style={{color: 'var(--secondary-text)'}}>Select a department to view available resources.</p>
             </div>
-          ))
-        ) : (
-          <p style={{ textAlign: 'center' }}>No notes have been added yet, or none match your search.</p>
-        )}
-      </div>
-    </div>
-  );
+
+            {Object.keys(groupedData).length > 0 ? (
+                Object.entries(groupedData).map(([department, courses]) => (
+                    <div key={department} className="department-group">
+                        <div className="department-header" onClick={() => toggleDepartment(department)}>
+                            {department}
+                        </div>
+                        {openDepartment === department && (
+                            <div className="department-content">
+                                {Object.entries(courses).map(([course, semesters]) => (
+                                    <div key={course} className="course-group">
+                                        <h2 className="course-header">{course}</h2>
+                                        {Object.entries(semesters).map(([semester, subjects]) => (
+                                            <div key={semester} className="semester-group">
+                                                <h3 className="semester-header">Semester {semester}</h3>
+                                                <ul className="subject-list">
+                                                    {subjects.map(note => (
+                                                        <li key={note.id} className="subject-item">
+                                                            <a href={note.gdrive_link} target="_blank" rel="noopener noreferrer">
+                                                                {note.subject}
+                                                            </a>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                ))
+            ) : (
+                <p style={{ textAlign: 'center' }}>No notes have been added yet.</p>
+            )}
+        </div>
+    );
 };
 
 export default NotesPage;

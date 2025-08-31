@@ -1,0 +1,49 @@
+.department-group {
+    background: var(--background-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    overflow: hidden; /* To contain the border radius */
+}
+
+.department-header {
+    padding: 1rem 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    cursor: pointer;
+    background-color: var(--background-white);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.course-group, .semester-group, .subject-list {
+    padding-left: 2rem;
+    border-left: 2px solid var(--border-color);
+    margin: 1rem 1.5rem;
+}
+
+.course-header, .semester-header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-text);
+    margin: 1rem 0;
+}
+
+.subject-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.subject-item a {
+    display: block;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: var(--primary-blue);
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.subject-item a:hover {
+    background-color: #eef4f8;
+}

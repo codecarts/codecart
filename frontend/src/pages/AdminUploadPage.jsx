@@ -75,7 +75,7 @@ const AdminUploadPage = () => {
             <input name="affiliate_link" placeholder="Affiliate Link" onChange={handleInputChange} required />
           </>
         );
-      default: // 'resource'
+         default: // 'resource'
         return (
           <>
             <h2>Upload a New Note or PYQ</h2>
@@ -84,13 +84,14 @@ const AdminUploadPage = () => {
               <option value="note">Note</option>
               <option value="pyq">PYQ</option>
             </select>
-            <input name="category" placeholder="Subject/Category (e.g., Engineering Physics)" onChange={handleInputChange} required />
-            <input name="title" placeholder="Resource Title" onChange={handleInputChange} required />
-            <textarea name="description" placeholder="Short Description" onChange={handleInputChange}></textarea>
+            {/* Replace the old 'category' input with these new fields */}
+            <input name="department" placeholder="Department (e.g., Computer Science)" onChange={handleInputChange} required />
+            <input name="course" placeholder="Course (e.g., B.Tech)" onChange={handleInputChange} required />
+            <input type="number" name="semester" placeholder="Semester (e.g., 3)" onChange={handleInputChange} required />
+            <input name="subject" placeholder="Subject (e.g., Data Structures)" onChange={handleInputChange} required />
             <input name="gdrive_link" placeholder="Google Drive Link" onChange={handleInputChange} required />
           </>
         );
-    }
   };
 
   return (

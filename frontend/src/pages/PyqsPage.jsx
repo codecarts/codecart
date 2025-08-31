@@ -1,82 +1,81 @@
-import { useState, useEffect } from 'react';
-import { getPyqs } from '../services/api';
-import { FilterBar } from '../components/FilterBar';
-import './NotesPage.css'; // You can reuse the same CSS as the Notes page
+import React, { useState, useEffect, useMemo } from 'react';
+import { getPyqs } from '../services/api'; // Changed to getPyqs
+import './HierarchicalView.css'; // Reuses the same CSS as the Notes page
 
 const PyqsPage = () => {
-  const [pyqs, setPyqs] = useState([]);
-  const [filteredPyqs, setFilteredPyqs] = useState([]);
-  const [loading, setLoading] = useState(true);
+    const [pyqs, setPyqs] = useState([]); // Renamed state
+    const [loading, setLoading] = useState(true);
+    const [openDepartment, setOpenDepartment] = useState(null);
 
-  useEffect(() => {
-    setLoading(true);
-    getPyqs()
-      .then(response => {
-        setPyqs(response.data);
-        setFilteredPyqs(response.data);
-      })
-      .catch(error => {
-        console.error("Failed to fetch PYQs:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    useEffect(() => {
+        getPyqs() // Changed function call
+            .then(response => setPyqs(response.data))
+            .catch(error => console.error("Failed to fetch PYQs:", error)) // Changed error message
+            .finally(() => setLoading(false));
+    }, []);
 
-  const handleFilterChange = (searchTerm) => {
-    const filtered = pyqs.filter(pyq =>
-      pyq.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      pyq.category.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredPyqs(filtered);
-  };
+    const toggleDepartment = (department) => {
+        setOpenDepartment(openDepartment === department ? null : department);
+    };
 
-  const groupedPyqs = filteredPyqs.reduce((acc, pyq) => {
-    (acc[pyq.category] = acc[pyq.category] || []).push(pyq);
-    return acc;
-  }, {});
+    // Group data into a nested structure: Department > Course > Semester > Subjects
+    const groupedData = useMemo(() => {
+        const hierarchy = {};
+        pyqs.forEach(pyq => { // Renamed variable
+            const { department, course, semester, subject, gdrive_link, id } = pyq;
+            if (!hierarchy[department]) hierarchy[department] = {};
+            if (!hierarchy[department][course]) hierarchy[department][course] = {};
+            if (!hierarchy[department][course][semester]) hierarchy[department][course][semester] = [];
+            hierarchy[department][course][semester].push({ id, subject, gdrive_link });
+        });
+        return hierarchy;
+    }, [pyqs]);
 
-  // First, check if the page is loading.
-  if (loading) {
+    if (loading) return <p className="page-header">Loading PYQs...</p>; // Changed text
+
     return (
-      <div>
-        <div className="page-header">
-          <h1>Previous Year Questions</h1>
-          <FilterBar onFilterChange={handleFilterChange} placeholder="Filter by subject or title..." />
-        </div>
-        <p style={{ textAlign: 'center', padding: '2rem' }}>Loading PYQs...</p>
-      </div>
-    );
-  }
-
-  // If not loading, return the main content.
-  return (
-    <div>
-      <div className="page-header">
-        <h1>Previous Year Questions</h1>
-        <FilterBar onFilterChange={handleFilterChange} placeholder="Filter by subject or title..." />
-      </div>
-      <div className="container">
-        {Object.keys(groupedPyqs).length > 0 ? (
-          Object.entries(groupedPyqs).map(([category, pyqsInCategory]) => (
-            <div key={category} className="resource-category">
-              <h2>{category}</h2>
-              <div className="resource-tags">
-                {pyqsInCategory.map(pyq => (
-                  <a key={pyq.id} href={pyq.gdrive_link} className="resource-tag" target="_blank" rel="noopener noreferrer">
-                    <img src={"https://api.iconify.design/solar/calendar-minimalistic-linear.svg"} alt="icon"/>
-                    {pyq.title}
-                  </a>
-                ))}
-              </div>
+        <div className="container" style={{ paddingTop: '2rem' }}>
+            <div className="page-header">
+                <h1>Previous Year Questions</h1> {/* Changed title */}
+                <p style={{color: 'var(--secondary-text)'}}>Select a department to view available resources.</p>
             </div>
-          ))
-        ) : (
-          <p style={{ textAlign: 'center' }}>No PYQs have been added yet, or none match your search.</p>
-        )}
-      </div>
-    </div>
-  );
+
+            {Object.keys(groupedData).length > 0 ? (
+                Object.entries(groupedData).map(([department, courses]) => (
+                    <div key={department} className="department-group">
+                        <div className="department-header" onClick={() => toggleDepartment(department)}>
+                            {department}
+                        </div>
+                        {openDepartment === department && (
+                            <div className="department-content">
+                                {Object.entries(courses).map(([course, semesters]) => (
+                                    <div key={course} className="course-group">
+                                        <h2 className="course-header">{course}</h2>
+                                        {Object.entries(semesters).map(([semester, subjects]) => (
+                                            <div key={semester} className="semester-group">
+                                                <h3 className="semester-header">Semester {semester}</h3>
+                                                <ul className="subject-list">
+                                                    {subjects.map(pyq => ( // Renamed variable
+                                                        <li key={pyq.id} className="subject-item">
+                                                            <a href={pyq.gdrive_link} target="_blank" rel="noopener noreferrer">
+                                                                {pyq.subject}
+                                                            </a>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                ))
+            ) : (
+                <p style={{ textAlign: 'center' }}>No PYQs have been added yet.</p> // Changed text
+            )}
+        </div>
+    );
 };
 
 export default PyqsPage;
