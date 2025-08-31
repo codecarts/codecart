@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// This is the corrected import line
-import { createNote, createPyq, createBlog, createProduct } from '../services/api';
+import { createNote, createPyq, createBlog, createProduct, createHackathon } from '../services/api';
 import { useAdminAuth } from '../context/AdminAuthContext';
 
 const AdminUploadPage = () => {
@@ -40,8 +39,10 @@ const AdminUploadPage = () => {
         }
       } else if (formType === 'blog') {
         response = await createBlog(formData, auth.credentials);
-      } else {
+      } else if (formType === 'product') {
         response = await createProduct(formData, auth.credentials);
+      } else if (formType === 'hackathon') {
+        response = await createHackathon(formData, auth.credentials);
       }
       setMessage(`Success! Created with ID: ${response.data.id}`);
       e.target.reset();
@@ -75,7 +76,17 @@ const AdminUploadPage = () => {
             <input name="affiliate_link" placeholder="Affiliate Link" onChange={handleInputChange} required />
           </>
         );
-         default: // 'resource'
+      case 'hackathon':
+        return (
+          <>
+            <h2>Upload a New Hackathon/Competition</h2>
+            <input name="title" placeholder="Event Title" onChange={handleInputChange} required />
+            <textarea name="description" placeholder="Short Description" onChange={handleInputChange}></textarea>
+            <input name="link" placeholder="Registration Link" onChange={handleInputChange} required />
+            <input type="datetime-local" name="deadline" placeholder="Deadline" onChange={handleInputChange} />
+          </>
+        );
+      default: // 'resource'
         return (
           <>
             <h2>Upload a New Note or PYQ</h2>
@@ -84,7 +95,6 @@ const AdminUploadPage = () => {
               <option value="note">Note</option>
               <option value="pyq">PYQ</option>
             </select>
-            {/* Replace the old 'category' input with these new fields */}
             <input name="department" placeholder="Department (e.g., Computer Science)" onChange={handleInputChange} required />
             <input name="course" placeholder="Course (e.g., B.Tech)" onChange={handleInputChange} required />
             <input type="number" name="semester" placeholder="Semester (e.g., 3)" onChange={handleInputChange} required />
@@ -92,6 +102,7 @@ const AdminUploadPage = () => {
             <input name="gdrive_link" placeholder="Google Drive Link" onChange={handleInputChange} required />
           </>
         );
+    } // This closing brace was missing
   };
 
   return (
@@ -101,10 +112,11 @@ const AdminUploadPage = () => {
         <Link to="/admin/messages" style={{fontWeight: 600}}>View Contact Messages</Link>
       </div>
       
-      <div style={{ margin: '2rem 0', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+      <div style={{ margin: '2rem 0', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
         <button onClick={() => setFormType('resource')}>Upload Note/PYQ</button>
         <button onClick={() => setFormType('blog')}>Upload Blog</button>
         <button onClick={() => setFormType('product')}>Upload Product</button>
+        <button onClick={() => setFormType('hackathon')}>Upload Hackathon</button>
       </div>
       
       <form onSubmit={handleSubmit} className="admin-form">
