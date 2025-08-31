@@ -75,7 +75,7 @@ function Navigation() {
         <NavLink to="/blogs" onClick={closeMenu}>Blogs</NavLink>
         <NavLink to="/products" onClick={closeMenu}>Products</NavLink>
         <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
-        <NavLink to="/contribute" onClick={closeMenu}>Contribute</NavLink>
+        <NavLink to="/contribute" onClick={closeMenu}>Share Resources</NavLink>
          {user ? (
           <a onClick={() => { handleLogout(); closeMenu(); }} style={{cursor: 'pointer'}}>Logout</a>
         ) : (
