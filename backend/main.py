@@ -19,7 +19,7 @@ app = FastAPI(title="codecart API")
 # Configure CORS to allow requests from your deployed frontends
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # For testing; replace with specific URLs for production
+    allow_origins=["https://codecart.qzz.io"], # For testing; replace with specific URLs for production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
