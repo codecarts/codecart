@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { createNote, createPyq, createBlog, createProduct, createHackathon } from '../services/api';
+import { createNote, createPyq, createBlog, createProduct } from '../services/api';
 import { useAdminAuth } from '../context/AdminAuthContext';
 
 const AdminUploadPage = () => {
@@ -41,8 +41,6 @@ const AdminUploadPage = () => {
         response = await createBlog(formData, auth.credentials);
       } else if (formType === 'product') {
         response = await createProduct(formData, auth.credentials);
-      } else if (formType === 'hackathon') {
-        response = await createHackathon(formData, auth.credentials);
       }
       setMessage(`Success! Created with ID: ${response.data.id}`);
       e.target.reset();
@@ -76,16 +74,6 @@ const AdminUploadPage = () => {
             <input name="affiliate_link" placeholder="Affiliate Link" onChange={handleInputChange} required />
           </>
         );
-      case 'hackathon':
-        return (
-          <>
-            <h2>Upload a New Hackathon/Competition</h2>
-            <input name="title" placeholder="Event Title" onChange={handleInputChange} required />
-            <textarea name="description" placeholder="Short Description" onChange={handleInputChange}></textarea>
-            <input name="link" placeholder="Registration Link" onChange={handleInputChange} required />
-            <input type="datetime-local" name="deadline" placeholder="Deadline" onChange={handleInputChange} />
-          </>
-        );
       default: // 'resource'
         return (
           <>
@@ -102,7 +90,7 @@ const AdminUploadPage = () => {
             <input name="gdrive_link" placeholder="Google Drive Link" onChange={handleInputChange} required />
           </>
         );
-    } // This closing brace was missing
+    }
   };
 
   return (
@@ -116,7 +104,7 @@ const AdminUploadPage = () => {
         <button onClick={() => setFormType('resource')}>Upload Note/PYQ</button>
         <button onClick={() => setFormType('blog')}>Upload Blog</button>
         <button onClick={() => setFormType('product')}>Upload Product</button>
-        <button onClick={() => setFormType('hackathon')}>Upload Hackathon</button>
+        {/* The "Upload Hackathon" button has been removed */}
       </div>
       
       <form onSubmit={handleSubmit} className="admin-form">
