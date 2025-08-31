@@ -19,7 +19,7 @@ app = FastAPI(title="codecart API")
 # Configure CORS to allow requests from your deployed frontends
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"], # For testing; replace with specific URLs for production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -37,28 +37,6 @@ def register_user(user: schemas.UserCreate, db: Session = Depends(database.get_d
     db.commit()
     db.refresh(new_user)
     return new_user
-
-# Endpoint for logged-in users to SUBMIT a message
-@app.post("/api/contact", response_model=schemas.ContactMessage, status_code=status.HTTP_201_CREATED)
-def submit_contact_form(
-    message: schemas.ContactMessageCreate,
-    db: Session = Depends(database.get_db),
-    token: str = Depends(auth.oauth2_scheme) # Ensures user is logged in
-):
-    db_message = models.ContactMessage(**message.dict())
-    db.add(db_message)
-    db.commit()
-    db.refresh(db_message)
-    return db_message
-
-# Endpoint for ADMINS to VIEW all messages
-@app.get("/api/contact", response_model=List[schemas.ContactMessage])
-def get_contact_messages(
-    is_admin: bool = Depends(admin.verify_admin), # Ensures only admin can access
-    db: Session = Depends(database.get_db)
-):
-    messages = db.query(models.ContactMessage).order_by(models.ContactMessage.created_at.desc()).all()
-    return messages
 
 @app.post("/api/users/login", response_model=schemas.Token)
 def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
@@ -78,7 +56,6 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
 def verify_admin_credentials(credentials: schemas.AdminCredentials):
     is_email_valid = (credentials.email == admin.ADMIN_EMAIL)
     is_password_valid = (credentials.password == admin.ADMIN_PASSWORD)
-
     if not all([is_email_valid, is_password_valid]):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -94,16 +71,6 @@ def read_root():
 
 @app.get("/api/notes", response_model=List[schemas.Note])
 def get_all_notes(db: Session = Depends(database.get_db)):
-    return db.query(models.Note).order_by(models.Note.created_at.desc()).all()
-
-@app.get("/api/pyqs", response_model=List[schemas.Pyq])
-def get_all_pyqs(db: Session = Depends(database.get_db)):
-    return db.query(models.Pyq).order_by(models.Pyq.created_at.desc()).all()
-
-
-# --- PROTECTED ADMIN POST ENDPOINTS ---
-@app.get("/api/notes", response_model=List[schemas.Note])
-def get_all_notes(db: Session = Depends(database.get_db)):
     return db.query(models.Note).order_by(models.Note.subject.asc()).all()
 
 @app.get("/api/pyqs", response_model=List[schemas.Pyq])
@@ -117,6 +84,53 @@ def get_all_blogs(db: Session = Depends(database.get_db)):
 @app.get("/api/products", response_model=List[schemas.Product])
 def get_all_products(db: Session = Depends(database.get_db)):
     return db.query(models.Product).order_by(models.Product.id.desc()).all()
+
+
+# --- PROTECTED CONTACT FORM ENDPOINTS ---
+@app.post("/api/contact", response_model=schemas.ContactMessage, status_code=status.HTTP_201_CREATED)
+def submit_contact_form(
+    message: schemas.ContactMessageCreate,
+    db: Session = Depends(database.get_db),
+    token: str = Depends(auth.oauth2_scheme)
+):
+    db_message = models.ContactMessage(**message.dict())
+    db.add(db_message)
+    db.commit()
+    db.refresh(db_message)
+    return db_message
+
+@app.get("/api/contact", response_model=List[schemas.ContactMessage])
+def get_contact_messages(
+    is_admin: bool = Depends(admin.verify_admin),
+    db: Session = Depends(database.get_db)
+):
+    return db.query(models.ContactMessage).order_by(models.ContactMessage.created_at.desc()).all()
+
+
+# --- PROTECTED ADMIN POST ENDPOINTS ---
+@app.post("/api/notes", response_model=schemas.Note, status_code=status.HTTP_201_CREATED)
+def create_note(
+    note: schemas.NoteCreate,
+    is_admin: bool = Depends(admin.verify_admin),
+    db: Session = Depends(database.get_db)
+):
+    db_note = models.Note(**note.dict())
+    db.add(db_note)
+    db.commit()
+    db.refresh(db_note)
+    return db_note
+
+@app.post("/api/pyqs", response_model=schemas.Pyq, status_code=status.HTTP_201_CREATED)
+def create_pyq(
+    pyq: schemas.PyqCreate,
+    is_admin: bool = Depends(admin.verify_admin),
+    db: Session = Depends(database.get_db)
+):
+    db_pyq = models.Pyq(**pyq.dict())
+    db.add(db_pyq)
+    db.commit()
+    db.refresh(db_pyq)
+    return db_pyq
 
 @app.post("/api/blogs", response_model=schemas.Blog, status_code=status.HTTP_201_CREATED)
 def create_blog(
