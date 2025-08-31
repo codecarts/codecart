@@ -15,7 +15,7 @@ const ContributePage = () => {
                     target="_blank" // This opens the form in a new tab
                     rel="noopener noreferrer"
                 >
-                    Open Contribution Form
+                    Share Resources Form
                 </a>
             </div>
         </section>
