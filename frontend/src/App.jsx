@@ -87,14 +87,6 @@ function Footer() {
   return (
     <footer className="footer">
       <p>© 2025 codecart | Curated with care for students.</p>
-       <div className="footer-socials">
-        <a href="https://t.me/your_telegram_group" target="_blank" rel="noopener noreferrer">
-          <FaTelegramPlane />
-        </a>
-        <a href="https://instagram.com/your_instagram_page" target="_blank" rel="noopener noreferrer">
-          <FaInstagram />
-        </a>
-      </div>
     </footer>
   );
 }
