@@ -4,15 +4,15 @@ FROM eclipse-temurin:17-jdk-jammy
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Maven wrapper and pom.xml from the backend folder
-COPY backend/.mvn/ .mvn
-COPY backend/mvnw backend/pom.xml ./
+# Copy the Maven wrapper and pom.xml from the current directory
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 
 # Download dependencies
 RUN ./mvnw dependency:go-offline
 
-# Copy the rest of the application source code from the backend folder
-COPY backend/src ./src
+# Copy the application source code from the current directory
+COPY src ./src
 
 # Build the application, skipping tests for faster builds
 RUN ./mvnw package -DskipTests
