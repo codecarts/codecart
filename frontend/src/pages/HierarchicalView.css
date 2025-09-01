@@ -2,48 +2,88 @@
     background: var(--background-white);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    margin-bottom: 2rem;
-    overflow: hidden; /* To contain the border radius */
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.department-group:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
 .department-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 1rem 1.5rem;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-dark);
     cursor: pointer;
-    background-color: var(--background-white);
-    border-bottom: 1px solid var(--border-color);
 }
 
-.course-group, .semester-group, .subject-list {
-    padding-left: 2rem;
-    border-left: 2px solid var(--border-color);
-    margin: 1rem 1.5rem;
+/* Style for the expand/collapse icon */
+.department-header::after {
+    content: '▼';
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+.department-header.open::after {
+    transform: rotate(180deg);
 }
 
-.course-header, .semester-header {
+.department-content {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.course-group {
+    margin-top: 1.5rem;
+}
+
+.course-header {
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--primary-text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent-color);
+    display: inline-block;
+}
+
+.semester-group {
+    padding-left: 1rem;
+    border-left: 3px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.semester-header {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--secondary-text);
     margin: 1rem 0;
 }
 
 .subject-list {
     list-style-type: none;
     padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
 .subject-item a {
     display: block;
-    padding: 0.8rem 1rem;
+    padding: 0.6rem 1.2rem;
     text-decoration: none;
+    background-color: #eef4f8;
     color: var(--primary-blue);
     font-weight: 600;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
+    border-radius: 50px;
+    transition: all 0.2s ease;
 }
 
 .subject-item a:hover {
-    background-color: #eef4f8;
+    background-color: var(--primary-dark);
+    color: white;
 }

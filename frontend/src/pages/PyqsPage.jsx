@@ -9,7 +9,14 @@ const PyqsPage = () => {
 
     useEffect(() => {
         getPyqs() // Changed function call
-            .then(response => setPyqs(response.data))
+            .then(response => {
+                setPyqs(response.data);
+                // Automatically open the first department by default
+                if (response.data.length > 0) {
+                    const firstDept = response.data[0].department;
+                    setOpenDepartment(firstDept);
+                }
+            })
             .catch(error => console.error("Failed to fetch PYQs:", error)) // Changed error message
             .finally(() => setLoading(false));
     }, []);
@@ -43,7 +50,10 @@ const PyqsPage = () => {
             {Object.keys(groupedData).length > 0 ? (
                 Object.entries(groupedData).map(([department, courses]) => (
                     <div key={department} className="department-group">
-                        <div className="department-header" onClick={() => toggleDepartment(department)}>
+                        <div 
+                            className={`department-header ${openDepartment === department ? 'open' : ''}`} 
+                            onClick={() => toggleDepartment(department)}
+                        >
                             {department}
                         </div>
                         {openDepartment === department && (

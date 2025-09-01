@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getNotes } from '../services/api';
-import './HierarchicalView.css'; // Import the new stylesheet
+import './HierarchicalView.css';
 
 const NotesPage = () => {
     const [notes, setNotes] = useState([]);
@@ -9,7 +9,14 @@ const NotesPage = () => {
 
     useEffect(() => {
         getNotes()
-            .then(response => setNotes(response.data))
+            .then(response => {
+                setNotes(response.data);
+                // Automatically open the first department by default
+                if (response.data.length > 0) {
+                    const firstDept = response.data[0].department;
+                    setOpenDepartment(firstDept);
+                }
+            })
             .catch(error => console.error("Failed to fetch notes:", error))
             .finally(() => setLoading(false));
     }, []);
@@ -18,7 +25,6 @@ const NotesPage = () => {
         setOpenDepartment(openDepartment === department ? null : department);
     };
 
-    // Group data into a nested structure: Department > Course > Semester > Subjects
     const groupedData = useMemo(() => {
         const hierarchy = {};
         notes.forEach(note => {
@@ -43,7 +49,10 @@ const NotesPage = () => {
             {Object.keys(groupedData).length > 0 ? (
                 Object.entries(groupedData).map(([department, courses]) => (
                     <div key={department} className="department-group">
-                        <div className="department-header" onClick={() => toggleDepartment(department)}>
+                        <div 
+                            className={`department-header ${openDepartment === department ? 'open' : ''}`} 
+                            onClick={() => toggleDepartment(department)}
+                        >
                             {department}
                         </div>
                         {openDepartment === department && (
