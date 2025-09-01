@@ -15,7 +15,6 @@ import BlogsPage from './pages/BlogsPage';
 import ProductsPage from './pages/ProductsPage';
 import ContactPage from './pages/ContactPage';
 import ContributePage from './pages/ContributePage';
-import HackathonsPage from './pages/HackathonsPage';
 import AdminLoginPage from './pages/LoginPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import UserLoginPage from './pages/UserLoginPage';
@@ -47,7 +46,6 @@ function Navigation() {
           <NavLink to="/pyqs">PYQs</NavLink>
           <NavLink to="/blogs">Blogs</NavLink>
           <NavLink to="/products">Products</NavLink>
-          <NavLink to="/hackathons">Hackathons</NavLink>
           <NavLink to="/contact">Contact</NavLink>
           <NavLink to="/contribute">Share Resources</NavLink>
           {user ? (
@@ -73,7 +71,6 @@ function Navigation() {
         <NavLink to="/pyqs" onClick={closeMenu}>PYQs</NavLink>
         <NavLink to="/blogs" onClick={closeMenu}>Blogs</NavLink>
         <NavLink to="/products" onClick={closeMenu}>Products</NavLink>
-        <NavLink to="/hackathons" onClick={closeMenu}>Hackathons</NavLink>
         <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
         <NavLink to="/contribute" onClick={closeMenu}>Share Resources</NavLink>
          {user ? (
@@ -114,7 +111,6 @@ function App() {
             <Route path="/pyqs" element={<PyqsPage />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/products" element={<ProductsPage />} />
-            <Route path="/hackathons" element={<HackathonsPage />} />
             <Route path="/contribute" element={<ContributePage />} />
             <Route path="/login" element={<UserLoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
