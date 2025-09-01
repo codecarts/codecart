@@ -1,26 +1,27 @@
-# Use an official OpenJDK 17 runtime as a parent image
-FROM eclipse-temurin:-21-jammy
+# Use OpenJDK 17 base image
+FROM eclipse-temurin:17-jdk-jammy
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the Maven wrapper and pom.xml to download dependencies first
-# This helps with Docker's layer caching
+# Copy Maven wrapper and pom.xml for dependency caching
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 
-# Download dependencies
+# Pre-download dependencies
 RUN ./mvnw dependency:go-offline
 
-# Copy the rest of the application source code
+# Copy source code
 COPY src ./src
 
-# Build the application, skipping tests for faster builds
+# Build the application (skip tests for speed)
 RUN ./mvnw package -DskipTests
 
-# Expose the port the app runs on (Render injects the correct PORT)
-EXPOSE 10000
+# Copy and rename JAR for stable startup
+RUN cp target/*.jar app.jar
 
-# The command to run the application
-# Make sure your .jar file name matches your pom.xml artifactId and version
-CMD ["java", "-jar", "target/api-0.0.1-SNAPSHOT.jar"]
+# Expose (Render will inject the real $PORT)
+EXPOSE 8080
+
+# Run the app
+CMD ["java", "-jar", "app.jar"]
