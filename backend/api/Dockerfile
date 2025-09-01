@@ -1,10 +1,11 @@
-# Use an official OpenJDK runtime as a parent image
-FROM eclipse-temurin:17-jdk-jammy
+# Use an official OpenJDK 17 runtime as a parent image
+FROM eclipse-temurin:-21-jammy
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Maven wrapper and pom.xml to download dependencies
+# Copy the Maven wrapper and pom.xml to download dependencies first
+# This helps with Docker's layer caching
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 
@@ -21,4 +22,5 @@ RUN ./mvnw package -DskipTests
 EXPOSE 10000
 
 # The command to run the application
+# Make sure your .jar file name matches your pom.xml artifactId and version
 CMD ["java", "-jar", "target/api-0.0.1-SNAPSHOT.jar"]
