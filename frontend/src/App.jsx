@@ -86,7 +86,7 @@ function Navigation() {
 function Footer() {
   return (
     <footer className="footer">
-      <p>© 2025 codecart | Curated with care for students.</p>
+      <p>© 2025 codecart | Made with ❤️ by Manu & His Team</p>
     </footer>
   );
 }
