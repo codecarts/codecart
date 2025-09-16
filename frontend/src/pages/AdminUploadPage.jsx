@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { createNote, createPyq, createBlog, createProduct } from '../services/api';
+import { createNote, createPyq, createBlog, createProduct, createHackathon } from '../services/api';
 import { useAdminAuth } from '../context/AdminAuthContext';
 
 const AdminUploadPage = () => {
@@ -26,7 +26,6 @@ const AdminUploadPage = () => {
     try {
       let response;
       const resourceType = formData.resource_type;
-      
       const { resource_type, ...uploadData } = formData;
 
       if (formType === 'resource') {
@@ -41,7 +40,10 @@ const AdminUploadPage = () => {
         response = await createBlog(formData, auth.credentials);
       } else if (formType === 'product') {
         response = await createProduct(formData, auth.credentials);
+      } else if (formType === 'hackathon') { // Added hackathon logic
+        response = await createHackathon(formData, auth.credentials);
       }
+      
       setMessage(`Success! Created with ID: ${response.data.id}`);
       e.target.reset();
       setFormData({});
@@ -74,6 +76,16 @@ const AdminUploadPage = () => {
             <input name="affiliate_link" placeholder="Affiliate Link" onChange={handleInputChange} required />
           </>
         );
+      case 'hackathon': // Added hackathon form
+        return (
+          <>
+            <h2>Upload a New Hackathon/Competition</h2>
+            <input name="title" placeholder="Event Title" onChange={handleInputChange} required />
+            <textarea name="description" placeholder="Short Description" onChange={handleInputChange}></textarea>
+            <input name="link" placeholder="Registration or Info Link" onChange={handleInputChange} required />
+            <input type="datetime-local" name="deadline" onChange={handleInputChange} />
+          </>
+        );
       default: // 'resource'
         return (
           <>
@@ -104,7 +116,7 @@ const AdminUploadPage = () => {
         <button onClick={() => setFormType('resource')}>Upload Note/PYQ</button>
         <button onClick={() => setFormType('blog')}>Upload Blog</button>
         <button onClick={() => setFormType('product')}>Upload Product</button>
-        {/* The "Upload Hackathon" button has been removed */}
+        <button onClick={() => setFormType('hackathon')}>Upload Hackathon</button> {/* Added hackathon button */}
       </div>
       
       <form onSubmit={handleSubmit} className="admin-form">

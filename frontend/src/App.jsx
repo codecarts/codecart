@@ -6,6 +6,7 @@ import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
 import logoImage from './assets/logo.png';
 import { FaTelegramPlane, FaInstagram } from 'react-icons/fa';
+import HackathonsPage from './pages/HackathonsPage'; // Import the new page
 
 // Import all page components
 import HomePage from './pages/HomePage';
@@ -48,6 +49,7 @@ function Navigation() {
           <NavLink to="/products">Products</NavLink>
           <NavLink to="/contact">Contact</NavLink>
           <NavLink to="/contribute">Share Resources</NavLink>
+          <NavLink to="/hackathons">Hackathons</NavLink>
           {user ? (
             <button onClick={handleLogout}>Logout</button>
           ) : (
@@ -106,6 +108,7 @@ function App() {
             <Route path="/contribute" element={<ContributePage />} />
             <Route path="/login" element={<UserLoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/hackathons" element={<HackathonsPage />} />
             <Route path="/contact" element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="/admin/upload" element={<AdminProtectedRoute><AdminUploadPage /></AdminProtectedRoute>} />

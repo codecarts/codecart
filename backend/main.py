@@ -157,3 +157,20 @@ def create_product(
     db.commit()
     db.refresh(db_product)
     return db_product
+
+# --- Hackathon Endpoints ---
+@app.get("/api/hackathons", response_model=List[schemas.Hackathon])
+def get_all_hackathons(db: Session = Depends(database.get_db)):
+    return db.query(models.Hackathon).order_by(models.Hackathon.deadline.asc()).all()
+
+@app.post("/api/hackathons", response_model=schemas.Hackathon, status_code=status.HTTP_201_CREATED)
+def create_hackathon(
+    hackathon: schemas.HackathonCreate,
+    is_admin: bool = Depends(admin.verify_admin),
+    db: Session = Depends(database.get_db)
+):
+    db_hackathon = models.Hackathon(**hackathon.dict())
+    db.add(db_hackathon)
+    db.commit()
+    db.refresh(db_hackathon)
+    return db_hackathon

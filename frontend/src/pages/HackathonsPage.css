@@ -1,0 +1,31 @@
+.hackathon-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.hackathon-card {
+    background: var(--background-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.hackathon-card h2 {
+    margin: 0 0 0.5rem 0;
+    color: var(--primary-dark);
+}
+.hackathon-card p {
+    margin: 0 0 1rem 0;
+    color: var(--secondary-text);
+    line-height: 1.6;
+}
+.hackathon-card .deadline {
+    font-size: 0.9rem;
+    color: var(--primary-text);
+}
+.hackathon-link {
+    display: inline-block;
+    font-weight: 600;
+    color: var(--primary-blue);
+    text-decoration: none;
+}

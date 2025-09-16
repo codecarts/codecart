@@ -96,3 +96,18 @@ class ContactMessage(ContactMessageBase):
     created_at: datetime
     class Config:
         from_attributes = True
+
+class HackathonBase(BaseModel):
+    title: str
+    description: str | None = None
+    link: str
+    deadline: datetime | None = None
+
+class HackathonCreate(HackathonBase):
+    pass
+
+class Hackathon(HackathonBase):
+    id: int
+    created_at: datetime
+    class Config:
+        from_attributes = True

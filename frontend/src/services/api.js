@@ -32,6 +32,7 @@ export const getNotes = () => apiClient.get('/notes'); // Updated
 export const getPyqs = () => apiClient.get('/pyqs');   // Updated
 export const getBlogs = () => apiClient.get('/blogs');
 export const getProducts = () => apiClient.get('/products');
+export const getHackathons = () => apiClient.get('/hackathons');
 
 // User Contact Form
 export const submitContactForm = (data, token) =>
@@ -53,3 +54,6 @@ export const createBlog = (data, credentials) =>
   apiClient.post('/blogs', data, withAdmin(credentials));
 export const createProduct = (data, credentials) =>
   apiClient.post('/products', data, withAdmin(credentials));
+
+export const createHackathon = (data, credentials) =>
+  apiClient.post('/hackathons', data, withAdmin(credentials));
