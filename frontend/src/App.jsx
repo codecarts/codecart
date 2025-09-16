@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
+
+// Import all contexts and protected route components
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { UserAuthProvider, useUserAuth } from './context/UserAuthContext';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import UserProtectedRoute from './components/UserProtectedRoute';
+
+// Import your logo and icons
 import logoImage from './assets/logo.png';
 import { FaTelegramPlane, FaInstagram } from 'react-icons/fa';
-import HackathonsPage from './pages/HackathonsPage'; // Import the new page
 
 // Import all page components
 import HomePage from './pages/HomePage';
@@ -16,6 +19,7 @@ import BlogsPage from './pages/BlogsPage';
 import ProductsPage from './pages/ProductsPage';
 import ContactPage from './pages/ContactPage';
 import ContributePage from './pages/ContributePage';
+import HackathonsPage from './pages/HackathonsPage';
 import AdminLoginPage from './pages/LoginPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import UserLoginPage from './pages/UserLoginPage';
@@ -42,14 +46,15 @@ function Navigation() {
           <span>codecart</span>
         </Link>
         
+        {/* Desktop Links */}
         <div className="desktop-nav-links">
           <NavLink to="/notes">Notes</NavLink>
           <NavLink to="/pyqs">PYQs</NavLink>
           <NavLink to="/blogs">Blogs</NavLink>
           <NavLink to="/products">Products</NavLink>
+          <NavLink to="/hackathons">Hackathons</NavLink>
           <NavLink to="/contact">Contact</NavLink>
           <NavLink to="/contribute">Share Resources</NavLink>
-          <NavLink to="/hackathons">Hackathons</NavLink>
           {user ? (
             <button onClick={handleLogout}>Logout</button>
           ) : (
@@ -57,13 +62,16 @@ function Navigation() {
           )}
         </div>
         
+        {/* Hamburger Icon for Mobile */}
         <button className="hamburger-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? "Home" : "☰"}
         </button>
       </nav>
 
+      {/* Background Overlay */}
       <div className={`overlay ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
 
+      {/* Mobile Menu Slide-out */}
       <div className={`mobile-nav-menu ${isMenuOpen ? 'open' : ''}`}>
         <div className="mobile-nav-header">
           <Link to="/" className="mobile-nav-title" onClick={closeMenu}>Home</Link>
@@ -73,6 +81,7 @@ function Navigation() {
         <NavLink to="/pyqs" onClick={closeMenu}>PYQs</NavLink>
         <NavLink to="/blogs" onClick={closeMenu}>Blogs</NavLink>
         <NavLink to="/products" onClick={closeMenu}>Products</NavLink>
+        <NavLink to="/hackathons" onClick={closeMenu}>Hackathons</NavLink>
         <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
         <NavLink to="/contribute" onClick={closeMenu}>Share Resources</NavLink>
          {user ? (
@@ -100,19 +109,35 @@ function App() {
         <Navigation />
         <main>
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/notes" element={<NotesPage />} />
             <Route path="/pyqs" element={<PyqsPage />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/products" element={<ProductsPage />} />
+            <Route path="/hackathons" element={<HackathonsPage />} />
             <Route path="/contribute" element={<ContributePage />} />
+            
+            {/* User Auth Routes */}
             <Route path="/login" element={<UserLoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/hackathons" element={<HackathonsPage />} />
-            <Route path="/contact" element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>} />
+            
+            {/* Protected User Route */}
+            <Route
+              path="/contact"
+              element={<UserProtectedRoute><ContactPage /></UserProtectedRoute>}
+            />
+
+            {/* Admin Routes (hidden but accessible via URL) */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
-            <Route path="/admin/upload" element={<AdminProtectedRoute><AdminUploadPage /></AdminProtectedRoute>} />
-            <Route path="/admin/messages" element={<AdminProtectedRoute><ContactMessagesPage /></AdminProtectedRoute>} />
+            <Route
+              path="/admin/upload"
+              element={<AdminProtectedRoute><AdminUploadPage /></AdminProtectedRoute>}
+            />
+            <Route
+              path="/admin/messages"
+              element={<AdminProtectedRoute><ContactMessagesPage /></AdminProtectedRoute>}
+            />
           </Routes>
         </main>
         <Footer />
