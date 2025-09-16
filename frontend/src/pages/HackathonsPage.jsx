@@ -24,6 +24,20 @@ const HackathonsPage = () => {
             <div className="page-header">
                 <h1>Hackathons & Competitions</h1>
             </div>
+
+            {/* Add this new Featured Hackathon section */}
+            <div className="featured-hackathon-card">
+                <h2>Featured: Hackathons in India</h2>
+                <p>Explore a comprehensive list of the latest and most exciting hackathons and coding competitions happening across India.</p>
+                <a 
+                    href="https://your-hackathon-india-link.com" // <-- PASTE YOUR LINK HERE
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
+                    Visit Site
+                </a>
+            </div>
+
             {loading ? (
                 <p style={{ textAlign: 'center' }}>Loading events...</p>
             ) : (
@@ -44,7 +58,7 @@ const HackathonsPage = () => {
                             </div>
                         ))
                     ) : (
-                        <p style={{ textAlign: 'center' }}>No upcoming events listed at the moment.</p>
+                        <p style={{ textAlign: 'center' }}>No other upcoming events listed at the moment.</p>
                     )}
                 </div>
             )}
